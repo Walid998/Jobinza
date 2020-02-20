@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+  .create-form {
+	    width: 100%;
+	    max-width: 100%;
+	    padding: 15px;
+	    margin: auto;
+  	}
+  	.submit-button{
+  		max-width: 200px;
+  	}
+</style>
+<div style="height: 113px;"></div>
+
+<div class="container">
+	<div class="row">
+<form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+				<!-- company name -->
+				<div class="form-group">
+					<label for="id_title">company name</label>
+					<input class="form-control" type="text" name="title" id="id_company" placeholder="company name" required autofocus>
+				</div>
+
+				<!-- jobtitle -->
+				<div class="form-group">
+					<label for="id_body">job title</label>
+					<textarea class="form-control" rows="10" type="text" name="jobtitle" id="id_body" placeholder=" ex : HR Manager " required></textarea>
+				</div>
+
+				<!-- logo -->
+				<div class="form-group">
+					<label for="id_image">company logo</label>
+					<input  type="file" name="image" id="id_image" accept="image/*" required>
+				</div>
+				<!-- job location  -->
+				<div class="form-group">
+					<label for="id_title">job location </label>
+					<input class="form-control" type="text" name="joblocation" id="id_location" placeholder="ex : nasr city , 6 october ...etc," required autofocus>
+				</div>	
+				<!-- city -->
+				<div class="form-group">
+					<label for="id_city">city</label>
+					<input class="form-control" type="text" name="city" id="id_location" placeholder="ex : cairo,alexandria,giza...etc," required autofocus>
+				</div>
+				<!-- Area -->
+				<div class="form-group">
+					<label for="id_Area">Area</label>
+					<input class="form-control" type="text" name="Area" id="id_Area" placeholder="Area" required autofocus>
+				</div>
+				<!-- careerlevel -->
+				<div class="form-group">
+					<label for="id_careerlevel">Career level</label>
+					<input class="form-control" type="text" name="careerlevel" id="id_careerlevel" placeholder="career level" required autofocus>
+				</div>
+				<!-- year_of_experience -->
+				<div class="form-group">
+					<label for="id_year_of_experience">year of experience</label>
+					<input class="form-control" type="text" name="year_of_experience" id="id_year_of_experience" placeholder="year of experience" required autofocus>
+				</div>	
+				<!-- salary_range -->
+				<div class="form-group">
+					<label for="id_salary_range">salary range</label>
+					<input class="form-control" type="text" name="salary_range" id="id_salary_range" placeholder="salary range" required autofocus>
+				</div>
+				<!-- additional_salary -->
+				<div class="form-group">
+					<label for="id_additional_salary">additional_salary</label>
+					<input class="form-control" type="text" name="additional_salary" id="id_additional_salary" placeholder="additional salary" required autofocus>
+				</div>
+					
+				<!-- number of vacancies -->
+				<div class="form-group">
+					<label for="id_num_vacancies">number of vacancies</label>
+					<input class="form-control" type="text" name="num_vacancies" id="id_num_vacancies" placeholder="number of vacancies" required autofocus>
+				</div>
+				<!-- role job -->
+				<div class="form-group">
+					<label for="id_rolejob">role job</label>
+					<input class="form-control" type="text" name="rolejob" id="id_rolejob" placeholder="Role job" required autofocus>
+				</div>
+				<!-- related industry -->
+				<div class="form-group">
+					<label for="id_related_industry">related industry</label>
+					<input class="form-control" type="text" name="related_industry" id="id_related_industry" placeholder="related industry" required autofocus>
+				</div>
+				<!-- Job Type-->
+				<div class="form-group">
+					<label for="id_jobtype">job type</label>
+					<input class="form-control" type="text" name="jobtype" id="id_jobtype" placeholder="jobtype" required autofocus>
+				</div>
+				<!-- job_description -->
+				<div class="form-group">
+					<label for="id_job_description">job Description</label>
+					<input class="form-control" type="text" name="job_description" id="id_job_description" placeholder="job description" required autofocus>
+				</div>
+				<!-- skills -->
+				<div class="form-group">
+					<label for="id_skills">Skills</label>
+					<input class="form-control" type="text" name="skills" id="id_skills" placeholder="job skills" required autofocus>
+				</div>
+
+				<!-- Submit btn -->
+				<button class="submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>
+			</form>
+			</div>
+			</div>	
+{% endblock content %}
+			
+             
+        
