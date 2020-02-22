@@ -78,13 +78,11 @@
                         </ul>
                       </li>
                       <li><a href="contact.html">Contact</a></li>
+                      {% if user.is_authenticated %}
                       <li><a href="new-post.html"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
-                    </ul>
-                    {% if user.is_authenticated %}
-                      <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
+                      <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.username }}
+                            {{user.username }}
                           </a>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
@@ -92,13 +90,15 @@
                             <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                           </div>
                         </li>
-                      </ul>
-                    {% else %}
-                      <form class="form-inline my-2 my-lg-0">
+                      {% else %}
+                        <li>
+                        <form class="form-inline my-2 my-lg-0">
                         <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
                         <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
                       </form>
+                      </li>
                     {% endif %}
+                    </ul>
                   </div>
                 </nav>
               </div>
