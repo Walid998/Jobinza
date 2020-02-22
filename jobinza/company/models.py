@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 
+from django.utils import timezone
+
 
 
 def upload_location(instance, filename, **kwargs):
@@ -46,4 +48,15 @@ def pre_save_job_post_receiever(sender, instance, *args, **kwargs):
 		instance.slug = slugify(instance.author.username + "-" + instance.company_name)
 
 pre_save.connect(pre_save_job_post_receiever, sender=CreatePost)
+
+
+class Listshow(models.Model):
+    jobtitle 		= models.CharField(max_length=50, null=False, blank=True)
+    city = models.TextField()
+    area = models.TextField()
+    post_date = models.DateTimeField(default=timezone.now)
+    post_update = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+    def __str__(self):
+        return self.jobtitle
 
