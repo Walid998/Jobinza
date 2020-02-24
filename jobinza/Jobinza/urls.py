@@ -8,8 +8,8 @@ from account.views import (
     registration_view,
     logout_view,
     login_view,
-    account_view,
-    must_authenticate_view,
+    #account_view,
+    #must_authenticate_view,
     home,
 )
 
@@ -19,10 +19,10 @@ urlpatterns = [
     path('',home,name='home'),
     path('company/', include('company.urls', 'post')),
     path('admin/', admin.site.urls),
-    path('account/', account_view, name="account"),
+    #path('account/', account_view, name="account"),
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
-    path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
+    #path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
     path('signup/', registration_view, name="signup"),
 	path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='registration/password_change_done.html'), 
         name='password_change_done'),

@@ -16,11 +16,7 @@ from company.forms import CreatePostForm
 from account.models import Account
 from django.contrib.auth.decorators import login_required
 
-<<<<<<< HEAD
 @login_required(login_url='login')
-=======
-
->>>>>>> a2b1d189fc09fb3721035d456ca40fd9398dd0dd
 def create_post_view(request):
 
 	context = {}
@@ -37,7 +33,7 @@ def create_post_view(request):
 	return render(request, "company/create_post.html", context)
 
 
-
+@login_required(login_url='login')
 def list_job_view(request):
 	listpost = CreatePost.objects.all()
 	context = {
