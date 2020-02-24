@@ -4,17 +4,19 @@ from django.conf import settings
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 
+from django.utils import timezone
+
 
 
 def upload_location(instance, filename, **kwargs):
-	file_path = 'company/{author_id}/{company_name}-{filename}'.format(
-			author_id=str(instance.author.id), company_name=str(instance.company_name), filename=filename
+	file_path = 'company/{author_id}/{jobtitle}-{filename}'.format(
+			author_id=str(instance.author.id), jobtitle=str(instance.jobtitle), filename=filename
 		) 
 	return file_path
 
 
 class CreatePost(models.Model):
-    company_name 		= models.CharField(max_length=50, null=False, blank=True)
+    
     jobtitle 		= models.CharField(max_length=50, null=False, blank=True)
     joblocation             = models.CharField(max_length=50, null=False, blank=True)
     city     		= models.CharField(max_length=50, null=False, blank=True)
@@ -43,7 +45,7 @@ def submission_delete(sender, instance, **kwargs):
 
 def pre_save_job_post_receiever(sender, instance, *args, **kwargs):
 	if not instance.slug:
-		instance.slug = slugify(instance.author.username + "-" + instance.company_name)
+		instance.slug = slugify(instance.author.username + "-" + instance.jobtitle)
 
 pre_save.connect(pre_save_job_post_receiever, sender=CreatePost)
 
