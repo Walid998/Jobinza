@@ -14,15 +14,13 @@ from django.http import HttpResponse
 from company.models import CreatePost
 from company.forms import CreatePostForm
 from account.models import Account
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def create_post_view(request):
 
 	context = {}
-
 	user = request.user
-	if not user.is_authenticated:
-		return redirect('must_authenticate')
-
 	form = CreatePostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		obj = form.save(commit=False)

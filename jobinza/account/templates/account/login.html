@@ -37,10 +37,25 @@
 </style>
 
 <br>
+<br>
+<br>
+<br>
+{% if user.is_authenticated %}
+<script>
+  window.location.replace("/company/create");
+</script>
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{message.tags}}" style="text-align:center">
+          {{message}}
+      </div>
+    {% endfor %}
+{% endif %}
 <form class="form-signin" method="post">{% csrf_token %}
-<div class="d-flex flex-column pb-3">
+<!--<div class="d-flex flex-column pb-3">
   <img class="img-fluid mx-auto d-block" src="{% static 'codingwithmitch_logo.png' %}" alt="codingwithmitch logo" width="72" height="72">
-</div>
+</div>-->
   <h1 class="h3 mb-3 font-weight-normal">Login</h1>
 
   <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
@@ -66,7 +81,7 @@
 </form>
 
 <div class="d-flex flex-column">
-  <a class="m-auto" href="{% url 'password_reset' %}">Reset password</a>
+  <a class="m-auto" href="#">Reset password</a>
 </div>
 
 

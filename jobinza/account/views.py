@@ -1,96 +1,46 @@
 from django.shortcuts import render, redirect
+from .forms import UserCreationForm,LoginForm
 from django.contrib.auth import login, authenticate, logout
-from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
-
-from company.models import CreatePost
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def registration_view(request):
-	context = {}
-	if request.POST:
-		form = RegistrationForm(request.POST)
-		if form.is_valid():
-			form.save()
-			email = form.cleaned_data.get('email').lower()
-			raw_password = form.cleaned_data.get('password1')
-			account = authenticate(email=email, password=raw_password)
-			login(request, account)
-			return redirect('home')
-		else:
-			context['registration_form'] = form
-
-	else:
-		form = RegistrationForm()
-		context['registration_form'] = form
-	return render(request, 'account/register.html', context)
-
-
-def logout_view(request):
-	logout(request)
-	return redirect('/')
-
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password1'])
+            new_user.save()
+            messages.success(
+                request, f'Congrats {new_user} account created successfully !!')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'account/register.html', {
+        'title': 'Sign Up',
+        'form': form,
+    })
 
 def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/company/create')
+        else:
+            messages.warning(
+                request, 'your email or password isn\'t correct !! ')
 
-	context = {}
+    return render(request, 'account/login.html', {
+        'title': 'Sign in',
+    })
 
-	user = request.user
-	if user.is_authenticated: 
-		return redirect("home")
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
-	if request.POST:
-		form = AccountAuthenticationForm(request.POST)
-		if form.is_valid():
-			email = request.POST['email']
-			password = request.POST['password']
-			user = authenticate(email=email, password=password)
-
-			if user:
-				login(request, user)
-				return redirect("home")
-
-	else:
-		form = AccountAuthenticationForm()
-
-	context['login_form'] = form
-
-	# print(form)
-	return render(request, "account/login.html", context)
-
-
-def account_view(request):
-
-	if not request.user.is_authenticated:
-			return redirect("login")
-
-	context = {}
-	if request.POST:
-		form = AccountUpdateForm(request.POST, instance=request.user)
-		if form.is_valid():
-			form.initial = {
-					"email": request.POST['email'],
-					"username": request.POST['username'],
-			}
-			form.save()
-			context['success_message'] = "Updated"
-	else:
-		form = AccountUpdateForm(
-
-			initial={
-					"email": request.user.email, 
-					"username": request.user.username,
-				}
-			)
-
-	context['account_form'] = form
-
-	job_posts = CreatePost.objects.filter(author=request.user)
-	context['job_posts'] = job_posts
-
-	return render(request, "account/account.html", context)
-
-
-def must_authenticate_view(request):
-	return render(request, 'account/must_authenticate.html', {})
-
+@login_required(login_url='login')
 def home(request):
 	return render(request,'account/home.html')
