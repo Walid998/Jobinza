@@ -8,8 +8,7 @@ class CreatePostForm(forms.ModelForm):
 	class Meta:
 		model = CreatePost
 		fields = [
-
-        'company_name', 		
+	
         'jobtitle', 			
         'joblocation',         
         'city',     			
