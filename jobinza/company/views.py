@@ -10,10 +10,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 from company.models import CreatePost
 from company.forms import CreatePostForm
-from account.models import Account
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
@@ -24,7 +24,7 @@ def create_post_view(request):
 	form = CreatePostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		obj = form.save(commit=False)
-		author = Account.objects.filter(email=user.email).first()
+		author = User.objects.filter(email=user.email).first()
 		obj.author = author
 		obj.save()
 		form = CreatePostForm()
