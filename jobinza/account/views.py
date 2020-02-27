@@ -23,15 +23,15 @@ def registration_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('/company/create')
         else:
             messages.warning(
-                request, 'your email or password isn\'t correct !! ')
+                request, 'your username or password isn\'t correct !! ')
 
     return render(request, 'account/login.html', {
         'title': 'Sign in',

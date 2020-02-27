@@ -10,12 +10,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.http import HttpResponse
+<<<<<<< HEAD
 from django.utils import timezone
 import datetime
+=======
+from django.contrib.auth.models import User
+>>>>>>> 773baa48ca459a49b64fb01aa86f884a3f6287b3
 
 from company.models import CreatePost
 from company.forms import CreatePostForm
-from account.models import Account
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
@@ -26,7 +29,7 @@ def create_post_view(request):
 	form = CreatePostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		obj = form.save(commit=False)
-		author = Account.objects.filter(email=user.email).first()
+		author = User.objects.filter(email=user.email).first()
 		obj.author = author
 		obj.save()
 		#return render(request, "company/create_post.html")
