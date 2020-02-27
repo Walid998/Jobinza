@@ -75,23 +75,33 @@ box
                                        {{post.joblocation}}
                                 {% endif %}
                       </div>
+
                       <div><span class="icon-money mr-1"></span> 
-                      {% if post.salary_range %}
-                                      {{post.salary_range}}
+                        <div class="input-group">
+                      {% if post.salary_range1 %}
+                                      {{post.salary_range1}} 
                                 {% else %}
-                                       {{post.salary_range}}
+                                       {{post.salary_range1}}
                                 {% endif %}
+                       <p>  --> </p>         
+                       {% if post.salary_range2 %}
+                                      {{post.salary_range2}} 
+                                {% else %}
+                                       {{post.salary_rang2}}
+                                {% endif %}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                
                 <div class="job-category align-self-center">
                   <div class="p-3">
                     <span class="text-info p-2 rounded border border-info">
-                                {% if post.jobtype %}
-                                      {{post.jobtype}}
+                                {% if post.status %}
+                                      {{post.status}}
                                 {% else %}
-                                       {{post.jobtype}}
+                                       {{post.status}}
                                 {% endif %}
                           </span>
                   </div>
