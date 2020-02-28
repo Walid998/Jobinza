@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .decorators import unauthenticated_user
 from django.contrib.auth.models import Group
+from company.models import CreatePost
 
 @unauthenticated_user
 def registration_view(request):
@@ -48,4 +49,9 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def home(request):
-	return render(request,'account/home.html')
+    listpost=CreatePost.objects.all()
+    context={
+        'title':'home',
+        'posts':listpost
+    }
+    return render(request,'account/home.html',context)
