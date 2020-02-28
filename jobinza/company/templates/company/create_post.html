@@ -93,14 +93,14 @@
 
 	    <!--Salary Range-->
 		<h5>Salary Range :</h5>
-		<input type ="number" name="salary_range1" min="0" required placeholder=" e.g. 1000" style="height:30px;"> to <input type="number" name="salary_range2" required placeholder=" e.g. 2000" style="height:30px;">
+		<input type ="number" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:30px;"/> up to <input type="number" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:30px;"/>
 
 		<!--vacancies-->
 		<div class="input-group">
 		<h5>Number of vacancies:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
     	</div>
-		<input type="number" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="0" required style="height: 30px;" placeholder="e.g. 1, 2" />
+		<input type="number" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="1" required style="height: 30px;" placeholder="e.g. 1, 2 (minimum 1)" />
 		
 		<!--Job Type-->
 		<h5>Job Type:</h5>
@@ -119,7 +119,7 @@
         </div>
     -->
 		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;">
-			<option disabled>Select</option>
+			<option >Select</option>
 			<option>Full Time</option>
 			<option>Part Time</option>
 			<option>Freelance / Project</option>
@@ -131,16 +131,23 @@
 		<!--job Role-->
 		<h5>Job Role:</h5>
 		<select name="rolejob" id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"   style="width:auto; ">
-		  <option>Mustard</option>
+			{% for entry in jobs %}
+			<option >{{ entry.name }}</option>
+			{% endfor %}
+		<!--  <option>Mustard</option>
 		  <option>Ketchup</option>
-		  <option>Relish</option>
+		  <option>Relish</option> -->
 		</select> 
 
 		<!-- related industry -->
 		<h5>related industry:</h5>
      	<select name="related_industry"  id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"  placeholder="Select">
-			<option>Business</option>
-			<option>Accounting</option>
+			{% for entry in industries %}
+			<option >{{ entry.name }}</option>
+			{% endfor %}
+
+			 <!--<option>Business</option>
+			<option>Accounting</option>-->
 	    </select> 
 				
 	
@@ -182,16 +189,6 @@
 
 <script>
 
-  $(".dropdown-menu li a").click(function() {
-    $(this)
-      .parents(".dropdown")
-      .find(".btn")
-      .html($(this).text() + ' <span class="caret"></span>');
-    $(this)
-      .parents(".dropdown")
-      .find(".btn")
-      .val($(this).data("value"));
-  });
 
 $(function () {
     $('select').selectpicker();});

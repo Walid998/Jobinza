@@ -25,8 +25,8 @@ class CreatePost(models.Model):
     salary_range1 		= models.CharField(max_length=50, null=False, blank=True)  
     salary_range2 		= models.CharField(max_length=50, null=False, blank=True)
     num_vacancies 		= models.TextField(max_length=50, null=False, blank=True)
-    rolejob 		= models.CharField(max_length=50, null=False, blank=True)
-    related_industry 	= models.CharField(max_length=50, null=False, blank=True)
+    rolejob 		= models.ForeignKey('jobRole' , on_delete=models.CASCADE)
+    related_industry 	= models.ForeignKey('relatedIndustry' , on_delete=models.CASCADE)
     jobtype			= models.CharField(max_length=50, null=False, blank=True)
     skills 			= models.CharField(max_length=500, null=False, blank=True)
     deadline 		= models.DateField()
@@ -36,6 +36,11 @@ class CreatePost(models.Model):
     author 			= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     slug 			= models.SlugField(blank=True)
 
+class jobRole(models.Model):
+    name = models.CharField(max_length = 50 , primary_key=True)
+
+class relatedIndustry(models.Model):
+    name = models.CharField(max_length = 50 , primary_key=True)
 
 ###
 #@receiver(post_delete, sender=CreatePost)

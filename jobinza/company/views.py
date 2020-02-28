@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.utils import timezone
 import datetime
 from django.contrib.auth.models import User
+
+from company.models import CreatePost , jobRole , relatedIndustry
 from company.models import CreatePost
 from company.forms import CreatePostForm
 from django.contrib.auth.decorators import login_required
@@ -12,10 +14,13 @@ from account.decorators import allowed_users , unauthenticated_user
 
 @login_required(login_url='login')
 def create_post_view(request):
-
+	job = jobRole.objects.all()
+	industry = relatedIndustry.objects.all()
+	#job = ['business' , 'engineer']
 	context = {}
 	user = request.user
 	form = CreatePostForm(request.POST or None, request.FILES or None)
+	
 	if form.is_valid():
 		obj = form.save(commit=False)
 		author = User.objects.filter(email=user.email).first()
@@ -26,7 +31,23 @@ def create_post_view(request):
 
 	context['form'] = form
 	#return render(request, "company/list_job.html")
-	return render(request, "company/create_post.html" , context)
+	return render(request, "company/create_post.html" , {'jobs':job , 'industries': industry} , context)
+
+def addjobRole_view (request):
+	if request.method == 'POST':
+		job = jobRole()
+		job.name = request.POST.get('role')
+		job.save()
+
+	return  render(request, "company/jobrole.html" )
+
+def addRelatedIndustry_view (request):
+	if request.method == 'POST':
+		job = relatedIndustry()
+		job.name = request.POST.get('related_industry')
+		job.save()
+
+	return  render(request, "company/relatedindustry.html" )
 
 
 def update_status():
