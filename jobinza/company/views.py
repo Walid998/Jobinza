@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from company.models import CreatePost
 from company.forms import CreatePostForm
 from django.contrib.auth.decorators import login_required
+from account.decorators import allowed_users , unauthenticated_user
+
 
 @login_required(login_url='login')
 def create_post_view(request):
