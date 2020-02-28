@@ -3,24 +3,30 @@ from .forms import UserCreationForm,LoginForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .decorators import unauthenticated_user
+from django.contrib.auth.models import Group
+from company.models import CreatePost
 
+@unauthenticated_user
 def registration_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data['password1'])
-            new_user.save()
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='applicant')
+            user.groups.add(group)
+            #new_user.save()
             messages.success(
-                request, f'Congrats {new_user} account created successfully !!')
+                request, f'Congrats {username} account created successfully !!')
             return redirect('login')
-    else:
+    else:  
         form = UserCreationForm()
     return render(request, 'account/register.html', {
         'title': 'Sign Up',
         'form': form,
     })
-
+@unauthenticated_user
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -43,4 +49,13 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def home(request):
-	return render(request,'account/home.html')
+    listpost=CreatePost.objects.all()
+    context={
+        'title':'home',
+        'posts':listpost
+    }
+    return render(request,'account/home.html',context)
+
+
+def job_details(request):
+    return render(request,'account/job_details.html')

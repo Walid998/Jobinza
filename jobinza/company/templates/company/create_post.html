@@ -1,3 +1,5 @@
+
+
 {% extends 'base.html' %}
 {% load static %}
 
@@ -5,18 +7,34 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="//unpkg.com/bootstrap-select-country@4.0.0/dist/css/bootstrap-select-country.min.css" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
 
 <style>
-	h5 {font-size: 15px; margin-top: 25px; color:gray;}
-	.card {width:500px;
+	h5 {
+	font-size: 15px;
+	margin-top: 25px;
+	color:gray;
+	}
+	.card
+	 {
+	width:500px;
 	margin-top: 60px;
 	margin-left:350px; 
 	margin-bottom: 30px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
-	select {width:455px; height: 30px;}
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+	select 
+	{
+	width:455px;
+	height: 30px;
+	}
 	.selectpicker {
-	width: 455px;}
-	
+	width: 455px;
+	}
+	.select2
+	{
+		color:green
+	}
   </style>
 
 <div style="height: 113px;"></div>
@@ -35,29 +53,29 @@
 
 		<!--job title-->
 		<h5>Title:</h5>
-		<input type="text" required name="jobtitle" class="form-control form-control-sm" style="height: 30px;" id="title" name="jobtitle"/>
+		<input type="text"  name="jobtitle"  id="title" class="form-control form-control-sm" required  style="height: 30px;" />
 
 	   	<!-- job_description -->
 	   <h5 >Job Description:</h5>
-	   <input type="text" require name="job_description" class="form-control form-control-sm" style="height: 30px;" id="title" name="jobtitle"/>
+	   <input type="text"  name="job_description" id="title" class="form-control form-control-sm" required  style="height: 30px;"  />
    
 		<!-- job location  -->
 		<h5>Location:</h5>
-		<select class="selectpicker countrypicker" data-width="100%" data-flag="true"  name="joblocation"></select>
+		<select  name="joblocation" class="selectpicker countrypicker" data-width="100%" data-flag="true" required></select>
 
 		<!-- city -->
 		<h5>City:</h5>
-		<input class="form-control" type="text" name="city" style="height: 30px;" id="id_location" placeholder="ex : cairo,alexandria,giza...etc," required autofocus>
+		<input type="text" name="city" id="id_location" class="form-control"  required style="height: 30px;"  placeholder="ex : cairo,alexandria,giza...etc,"  autofocus>
 				
 				
 		<!-- Area -->
 		<h5>Area:</h5>
-		<input class="form-control" type="text" name="Area" style="height: 30px;" id="id_Area" placeholder="Area" required autofocus>
+		<input type="text" name="Area" id="id_Area" class="form-control"  required style="height: 30px;"  placeholder="Area"  autofocus>
 				
 				
 		<!--Career level-->
 		 <h5>Career level:</h5>
-		 <select class="form-control" name="careerlevel" id="sell" style="font-size: 10px; color: gray;" name="careerlevel">
+		 <select name="careerlevel" id="sell" class="form-control" required style="font-size: 10px; color: gray;" >
 			 <option nonactive>Select</option>
 			 <option>Student</option>
 			 <option>Entry level</option>
@@ -71,23 +89,37 @@
   		<h5 margin-top: 20px;>Years Of Experience:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
 		</div>
-		<input type="number" require min="0" name="year_of_experience" placeholder="e.g. 1, 2 " class="form-control form-control-sm" style="height: 30px;" id="Experience"/>
+		<input type="number" id="Experience"  name="year_of_experience" class="form-control form-control-sm" min="0" required placeholder="e.g. 1, 2 "  style="height: 30px;" />
 
 	    <!--Salary Range-->
 		<h5>Salary Range :</h5>
-		<input type ="number" name="salary_range" min="0"placeholder=" e.g. 1000" style="height:30px;"> to <input type="number" placeholder=" e.g. 2000" style="height:30px;">
+		<input type ="number" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:30px;"/> up to <input type="number" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:30px;"/>
 
 		<!--vacancies-->
 		<div class="input-group">
 		<h5>Number of vacancies:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
     	</div>
-		<input type="number" require name="num_vacancies" min="0" placeholder="e.g. 1, 2" class="form-control form-control-sm" style="height: 30px;"id="vacancies"/>
+		<input type="number" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="1" required style="height: 30px;" placeholder="e.g. 1, 2 (minimum 1)" />
 		
-			<!--job type-->
+		<!--Job Type-->
 		<h5>Job Type:</h5>
-		<select class="form-control"  id="sell2" name="jobtype" style="margin-bottom: 0px;">
-			<option disabled>Select</option>
+		 <!-- 
+        <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" style="background-color: white; color:gray ; width: 455px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Select <span class="caret"></span>
+         </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 450px; padding-left: 20px;">
+          <li><a href="#" data-value="action">Full Time</a></li>
+          <li><a href="#" data-value="another action">Part Time</a></li>
+          <li><a href="#" data-value="something else here">Freelance / Project</a></li>
+          <li><a href="#" data-value="something else here">Work From Home</a></li>
+          <li><a href="#" data-value="something else here">Volunteering</a></li>
+        </ul>
+        </div>
+    -->
+		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;">
+			<option >Select</option>
 			<option>Full Time</option>
 			<option>Part Time</option>
 			<option>Freelance / Project</option>
@@ -98,29 +130,47 @@
 			
 		<!--job Role-->
 		<h5>Job Role:</h5>
-		<select class="selectpicker" data-width="100%" name="rolejob" multiple data-live-search="true"  id="Role" style="width:auto; ">
-		  <option>Mustard</option>
+		<select name="rolejob" id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"   style="width:auto; ">
+			{% for entry in jobs %}
+			<option >{{ entry.name }}</option>
+			{% endfor %}
+		<!--  <option>Mustard</option>
 		  <option>Ketchup</option>
-		  <option>Relish</option>
+		  <option>Relish</option> -->
 		</select> 
 
 		<!-- related industry -->
 		<h5>related industry:</h5>
-     	<select class="selectpicker" data-width="100%" name="related_industry" multiple  data-live-search="true"  id="Role" placeholder="Select">
-			<option>Business</option>
-			<option>Accounting</option>
+     	<select name="related_industry"  id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"  placeholder="Select">
+			{% for entry in industries %}
+			<option >{{ entry.name }}</option>
+			{% endfor %}
+
+			 <!--<option>Business</option>
+			<option>Accounting</option>-->
 	    </select> 
 				
 	
 		 <!-- skills -->
 		<h5>Skills:</h5>
-		<select  name="skills" multiple data-width="100%" data-live-search="true"  id="Role" placeholder="Select">
+		<!-- <select  name="skills" multiple data-width="100%" data-live-search="true"  id="Role" placeholder="Select">
 		    <option>Communication skills</option>
 			<option>LeaderShip skiils</option>
 			<option>presentation skills</option>
 			<option>LeaderShip skills</option>
-		</select> <br>
+		</select> <br> -->
 		
+		<select name="skills" class="form-control select2" id="select2"  multiple="multiple" required style="width: 100%;height:30px;"></select>
+
+		<!--Deadline-->
+		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
+        <input name ="deadline" type="date"  required style="width:100%; height:30%"/>
+
+		<!--Deadline
+		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
+		<input type="datetime" name="deadline" require style="width: 100%; color: green; padding-left: 3px;">
+	-->
+
 		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:30px; margin-left:170px ;">Post</button>
 
 		</div><!--End of Card  Body -->
@@ -132,27 +182,34 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 <script src="//unpkg.com/bootstrap-select-country@4.0.0/dist/js/bootstrap-select-country.min.js"></script> 
-<script src="//geodata.solutions/includes/countrystatecity.js"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+
 
 <script>
-  $(".dropdown-menu li a").click(function() {
-    $(this)
-      .parents(".dropdown")
-      .find(".btn")
-      .html($(this).text() + ' <span class="caret"></span>');
-    $(this)
-      .parents(".dropdown")
-      .find(".btn")
-      .val($(this).data("value"));
-  });
 
-  $('.my-select').selectpicker();
+
 $(function () {
-    $('select').selectpicker();
+    $('select').selectpicker();});
+
+//For tag input 
+$('.select2').select2({
+            data: ["Communication", "LeaderShip", "presentation"],
+            tags: true,
+            maximumSelectionLength: 10,
+            tokenSeparators: [',', ' '],
+            placeholder: "Select or type keywords",
 });
 
-$('.countrypicker').countrypicker();
+
+ /*$(function () {
+     $('#datetimepicker5').datetimepicker(
+		 {
+			format: 'YYYY/MM/DD HH:mm:ss',
+		 });
+    });*/
+//$('.countrypicker').countrypicker();
 
 </script>			
 {% endblock content %}
