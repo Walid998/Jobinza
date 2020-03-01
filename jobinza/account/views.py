@@ -16,7 +16,7 @@ def registration_view(request):
             username = form.cleaned_data.get('username')
             group = Group.objects.get(name='applicant')
             user.groups.add(group)
-            #new_user.save()
+            user.save()
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')

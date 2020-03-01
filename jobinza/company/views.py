@@ -5,7 +5,7 @@ from django.utils import timezone
 import datetime
 from django.contrib.auth.models import User
 
-from company.models import CreatePost , jobRole , relatedIndustry
+from company.models import CreatePost , jobRole , relatedIndustry , skills
 from company.models import CreatePost
 from company.forms import CreatePostForm
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,7 @@ from account.decorators import allowed_users , unauthenticated_user
 def create_post_view(request):
 	job = jobRole.objects.all()
 	industry = relatedIndustry.objects.all()
+	skill = skills.objects.all()
 	#job = ['business' , 'engineer']
 	context = {}
 	user = request.user
@@ -31,7 +32,12 @@ def create_post_view(request):
 
 	context['form'] = form
 	#return render(request, "company/list_job.html")
-	return render(request, "company/create_post.html" , {'jobs':job , 'industries': industry} , context)
+
+	return render(request, "company/create_post.html" , {'jobs':job , 'industries': industry , 'skills':skill} , context)
+
+
+def hr_register_view(request):
+	return render(request ,"company/register_hr.html" )
 
 def addjobRole_view (request):
 	if request.method == 'POST':
@@ -48,6 +54,14 @@ def addRelatedIndustry_view (request):
 		job.save()
 
 	return  render(request, "company/relatedindustry.html" )
+
+def addskill_view (request):
+	if request.method == 'POST':
+		job = skills()
+		job.name = request.POST.get('skills')
+		job.save()
+
+	return  render(request, "company/skills.html" )
 
 
 def update_status():

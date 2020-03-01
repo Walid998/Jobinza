@@ -28,7 +28,7 @@ class CreatePost(models.Model):
     rolejob 		= models.ForeignKey('jobRole' , on_delete=models.CASCADE)
     related_industry 	= models.ForeignKey('relatedIndustry' , on_delete=models.CASCADE)
     jobtype			= models.CharField(max_length=50, null=False, blank=True)
-    skills 			= models.CharField(max_length=500, null=False, blank=True)
+    skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
     deadline 		= models.DateField()
     status          = models.CharField(max_length=10 , default="Publishing" )
     date_published 		= models.DateTimeField(auto_now_add=True, verbose_name="date published")
@@ -41,6 +41,10 @@ class jobRole(models.Model):
 
 class relatedIndustry(models.Model):
     name = models.CharField(max_length = 50 , primary_key=True)
+
+class skills(models.Model):
+    name = models.CharField(max_length = 70 , primary_key=True)
+
 
 ###
 #@receiver(post_delete, sender=CreatePost)
