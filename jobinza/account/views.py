@@ -12,11 +12,13 @@ def registration_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password1'])
             username = form.cleaned_data.get('username')
+            user = form.save()
             group = Group.objects.get(name='applicant')
             user.groups.add(group)
-            user.save()
+            
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
