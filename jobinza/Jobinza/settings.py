@@ -103,6 +103,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'JobinzaDB',
+        'ENFORCE_SCHEMA': False,
     }
 }
 
