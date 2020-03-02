@@ -15,6 +15,7 @@ def registration_view(request):
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password1'])
             username = form.cleaned_data.get('username')
+            user = form.save()
             group = Group.objects.get(name='applicant')
             user = form.save()
             user.groups.add(group)
