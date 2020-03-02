@@ -6,7 +6,7 @@
 #]
 
 from django.urls import path
-from company.views import create_post_view	 , hr_register_view
+from company.views import create_post_view	
 from company.views import list_job_view ,addjobRole_view ,addRelatedIndustry_view ,addskill_view
 
 app_name = 'company'

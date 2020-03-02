@@ -36,8 +36,6 @@ def create_post_view(request):
 	return render(request, "company/create_post.html" , {'jobs':job , 'industries': industry , 'skills':skill} , context)
 
 
-def hr_register_view(request):
-	return render(request ,"company/register_hr.html" )
 
 def addjobRole_view (request):
 	if request.method == 'POST':

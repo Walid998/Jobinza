@@ -12,11 +12,12 @@ def registration_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password1'])
             username = form.cleaned_data.get('username')
             group = Group.objects.get(name='applicant')
+            user = form.save()
             user.groups.add(group)
-            user.save()
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
@@ -26,6 +27,29 @@ def registration_view(request):
         'title': 'Sign Up',
         'form': form,
     })
+
+@unauthenticated_user
+def registration_view_hr(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password1'])
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='employeer')
+            user = form.save()
+            user.groups.add(group)
+            messages.success(
+                request, f'Congrats {username} account created successfully !!')
+            return redirect('login')
+    else:  
+        form_hr = UserCreationForm()
+    return render(request, 'account/register_hr.html', {
+        'title': 'Sign Up',
+        'form_hr': form_hr,
+    })
+
+
 @unauthenticated_user
 def login_view(request):
     if request.method == 'POST':

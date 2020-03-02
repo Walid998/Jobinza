@@ -4,9 +4,9 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from company import views
-from company.views import hr_register_view
 
 from account.views import (
+    registration_view_hr,    
     registration_view,
     logout_view,
     login_view,
@@ -26,7 +26,7 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     #path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
     path('signup/', registration_view, name="signup"),
-    path('register/' , hr_register_view , name="register"),
+    path('signup/hr/' , registration_view_hr , name="register"),
 	path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='registration/password_change_done.html'), 
         name='password_change_done'),
 
