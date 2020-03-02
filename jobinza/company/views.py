@@ -13,7 +13,7 @@ from account.decorators import allowed_users , unauthenticated_user
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant'])
+@allowed_users(allowed_roles=['employeer'])
 def create_post_view(request):
 	job = jobRole.objects.all()
 	industry = relatedIndustry.objects.all()

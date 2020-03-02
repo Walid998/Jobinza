@@ -47,7 +47,7 @@ def registration_view_hr(request):
         form_hr = UserCreationForm()
     return render(request, 'account/register_hr.html', {
         'title': 'Sign Up',
-        'form_hr': form_hr,
+        'form': form_hr,
     })
 
 
