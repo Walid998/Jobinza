@@ -82,5 +82,3 @@ def home(request):
     return render(request,'account/home.html',context)
 
 
-def job_details(request):
-    return render(request,'account/job_details.html')

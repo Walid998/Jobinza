@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'company.apps.CompanyConfig',
     'account.apps.AccountConfig',
+    'applicant.apps.ApplicantConfig',
     'rest_framework',
     'rest_framework.authtoken',
 ]

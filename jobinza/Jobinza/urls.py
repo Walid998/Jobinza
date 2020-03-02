@@ -43,6 +43,6 @@ urlpatterns = [
      name='password_reset_complete'),
 
 
-    path('account/', include('account.urls')), 
+    path('applicant/', include('applicant.urls')), 
 
 ]
