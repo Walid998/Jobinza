@@ -28,8 +28,21 @@
     <link rel="stylesheet" href="{% static 'jobinza/css/aos.css'%}">
 
     <link rel="stylesheet" href="{% static 'jobinza/css/style.css'%}">
+
+    <!------------------------------Profile.html--------------------------->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous"> -->
+    
+    <link rel="stylesheet" href="{% static 'jobinza/css/profile-design.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+    <link rel="stylesgeet" href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css">
+    <!---------------------------------------------------------------------------->
     
   </head>
+
+
   <body>
   
   <div class="site-wrap">
@@ -80,7 +93,7 @@
                       </li>
                       <!--<li><a href="contact.html">Contact</a></li>-->
                       
-                      <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
+                      <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded">Post New Job</span></a></li>
                       <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{user.username }}
@@ -218,6 +231,12 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&libraries=places&callback=initAutocomplete"
         async defer></script>
+
+    <!--------------------------------------profile.html-------------------------------------->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
     <div style="height: 113px;"></div>
 {% block content %}
 

@@ -10,6 +10,71 @@
   </div>
 
 <div style="text-align:center;">
+  <table class="table table-striped">
+    {% if job is not None %}
+      <!-- employee detail information-->
+ 
+                <tr>
+                    <td>Title:</td><td>{{ job.jobtitle }}</td>
+                </tr>
+                <tr>
+                    <td>Description:</td><td>{{ job.job_description }}</td>
+                </tr>
+                <tr>
+                    <td>location:</td><td>{{ job.joblocation }}</td>
+                </tr>
+                <tr>
+                    <td>city :</td><td>{{ job.city }}</td>
+                </tr>
+                <tr>
+                  <td>Area:</td><td>{{ job.Area }}</td>
+              </tr>
+              <tr>
+                <td>careerlevel:</td><td>{{ job.careerlevel }}</td>
+              </tr>
+              <tr>
+                <td>year Of Experience:</td><td>{{ job.year_of_experience }}</td>
+              </tr>
+              <tr>
+                <td>Salary start-from:</td><td>{{ job.salary_range1 }}</td>
+              </tr>
+              <tr>
+                <td>Salary-up to:</td><td>{{ job.salary_range2}}</td>
+              </tr>
+              <tr>
+                <td>Num Of vacancies:</td><td>{{ job.num_vacancies }}</td>
+              </tr>
+              <tr>
+                <td> Job Role:</td><td>{{ job.rolejob_id}}</td>
+              </tr>
+              <tr>
+                <td>Related Industry:</td><td>{{ job.related_industry_id }}</td>
+              </tr>
+              <tr>
+                <td>Job Type:</td><td>{{ job.jobtype}}</td>
+              </tr>
+              
+                <tr>
+                    <td>skills:</td><td>{{ job.skills_id }}</td>
+                </tr>
+                <tr>
+                  <td>Deadline:</td><td>{{ job.deadline }}</td>
+              </tr>
+              <tr>
+                <td>status:</td><td>{{ job.status }}</td>
+            </tr>
+            <tr>
+              <td>Published In:</td><td>{{ job.date_published }}</td>
+          </tr>
+    {% else %}
+        <tr>
+            <td>
+                No employee data returned.
+            </td>
+        </tr>
+    {% endif %}
+            </table>
+
     <button type="button" class="btn btn-success btn-lg">Apply request</button>
 </div>
 

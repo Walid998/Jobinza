@@ -72,13 +72,13 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-@login_required(login_url='login')
-def home(request):
-    listpost=CreatePost.objects.all()
-    context={
-        'title':'home',
-        'posts':listpost
-    }
-    return render(request,'account/home.html',context)
+#@login_required(login_url='login')
+#def home(request):
+    #listpost=CreatePost.objects.all()
+    #context={
+   #     'title':'home',
+  #      'posts':listpost
+ #   }
+#    return render(request,'account/home.html',context)
 
 

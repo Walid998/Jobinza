@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
-from company import views
+from applicant.views import home
 
 from account.views import (
     registration_view_hr,    
@@ -12,7 +12,6 @@ from account.views import (
     login_view,
     #account_view,
     #must_authenticate_view,
-    home,
 )
 
 
