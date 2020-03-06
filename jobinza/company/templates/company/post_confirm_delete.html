@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+{%block contect%}
+{%load crispy_forms_tags%}
+<div class="border p-4 mb-5">
+    
+    <form method="POST">
+        <legend class="border-bottom pb-1 mb-3">Are You Sure To delete "{{post.jobtitle}}"?</legend>
+        {% csrf_token %}
+        
+        <input class="btn btn-danger mt-4" type="submit" value="delete">
+        <a  class="btn btn-secondary" href="#">Back To List</a>
+    </form>
+</div>
+{% endblock%}
