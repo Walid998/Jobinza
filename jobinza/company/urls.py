@@ -20,8 +20,8 @@ urlpatterns = [
 	
 	path('skills/' , addskill_view , name="skills"),
 	path('details/<int:job_id>/', job_details, name='detials'),
-	path('list/<slug:job_id>/update/', PostUpdateView.as_view(), name='edit'),
-    path('list/<slug:job_id>/delete',PostDeleteView.as_view(), name='delete'),
+	path('list/<slug:pk>/update/', PostUpdateView.as_view(), name='edit'),
+    path('list/<slug:pk>/delete/',PostDeleteView.as_view(), name='delete'),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 ]

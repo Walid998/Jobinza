@@ -54,18 +54,18 @@ box
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     
                   </a>
-                  {%if post.author == user%}
+                  
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" >
             
-                    <a class="dropdown-item"   href="/company/list/delete/{{post.id}}"> 
+                    <a class="dropdown-item"   href="{% url 'delete' CreatePost.id%}"> 
                       Delete
                     </a>
-                    <a class="dropdown-item" href="/company/list/update/{{post.id}}">Edit</a>
+                    <a class="dropdown-item" href="{% url 'update' CreatePost.id%}">Edit</a>
                     <a class="dropdown-item" href="#">Clone</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Close</a>
                   </div>
-                  {%endif%}
+                  
                 </li>
               </ul>
             </div>
