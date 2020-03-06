@@ -10,6 +10,8 @@ from company.models import CreatePost
 from company.forms import CreatePostForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
+from django.views.generic import UpdateView,DeleteView 
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 
 
 @login_required(login_url='login')
@@ -82,7 +84,40 @@ def list_job_view(request):
 	}
 	return render(request,"company/list_job.html", context)
 
+#jod details
+def job_details(request , job_id):
+    job =None
+    id_num = int(job_id)
+    job_list = CreatePost.objects.get(id=id_num)
+    return render(request,'company/job_details.html', {'job': job_list})
 
+
+# upate view for details
+class PostUpdateView(UserPassesTestMixin,LoginRequiredMixin, UpdateView):
+	model = CreatePost
+	template_name = 'company/list/post_update.html'
+	form_class = CreatePostForm
+	def form_invalid(self,form):
+		form.instance.author = self.request.user
+		return super().form_invalid(form)
+
+	def test_func(self):
+		post=self.get_object()
+		if self.request.user == CreatePost.author:
+			return True
+		else:	
+			return False
+	
+
+# delete view for details 
+class PostDeleteView(UserPassesTestMixin,LoginRequiredMixin,DeleteView):
+	model = CreatePost
+	success_url = 'company/list/'
+	def test_func(self):
+		post=self.get_object()
+		if self.request.user == CreatePost.author:
+			return True
+		return False
 	
 
 		
