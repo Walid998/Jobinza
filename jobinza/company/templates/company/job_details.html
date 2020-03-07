@@ -67,6 +67,19 @@
         </tr>
     {% endif %}
             </table>
+            <!--button to edit and delete-->
+            {% if post.author == user%}
+            <div>
+            <button type="button" class="btn btn-success"  style="margin-top: 5px; margin-bottom: 15px;">
+              <a href="delete/{{CreatePost.id}}" style="color: #FFF;"> Delete</a>
+            </button>
+             
+            <button type="button" class="btn btn-success"  style="margin-top: 5px; margin-bottom: 15px;">
+              <a href="update/{{CreatePost.id}}" style="color: #FFF;"> Edit</a>
+            </button>
+          </div>
+            {%endif%}
+            
 
     
 
