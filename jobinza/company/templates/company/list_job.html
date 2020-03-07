@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content%}
-<style type="text/css">
+{% comment %} <style type="text/css">
 .show_list{
   border: 1px solid green;
   width: 100%;
@@ -48,7 +48,7 @@ box
             <h2 class="mb-5 h3">Recent Jobs</h2>
             <div class="rounded border jobs-wrap">
             {% for post in posts %}
-            <div id="part3">
+            {% comment %} <div id="part3">
               <ul class="navbar-nav"  >
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,7 +68,7 @@ box
                   
                 </li>
               </ul>
-            </div>
+            </div> 
               <a href="/company/details/{{post.id}}" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                 <div class="company-logo blank-logo text-center text-md-left pl-3">
                   <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
@@ -131,9 +131,9 @@ box
               {% empty %}
                 <li class="list-group-item ">no jobs added</li>
             {% endfor %}
-</div>
+</div> {% endcomment %}
 
-<!-- <div class="site-section bg-light">
+<div class="site-section bg-light">
   <div class="container">
     <div class="row">
       <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
@@ -196,6 +196,8 @@ box
               </div>
             </div>  
           </a>
+          {% empty %}
+                <li class="list-group-item ">no jobs added</li>
           {% endfor %}
         </div>
         <div class="col-md-12 text-center mt-5">
@@ -226,5 +228,5 @@ box
     </div>
   </div>
 </div>
-   -->
+
 {% endblock%}

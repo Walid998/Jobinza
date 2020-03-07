@@ -131,6 +131,7 @@
 		<!--job Role-->
 		<h5>Job Role:</h5>
 		<select name="rolejob" id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"   style="width:auto; ">
+			
 			{% for job in jobs %}
 			<option >{{ job.name }}</option>
 			{% endfor %}
