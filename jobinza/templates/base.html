@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Work+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'blog/fonts/icomoon/style.css'%}">
+    <link rel="stylesheet" href="{% static 'jobinza/fonts/icomoon/style.css'%}">
     <link rel="icon" href="{% static 'jobinza/images/icon.png' %}">
 
     <link rel="stylesheet" href="{% static 'jobinza/css/bootstrap.min.css'%}">
@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="{% static 'jobinza/css/animate.css'%}">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
-    
-    
     
     <link rel="stylesheet" href="{% static 'jobinza/fonts/flaticon/font/flaticon.css'%}">
   
@@ -122,7 +120,7 @@
         </div>
       </div>
     </div>
-  
+    
   <script src="{% static 'jobinza/js/jquery-3.3.1.min.js'%}"></script>
   <script src="{% static 'jobinza/js/jquery-migrate-3.0.1.min.js'%}"></script>
   <script src="{% static 'jobinza/js/jquery-ui.js'%}"></script>
@@ -237,10 +235,70 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+  <div style="height: 113px;"></div>
+    {% block content %}
 
-    <div style="height: 113px;"></div>
-{% block content %}
+    {% endblock content %}
+    <footer class="site-footer">
+      <div class="container">
+        
 
-{% endblock content %}
+        <div class="row">
+          <div class="col-md-4">
+            <h3 class="footer-heading mb-4 text-white">About</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quos rem ullam, placeat amet.</p>
+            <p><a href="#" class="btn btn-primary pill text-white px-4">Read More</a></p>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                <h3 class="footer-heading mb-4 text-white">Quick Menu</h3>
+                  <ul class="list-unstyled">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Approach</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Careers</a></li>
+                  </ul>
+              </div>
+              <div class="col-md-6">
+                <h3 class="footer-heading mb-4 text-white">Categories</h3>
+                  <ul class="list-unstyled">
+                    <li><a href="#">Full Time</a></li>
+                    <li><a href="#">Freelance</a></li>
+                    <li><a href="#">Temporary</a></li>
+                    <li><a href="#">Internship</a></li>
+                  </ul>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="col-md-2">
+            <div class="col-md-12"><h3 class="footer-heading mb-4 text-white">Social Icons</h3></div>
+              <div class="col-md-12">
+                <p>
+                  <a href="#" class="pb-2 pr-2 pl-0"><span class="icon-facebook"></span></a>
+                  <a href="#" class="p-2"><span class="icon-twitter"></span></a>
+                  <a href="#" class="p-2"><span class="icon-instagram"></span></a>
+                  <a href="#" class="p-2"><span class="icon-vimeo"></span></a>
+
+                </p>
+              </div>
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy; <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All Rights Reserved | This template is made with <i class="icon-heart text-warning" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

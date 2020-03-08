@@ -36,11 +36,6 @@
   }
 </style>
 
-{% if user.is_authenticated %}
-<script>
-  window.location.replace("/company/create");
-</script>
-{% endif %}
 {% if messages %}
     {% for message in messages %}
       <div class="alert alert-{{message.tags}}" style="text-align:center">

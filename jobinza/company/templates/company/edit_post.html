@@ -41,6 +41,7 @@
 
 <div class="container" >
 	<div class="row">
+{% if job is not None%}
 <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
 	<div class="card" >
     <div class="card-body">
@@ -53,30 +54,32 @@
 
 		<!--job title-->
 		<h5>Title:</h5>
-		<input type="text"  name="jobtitle"  id="title" class="form-control form-control-sm" required  style="height: 30px;" />
+		<input type="text" value="{{job.jobtitle}}" name="jobtitle"  id="title" class="form-control form-control-sm" required  style="height: 30px;" />
 
 	   	<!-- job_description -->
 	   <h5 >Job Description:</h5>
-	   <input type="text"  name="job_description" id="title" class="form-control form-control-sm" required  style="height: 30px;"  />
+	   <input type="text" value="{{job.job_description}}" name="job_description" id="title" class="form-control form-control-sm" required  style="height: 30px;"  />
    
 		<!-- job location  -->
 		<h5>Location:</h5>
-		<select  name="joblocation" class="selectpicker countrypicker" data-width="100%" data-flag="true" required></select>
+		<select  name="joblocation" class="selectpicker countrypicker" data-width="100%" data-flag="true" required>
+			<option nonactive>{{job.joblocation}}</option>
+		</select>
 
 		<!-- city -->
 		<h5>City:</h5>
-		<input type="text" name="city" id="id_location" class="form-control"  required style="height: 30px;"  placeholder="ex : cairo,alexandria,giza...etc,"  autofocus>
+		<input type="text" value="{{job.city}}" name="city" id="id_location" class="form-control"  required style="height: 30px;"  placeholder="ex : cairo,alexandria,giza...etc,"  autofocus>
 				
 				
 		<!-- Area -->
 		<h5>Area:</h5>
-		<input type="text" name="Area" id="id_Area" class="form-control"  required style="height: 30px;"  placeholder="Area"  autofocus>
+		<input type="text" value="{{job.Area}}" name="Area" id="id_Area" class="form-control"  required style="height: 30px;"  placeholder="Area"  autofocus>
 				
 				
 		<!--Career level-->
 		 <h5>Career level:</h5>
 		 <select name="careerlevel" id="sell" class="form-control" required style="font-size: 10px; color: gray;" >
-			 <option nonactive>Select</option>
+			 <option nonactive>{{job.careerlevel}}</option>
 			 <option>Student</option>
 			 <option>Entry level</option>
 			 <option>Experienced (non-manager)</option>
@@ -89,37 +92,24 @@
   		<h5 margin-top: 20px;>Years Of Experience:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
 		</div>
-		<input type="number" id="Experience"  name="year_of_experience" class="form-control form-control-sm" min="0" required placeholder="e.g. 1, 2 "  style="height: 30px;" />
+		<input type="number" value="{{job.year_of_experience}}" id="Experience"  name="year_of_experience" class="form-control form-control-sm" min="0" required placeholder="e.g. 1, 2 "  style="height: 30px;" />
 
 	    <!--Salary Range-->
 		<h5>Salary Range :</h5>
-		<input type ="number" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:30px;"/> up to <input type="number" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:30px;"/>
+		<input type ="number" value="{{job.salary_range1}}" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:30px;"/> up to <input type="number" value="{{job.salary_range2}}" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:30px;"/>
 
 		<!--vacancies-->
 		<div class="input-group">
 		<h5>Number of vacancies:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
     	</div>
-		<input type="number" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="1" required style="height: 30px;" placeholder="e.g. 1, 2 (minimum 1)" />
+		<input type="number" value="{{job.num_vacancies}}" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="1" required style="height: 30px;" placeholder="e.g. 1, 2 (minimum 1)" />
 		
 		<!--Job Type-->
 		<h5>Job Type:</h5>
-		 <!-- 
-        <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" style="background-color: white; color:gray ; width: 455px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          Select <span class="caret"></span>
-         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 450px; padding-left: 20px;">
-          <li><a href="#" data-value="action">Full Time</a></li>
-          <li><a href="#" data-value="another action">Part Time</a></li>
-          <li><a href="#" data-value="something else here">Freelance / Project</a></li>
-          <li><a href="#" data-value="something else here">Work From Home</a></li>
-          <li><a href="#" data-value="something else here">Volunteering</a></li>
-        </ul>
-        </div>
-    -->
-		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;">
-			<option >Select</option>
+		 
+		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;" value="Time">
+			<option>{{job.jobtype}}</option>
 			<option>Full Time</option>
 			<option>Part Time</option>
 			<option>Freelance / Project</option>
@@ -162,6 +152,7 @@
 		</select> <br> -->
 		
 		<select name="skills" class="form-control select2" id="select2"  multiple="multiple" required style="width: 100%;height:30px;">
+			<option>{{job.skills_id}}</option>
 			{% for skill in skills %}
 			<option >{{ skill.name }}</option>
 			{% endfor %}
@@ -170,7 +161,7 @@
 
 		<!--Deadline-->
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
-        <input name ="deadline" type="date"  required style="width:100%; height:30px"/>
+        <input name ="deadline" value="{{job.deadline}}" type="date"  required style="width:100%; height:30px"/>
 
 		<!--Deadline
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
@@ -183,6 +174,7 @@
 	</div>   <!--End of first part of form (Card)-->
 	     	<br>
 	</form>
+	{% endif %}
   </div>
 </div>	
 
