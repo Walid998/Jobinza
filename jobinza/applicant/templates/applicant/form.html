@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+{%block content%}
+ 
+<div style="height: 113px;"></div>
+<form method="POST">
+    {% csrf_token %}
+    <input type ="text" name="phone" placeholder="Enter a phonenumberr">
+    <input type ="text" name="address" placeholder="Enter a address">
+    <button>Submit </button>
+</form>
+{%endblock content%}

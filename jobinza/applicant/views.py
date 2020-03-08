@@ -4,6 +4,8 @@ from applicant.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from company.views import update_status
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 
@@ -26,10 +28,27 @@ def home(request):
 
 
 @login_required(login_url='login')
-def profile_info(request):
-    """ info = Profile.objects.all()
-    context={
-        'title':'profile',
-        'info':info
-    } """
-    return render(request,'applicant/profile.html')
+def profile_info(request,user_name):
+    result = User.objects.get(username=user_name).pk
+    print('---------------------',result)
+    try:
+        info = Profile.objects.get(author = result)
+        context={
+            'title':'profile',
+            'info':info
+        }
+        return render(request,'applicant/profile.html',context)
+    except:
+        return render(request,'applicant/profile.html',{'info': ''})
+
+def addinfo (request):
+    user = request.user
+    if request.method == 'POST':
+        author = User.objects.filter(username=user.username).first()
+        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author)
+        job = Profile()
+        job.phonenumber = request.POST.get('phone')
+        job.address = request.POST.get('address')
+        job.author = author
+        job.save()
+    return render(request, 'applicant/form.html')
