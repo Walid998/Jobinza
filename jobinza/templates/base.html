@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{% static 'jobinza/css/aos.css'%}">
 
     <link rel="stylesheet" href="{% static 'jobinza/css/style.css'%}">
+
     
   </head>
   <body>
@@ -81,14 +82,32 @@
                       
                       <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
                       <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{user.username }}
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          </a> -->
+                          <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Change password</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
-                          </div>
+                          </div> -->
+
+                          
+                          <li class="has-children">
+                            <a href="/applicant/profile/{{user.username}}">{{user.username }}</a>
+                            <ul class="dropdown arrow-top">
+                              <li><a href="#">Change password</a></li>
+                              <li><a href="{% url 'logout' %}">Log out</a></li>
+                              <!--<li class="has-children">
+                                <a href="#">More Links</a>
+                                <ul class="dropdown">
+                                  <li><a href="#">Browse Candidates</a></li>
+                                  <li><a href="#">Post a Job</a></li>
+                                  <li><a href="#">Employeer Profile</a></li>
+                                </ul>
+                              </li>-->
+    
+                            </ul>
+                          </li>
                         </li>
                       {% else %}
                         <li>
@@ -218,6 +237,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&libraries=places&callback=initAutocomplete"
         async defer></script>
     
+
+    <!--------------------------------------profile.html-------------------------------------->
+    
+
   <div style="height: 113px;"></div>
     {% block content %}
 

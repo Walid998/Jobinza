@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 
 
 def job_details(request , job_id):
-    job =None
     id_num = int(job_id)
     job_list = CreatePost.objects.get(id=id_num)
 
@@ -29,17 +28,14 @@ def home(request):
 
 @login_required(login_url='login')
 def profile_info(request,user_name):
-    result = User.objects.get(username=user_name).pk
-    print('---------------------',result)
+    user_info = User.objects.get(username=user_name)
+    pk = User.objects.get(username=user_name).pk
     try:
-        info = Profile.objects.get(author = result)
-        context={
-            'title':'profile',
-            'info':info
-        }
-        return render(request,'applicant/profile.html',context)
+        profile_info = Profile.objects.get(author = pk)
+       # context['title']='profile',
+        return render(request,'applicant/profile.html', {'result': user_info , 'info':profile_info } )
     except:
-        return render(request,'applicant/profile.html',{'info': ''})
+        return render(request,'applicant/profile.html', {'result': user_info , 'info':'' })
 
 def addinfo (request):
     user = request.user
