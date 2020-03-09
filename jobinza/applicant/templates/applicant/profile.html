@@ -1,12 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
+<!------------------------------Profile.html--------------------------->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous"> -->
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+    <link rel="stylesgeet" href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css">
+    <!---------------------------------------------------------------------------->
+    
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
-  
+  body{
+    /*background-color: #f0f0f0;*/
+    /* background-color: #579464; */
+    background-color: #28a745;
+  }
+
   html *{
     -webkit-font-smoothing: antialiased;
 }
 
-h6, h4, span {
+h6, h4 {
     font-size: 1rem !important;
     font-weight: 500;
     /*font-family: Roboto,Helvetica,Arial,sans-serif;*/
@@ -14,11 +32,55 @@ h6, h4, span {
     /*text-transform: uppercase;*/
 }
 
+.user{
+    font-size: 20px;
+    font-weight: lighter;
+}
+
 .name h6 {
     margin-top: 0px;
     margin-bottom: 10px;
+    color: #28a745 ;
+    font-weight: bold;
 }
- 
+
+.edit{
+    text-align: center;
+}
+
+.edit-btn{
+    padding: 5px 50px 5px 50px;
+    margin-top: 30px;
+    border-radius: 50px;
+    border-color: #28a745;
+    background: none;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.edit-btn:hover{
+    background-color: #28a745;
+    color: #FFF;
+}
+
+.add-btn{
+    /*position: fixed;*/
+    background-color : #28a745;
+    /* bottom:50px;
+    right:50px; */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 2px 6px 10px 0px rgba(0,0,0,.5), 2px 3px 4px 0px rgba(0,0,0,.2);
+    font-size: 30px;
+    padding: 1px 13px 1px 13px;
+}
+
+.add-button{
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+}
 
 a .material-icons {
     vertical-align: middle;
@@ -347,6 +409,8 @@ footer p a:hover {
 }
 
 </style>
+
+
 <div class="profile-page">
     <div class="page-header header-filter" style="background-image:url('https://images.pexels.com/photos/248867/pexels-photo-248867.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');"></div>
     <div class="main main-raised">
@@ -358,25 +422,34 @@ footer p a:hover {
 	                        <div class="avatar">
 	                            <img src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
                             </div>
-                            {% if user.is_authenticated %}
 	                        <div class="name">
-                              <h3 class="title-name">YOUR NAME</h3>
-                              <h6>@{{user.username}}</h6>
-                              <h4>{{user.email}}</h4>
-
+                                <div class="add-button">
+                                    <button class="add-btn" href="#"><i class="fa fa-plus"></i></button>
+                                </div>
+                                
+                              <h3 class="title-name">{{result.first_name}} {{result.last_name}} <span class="user">(@{{result.username}})</span></h3> 
+                              
+                              <div class="input-group mb-3" style="padding-left: 37%">
+                                  <div style="display: block;"><i class="fa fa-envelope"></i></div>
+                                  <h4 style="padding-left: 10px;">{{result.email}}</h4>
+                              
+                                </div>
                               {% if info is not None %}
 
                               {% if info.address %}
-                              <h4>{{info.address}}</h4>
+                              <!-- <div><i class="fa fa-envelope"></i></div>
+                                <h4 style="padding-left: 10px;">{{info.address}}</h4> -->
+                               <h4>{{info.address}}</h4>
                               {% endif %}
 
                               {% if info.phonenumber %}
-                              <h4>{{info.phonenumber}}</h4>
+                              <!-- <div><i class="fa fa-envelope"></i></div>
+                                <h4 style="padding-left: 10px;">{{info.phonenumber}}</h4> -->
+                               <h4>{{info.phonenumber}}</h4>
                               {% endif %}
 
                               {% endif %}
-                              
-                              {% endif %}
+                            
 								<a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
                                 <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
                                 <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a>
@@ -387,6 +460,10 @@ footer p a:hover {
                 <div class="description text-center">
                     <p>An artist of considerable range, Chet Faker — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. </p>
                 </div>
+           
+                <div class="edit">
+                    <button class="edit-btn">Edit Profile</button>
+                 </div>
 				<div class="row">
 					<div class="col-md-6 ml-auto mr-auto">
                         <div class="profile-tabs">

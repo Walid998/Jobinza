@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib import messages
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant'])
+@allowed_users(allowed_roles=['applicant' , 'employeer'])
 def create_post_view(request):
 	job = jobRole.objects.all()
 	industry = relatedIndustry.objects.all()

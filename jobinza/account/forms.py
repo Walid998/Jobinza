@@ -5,16 +5,17 @@ from django.contrib.auth.models import User
 #from .models import Profile
 
 class UserCreationForm(forms.ModelForm):
-    name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Your Name'}))
+    first_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'First Name'}))
+    last_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
     username =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Username'}))
     email =forms.EmailField(label='',widget=forms.TextInput(attrs={'placeholder':'Your Email'}))
     password1 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Password','type':'password'}))
-    password2 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Password','type':'password'}))
+    password2 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Confirm Password','type':'password'}))
     
     
     class Meta:
         model = User
-        fields = ('name','username','email','password1','password2',)
+        fields = ('first_name','last_name','username','email','password1','password2',)
         
     
         
