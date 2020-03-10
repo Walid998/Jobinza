@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'jobinza/fonts/icomoon/style.css'%}">
     <link rel="icon" href="{% static 'jobinza/images/icon.png' %}">
 
+    
     <link rel="stylesheet" href="{% static 'jobinza/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'jobinza/css/magnific-popup.css'%}">
     <link rel="stylesheet" href="{% static 'jobinza/css/jquery-ui.css'%}">
@@ -50,8 +51,6 @@
     </style>
     
   </head>
-
-
   <body>
   <div class="site-wrap">
 
@@ -101,7 +100,7 @@
                       </li>
                       <!--<li><a href="contact.html">Contact</a></li>-->
                       
-                      <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded">Post New Job</span></a></li>
+                      <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
                       <li class="nav-item dropdown">
                           <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{user.username }}
@@ -254,9 +253,10 @@
         }
       }
     </script>
-
+ 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&libraries=places&callback=initAutocomplete"
         async defer></script>
+    
 
     <!--------------------------------------profile.html-------------------------------------->
     
