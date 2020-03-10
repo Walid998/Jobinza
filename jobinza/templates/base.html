@@ -26,13 +26,33 @@
     <link rel="stylesheet" href="{% static 'jobinza/css/aos.css'%}">
 
     <link rel="stylesheet" href="{% static 'jobinza/css/style.css'%}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
+    <style>
+        .add-btn{
+    /*position: fixed;*/
+    background-color : #fff;
+    /* bottom:50px;
+    right:50px; */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 2px 6px 10px 0px rgba(0,0,0,.3), 2px 3px 4px 0px rgba(0,0,0,.2);
+    font-size: 30px;
+    padding: 1px 13px 1px 13px;
+}
+
+.add-button{
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+}
+    </style>
     
   </head>
 
 
   <body>
-  
   <div class="site-wrap">
 
     <div class="site-mobile-menu">
@@ -243,8 +263,12 @@
 
   <div style="height: 113px;"></div>
     {% block content %}
-
+    
     {% endblock content %}
+
+    <div class="add-button">
+      <button class="add-btn" href="#"><i class="fa fa-plus" style="color: #28a745;"></i></button>
+  </div>
     <footer class="site-footer">
       <div class="container">
         

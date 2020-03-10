@@ -19,6 +19,10 @@ h1, h2, h3, h4, h5,
 .h1, .h2, .h3, .h4, .h5 {
   color: #000; }
 
+
+
+
+
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
