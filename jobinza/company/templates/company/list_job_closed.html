@@ -13,7 +13,7 @@
     {% endif %}
     <div class="row">
       <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-        <label class="mb-5 h2" >All Jobs</label>
+        <label class="mb-5 h2" >Closed Jobs</label>
        
           
           <div class="btn-group" style="margin-left: 15px;" >
@@ -35,7 +35,10 @@
 
        
         <div class="rounded border jobs-wrap">
+           
           {% for post in posts %} 
+          {%if post.deadline == deadline %}
+            {{post.status}}
           <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
             <div class="company-logo blank-logo text-center text-md-left pl-3">
               <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
@@ -93,9 +96,11 @@
               </div>
             </div> 
           </a>
-          {% empty %}
-                <li class="list-group-item ">no jobs added</li>
+          {%endif%}  
+               <!-- <li class="list-group-item ">no jobs added</li>--> 
+              
           {% endfor %}
+          
         </div>
         <div class="col-md-12 text-center mt-5">
           <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
