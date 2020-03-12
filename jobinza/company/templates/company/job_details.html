@@ -3,89 +3,89 @@
 {% block content %}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 <style>
-.col-md-12 , .p-4
-{
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
-}
-.custom-scrollbar-css {
-  background-color: #FFF;
-  margin-top: 0px;
-  margin-left: 12%;
-  margin-bottom: 10%;
-  height: 530px;
-  width:80%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- }
- .custom-scrollbar-css{
-  overflow-y: scroll;
-  overflow-x: hidden;
- }
- .custom-scrollbar-css::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* scrollbar track */
-.custom-scrollbar-css::-webkit-scrollbar-track {
-  background: #eee;
-}
-
-/* scrollbar handle */
-.custom-scrollbar-css::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  background-color: #28a745;
-}
-.link {
-    margin-left: 10% ;
-    color:black;
-    font-size: 18px;
+  .col-md-12 , .p-4
+  {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
   }
-.progress-bar h5{
-  padding-left: 420px;
-  padding-top: 5px;
-  font-size:13px;
-  color:black
+  .custom-scrollbar-css {
+    background-color: #FFF;
+    margin-top: 0px;
+    margin-left: 12%;
+    margin-bottom: 10%;
+    height: 530px;
+    width:80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
-.progress{
-    width :600%;
+  .custom-scrollbar-css{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .custom-scrollbar-css::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* scrollbar track */
+  .custom-scrollbar-css::-webkit-scrollbar-track {
+    background: #eee;
+  }
+
+  /* scrollbar handle */
+  .custom-scrollbar-css::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #28a745;
+  }
+  .link {
+      margin-left: 10% ;
+      color:black;
+      font-size: 18px;
+    }
+  .progress-bar h5{
+    padding-left: 420px;
+    padding-top: 5px;
+    font-size:13px;
+    color:black
+    }
+  .progress{
+      width :600%;
+      height:15px;
+      margin-top: 5px;
+    }
+  .progress-bar{
     height:15px;
-    margin-top: 5px;
+
   }
-.progress-bar{
-  height:15px;
+  .nav-item{
+    margin: 10px;
+    margin-top: 25px;
+    margin-left: 3px;
+  }
+  .nav-item a {
+    padding-bottom: 15px;
+    color:black;
 
- }
-.nav-item{
-  margin: 10px;
-  margin-top: 25px;
-  margin-left: 3px;
-}
-.nav-item a {
-  padding-bottom: 15px;
-  color:black;
-
- }
-.nav-item a:hover {
-  color: #28a745;
- }
- 
-.nav-item a.active{
-  color: #28a745;
- }
- /* .review
- {
-   padding-top: 0px;
-   height: 700px;
-   width:100%;
-   overflow-y: scroll;
-   overflow-x: hidden;
-   border-width:3px;
-   border-color:black
- } */
+  }
+  .nav-item a:hover {
+    color: #28a745;
+  }
+  
+  .nav-item a.active{
+    color: #28a745;
+  }
+  /* .review
+  {
+    padding-top: 0px;
+    height: 700px;
+    width:100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-width:3px;
+    border-color:black
+  } */
 
 
 </style>
 
-<div class="site-section bg-light">
+    <div class="site-section bg-light">
       <div class="container">
         {% if messages %}
           {% for message in messages %}

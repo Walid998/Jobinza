@@ -16,5 +16,4 @@ urlpatterns = [
 	path('profile/<str:user_name>/', views.profile_info, name='profile'),
 	path('addinfo/',views.addinfo, name='addinfo'),
 	#path('details/', views.job_details, name='emp_detail'),
-
 ]
