@@ -18,5 +18,4 @@ urlpatterns = [
 	path('listapp/',views.list_applicant,name='listapp'),
 	
 	#path('details/', views.job_details, name='emp_detail'),
-
 ]
