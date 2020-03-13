@@ -2,145 +2,122 @@
 {% load static %}
 
 {% block content%}
-<style type="text/css">
-  .show_list{
-    border: 1px solid green;
-    width: 100%;
-        max-width: 100%;
-        padding: 15px;
-        margin: auto;
+<div class="site-section bg-light">
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" style="text-align:center" id="mess">
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    <div class="row">
+      <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="mb-5 h3">Recent Jobs</h2>
+       
+        <div class="rounded border jobs-wrap">
+          {% for post in posts %} 
+           
+          <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+            <div class="company-logo blank-logo text-center text-md-left pl-3">
+              <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+            </div>
+            <div class="job-details h-100">
+              <div class="p-3 align-self-center">
+
+                <div class="row">
+                <h3 style="padding-top: 4px;">
+                  {% if post.jobtitle %}
+                    {{post.jobtitle}}
+                  {% else %}
+                    {{post.jobtitle}}
+                  {% endif %}
+                </h3>
+                {% for user in users%}
+                {% if post.author_id == user.id%}
+                <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+                {%else%} <div></div>
+                {%endif%}
+                {% endfor %}
+              </div>
+                <div class="d-block d-lg-flex">
+                  <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                    {% if post.jobtype %}
+                      {{post.jobtype}}
+                    {% else %}
+                      {{post.jobtype}}
+                    {% endif %}
+                  </div>
+                  , <div class="mr-3"> <span class="icon-room mr-1"></span>
+                    {% if post.joblocation %}
+                      {{post.joblocation}}
+                    {% else %}
+                      {{post.joblocation}}
+                    {% endif %}
+                  </div> 
+                  , <div><span class="icon-money mr-1"></span>
+                    {% if post.careerlevel %}
+                        {{post.careerlevel}} 
+                    {% else %}
+                      {{post.careerlevel}}
+                    {% endif %} 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="job-category align-self-center">
+              <div class="p-3">
+                <button type="button" class="btn btn-outline-info " href="#"> Apply Now</button>
+              </div>
+            </div>  
+          </a>
+          {% empty %}
+                <li class="list-group-item ">no jobs added</li>
+          {% endfor %}
+        </div>
         
-  }
-  #part1
-  {
-    width: 50%;
-    float: left;
-  }
-  #part3
-  {
-    width: 50%;
-    float: right;
-    text-align: right;
-  }
-  .image{
-         border-radius: 50%;
-          width: 5%;
-        }
-  .title{
-            text-align: center;
-            color: rgb(15, 170, 15);
-        }
-  .submit{
-      background-color: rgb(27, 158, 27);
-      border: 2px solid rgb(27, 158, 27);
-      border-radius: 8px;
-      text-align: center;
-      
-  }
-  </style>
-
-
-
-</style>
-<div class="box">
-<div style="height: 80px;" ></div>
-<!--title list-->
-<div class="col-md-8 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-<h2 class="title">Recommended Jobs</h2>
-
-{% for post in posts%}
-
-<div class="container">
-  <div style="height: 15px;" ></div>
-  <div class="show_list p-3 mb-4">
-     <!--image-->
-    <a href="job-single.html"  >
-      <div  class="mr-2">
-        <img src="../../../static/jobinza/images/person_1.jpg" alt="Image" class="image" >
+        <div class="col-md-12 text-center mt-5">
+          <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
+        </div>
       </div>
-      </a>
-    <!--title job-->
-    <div   class="h7 text-muted"> 
-      <h4>
-        <a href="/applicant/details/{{post.id}}">
-            {% if post.jobtitle %}
-            {{post.jobtitle}}
-      {% else %}
-             {{post.jobtitle}}
-      {% endif %}
-    
-        </a>
-      </h4>
+    <div class="col-md-4 block-16" data-aos="fade-up" data-aos-delay="150">
+      <div class="d-flex mb-0">
+        <h2 class="mb-5 h3 mb-0">Featured Jobs</h2>
+        <div class="ml-auto mt-1"><a href="#" class="owl-custom-prev">Prev</a> / <a href="#" class="owl-custom-next">Next</a></div>
       </div>
-   <!--list manage-->
-  <div id="part3">
-    <!--button apply-->
 
-  <button  class="submit" style="font-size: 20px; width:100px  ;margin-right: 25px; " >
-    <a href="/applicant/details/{{post.id}}" style="color: #FFF;"> apply</a>
-    </button>
-  </div>
+      <div class="nonloop-block-16 owl-carousel">
+          {% for post in posts %}
 
-  <!--place-->
-<div class="mr-3"><span class="icon-room mr-1"></span> 
-    {% if post.joblocation %}
-                    {{post.joblocation}}
-              {% else %}
-                     {{post.joblocation}}
-              {% endif %} .
-              {% if post.Area %}
-                    {{post.Area}}
-              {% else %}
-                     {{post.Area}}
-              {% endif %} --
-              <!--career-->
-              {% if post.careerlevel %}
-                    {{post.careerlevel}}
-              {% else %}
-                     {{post.careerlevel}}
-              {% endif %}
-              <!--salary-->
-              <div class="input-group"> 
-         <p> Salary 
-    {% if post.salary_range1 %}
-                    {{post.salary_range1}} 
-              {% else %}
-                     {{post.salary_range1}}
-              {% endif %}
-     <p>  --> </p>         
-     {% if post.salary_range2 %}
-                    {{post.salary_range2}} 
-              {% else %}
-                     {{post.salary_rang2}}
-              {% endif %}
-            </p>
+        <div class="border rounded p-4 bg-white">
+          <h2 class="h5">{{post.jobtitle}} </h2> 
+          {% for user in users%}
+          {% if post.author_id == user.id %}
+            <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+          {% else %} <div></div>
+          {% endif %}
+          {% endfor %}
+          <p>
+            <span class="d-block"><span class="icon-room"></span>  {{post.joblocation}} , {{post.city}} , {{post.Area}}</span>
+            <span class="d-block"><span class="icon-money mr-1"></span> ${{post.salary_range1}} &mdash; {{post.salary_range2}}</span>
+          </p>
+          <p class="mb-0">We are hiring a {{post.job_description}} with : <br> => {{post.year_of_experience}} years Experience
+          <br> => {{post.skills_id}} skills </p>
+        </div>
+        {% endfor %}
       </div>
+
+
+
     </div>
-    
-    
-<!--date post-->
-<div class="d-block d-lg-flex">
-  <span class="icon-suitcase mr-1">Posted in 
-      {% if post.deadline %}
-      {{post.deadline}}
-  {% else %}
-       {{post.deadline}}
-  {% endif %}
-  <!--status-->
-  
-      {% if post.status %}
-  {{post.status}}
-{% else %}
-   {{post.status}}
-{% endif %}
- 
-</span>
-</div>
   </div>
 </div>
+<script>
+  $(function(){
+    $('#mess').delay(4000).fadeOut('fast')
+  })
+  
+  
+</script>
 
-{% endfor %}
-
-</div>
-</div>
 {% endblock%}

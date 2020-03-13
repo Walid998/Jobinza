@@ -18,12 +18,10 @@ def job_details(request , job_id):
 @login_required(login_url='login')
 def home(request):
     update_status()
+    listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-    context={
-        'title':'home',
-        'posts':listpost
-    }
-    return render(request,'applicant/home.html',context)
+
+    return render(request,'applicant/home.html',{'posts' : listpost , 'users': listusers} )
 
 
 @login_required(login_url='login')
