@@ -8,22 +8,21 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
-
+@login_required(login_url='login')
 def job_details(request , job_id):
     id_num = int(job_id)
     job_list = CreatePost.objects.get(id=id_num)
 
     return render(request,'applicant/job_details.html', {'job': job_list})
 
-@login_required(login_url='login')
+
 def home(request):
-    update_status()
-    listpost=CreatePost.objects.all()
-    context={
-        'title':'home',
-        'posts':listpost
-    }
-    return render(request,'applicant/home.html',context)
+    
+    return render(request,'applicant/guest.html')
+
+def contact(request):
+    
+    return render(request,'applicant/contact.html')
 
 
 @login_required(login_url='login')
@@ -48,3 +47,13 @@ def addinfo (request):
         job.author = author
         job.save()
     return render(request, 'applicant/form.html')
+
+@login_required(login_url='login')
+def list_applicant(request):
+    update_status()
+    listpost=CreatePost.objects.all()
+    context={
+        'title':'home',
+        'posts':listpost
+    }
+    return render(request,'applicant/home.html',context)
