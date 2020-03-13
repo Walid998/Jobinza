@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card mb-3">
+{% comment %} <div class="card mb-3">
     <img src="../../../static/jobinza/images/mm.jpg" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title">Full Stack Developer</h5>
       <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
       <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
     </div>
-  </div>
+  </div> {% endcomment %}
 
-<div style="text-align:center;">
+{% comment %} <div style="text-align:center;">
   <table class="table table-striped">
     {% if job is not None %}
       <!-- employee detail information-->
@@ -76,20 +76,81 @@
             </table>
 
     <button type="button" class="btn btn-success btn-lg">Apply request</button>
-</div>
+</div> {% endcomment %}
 
-<!--
-<div class="mb-4 mb-md-5 mr-5">
-    <div class="job-post-item-header d-flex align-items-center">
-      <h2 class="mr-3 text-black h4">Full Stack Developer</h2>
-      <div class="badge-wrap">
-       <span class="border border-warning text-warning py-2 px-4 rounded">Freelance</span>
+<div class="site-section bg-light">
+      <div class="container">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{message.tags}}" style="text-align:center" id="mess">
+                {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% if job is not None %}
+        <div class="row">
+          <div class="col-md-12 col-lg-8 mb-5">
+            <div class="border rounded p-5 bg-white">
+
+              <div class="mb-4 mb-md-5 mr-5">
+               <div class="job-post-item-header d-flex align-items-center">
+                 <h2 class="mr-3 text-black h4">{{job.jobtitle}}</h2>
+                 <div class="badge-wrap">
+                  <span class="border border-warning text-warning py-1 px-3 rounded">{{job.jobtype}}</span>
+                 </div>
+               </div>
+               <div class="job-post-item-body d-block d-md-flex">
+                 <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span>{{job.joblocation}}</div>
+                 <div><span class="fl-bigmug-line-big104"></span> <span>{{job.city}} , {{job.Area}}</span></div>
+               </div>
+              </div>
+              <p>{{job.job_description}}</p>
+              <p><strong>Career level:</strong> {{job.careerlevel}}</p>
+              <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
+              <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
+              <p><strong>Years Of Experience:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
+              <p><strong>Number of Vacancies::</strong> {{job.num_vacancies}}</p>
+              <p><strong>Job Type:</strong> {{job.jobtype}}</p>
+              <p><strong>Job Role:</strong> {{job.rolejob_id}}</p>
+              <p><strong>Job Industry:</strong> {{job.related_industry_id}}</p>
+              <p><strong>Skills:</strong> {{job.skills_id}}</p>
+              <p style="color:red"><strong>Deadline:</strong> {{job.deadline}}</p>
+              <!-- <p class="mt-5"><a href="#" class="btn btn-primary  py-2 px-4">Apply Job</a></p> -->
+            </div>
+          </div>
+
+          <div class="col-lg-4">  
+            <div class="border rounded p-4 bg-white mb-3">
+              <small>About this company</small>
+              <hr>
+              <div class="d-flex flex-row mb-3">
+                <img style="width: 100px;height: 105px;" src="../../../static/jobinza/images/logo_1.png" alt="Image" class="img-fluid mx-auto">
+                <div style="width: 200px;word-wrap: break-word;">
+                  <div class="pl-3">
+                    <h2 class="h5">Company Name</h2>
+                    <p>
+                      <span class="d-block" title="main industry"><span class="icon-industry"></span> Resto Bar</span>
+                      <span class="d-block" title="location"><span class="icon-room"></span> Location</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              
+              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi neque fugit tempora, numquam voluptate veritatis odit id, iste eum culpa alias, ut officiis omnis itaque ad, rem sunt doloremque molestias.</p>
+            </div>   
+                 
+            <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white">    
+              <a href="#" style="width: 90%;font-size: 20px;"
+               class="btn btn-info  py-2 px-3">Apply For Job</a>
+          </div>
+          </div>
+
+          
+        </div>
+        {%endif%}
       </div>
     </div>
-    <div class="job-post-item-body d-block d-md-flex">
-      <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span> <a href="#">New York Times</a></div>
-      <div><span class="fl-bigmug-line-big104"></span> <span>New York City, USA</span></div>
-    </div>
-   </div> -->
+
 
 {% endblock content %}
