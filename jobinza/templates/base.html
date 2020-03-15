@@ -38,7 +38,7 @@ body{
   }
 .add-btn{
     /*position: fixed;*/
-    background-color : #fff;
+    background-color: #fff;
     /* bottom:50px;
     right:50px; */
     color: white;
@@ -46,8 +46,9 @@ body{
     border-radius: 50%;
     box-shadow: 2px 6px 10px 0px rgba(0,0,0,.3), 2px 3px 4px 0px rgba(0,0,0,.2);
     font-size: 30px;
-    padding: 1px 13px 1px 13px;
+    padding: 9px 14px 6px;
 }
+
 
 .add-button{
     position: fixed;
@@ -346,9 +347,10 @@ input::-webkit-input-placeholder {
     {% block content %}
     
     {% endblock content %}
+
     {% if request.path != '/company/create/' %}
     <div class="add-button">
-      <button class="add-btn" href="#"><i class="fa fa-plus" style="color: #28a745;"></i></button>
+      <a class="add-btn" href="/company/create"><i class="fa fa-plus" style="color: #28a745;"></i></a>
     </div>
     {% endif %}
   <!--<p>URL of this page: {{ request.path }}</p>-->
