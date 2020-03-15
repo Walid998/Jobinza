@@ -87,9 +87,10 @@ def list_job_view(request):
 
 #jod details
 def job_details(request , job_id):
-    id_num = int(job_id)
-    job_list = CreatePost.objects.get(id=id_num)
-    return render(request,'company/job_details.html', {'job': job_list})
+	id_num = int(job_id)
+	job_list = CreatePost.objects.get(id=id_num)
+	listjob = CreatePost.objects.all()
+	return render(request,'company/job_details.html', {'job': job_list , 'posts':listjob})
 
 def job_edit(request, job_id):
 	job = jobRole.objects.all()
@@ -155,8 +156,27 @@ class PostDeleteView(UserPassesTestMixin,LoginRequiredMixin,DeleteView):
 			return True
 		return False
 
+#publish job
+@login_required(login_url='login')
+def list_job_publish_view(request):
+	update_status()
+	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	context = {
+		'title' : 'list jobs',
+		'posts' : listpost,
+	}
+	
+	return render(request,"company/list_job_publish.html", context)
 
-		
 
-
-
+#close job
+@login_required(login_url='login')
+def list_job_close_view(request):
+	update_status()
+	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	context = {
+		'title' : 'list jobs',
+		'posts' : listpost,
+	}
+	
+	return render(request,"company/list_job_closed.html", context)

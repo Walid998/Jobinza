@@ -17,7 +17,9 @@ from company.views import (
 	PostDeleteView,
 	job_edit,
 	job_details,
-	PostUpdateView)
+	PostUpdateView,
+	list_job_close_view,
+	list_job_publish_view)
 
 
 app_name = 'company'
@@ -36,6 +38,8 @@ urlpatterns = [
 	
 	path('list/<slug:pk>/update/', PostUpdateView.as_view(), name='edit'),
 	path('list/<slug:pk>/delete/',PostDeleteView.as_view(), name='delete'),
+	path('list_close/' , list_job_close_view , name="list"),
+	path('list_publish/' , list_job_publish_view , name="list"),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 ]

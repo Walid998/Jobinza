@@ -59,7 +59,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/company/create')
+            return redirect('/company/list')
         else:
             messages.warning(
                 request, 'your username or password isn\'t correct !! ')

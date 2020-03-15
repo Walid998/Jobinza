@@ -2,92 +2,90 @@
 {%load static%}
 {% block content %}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-<style></style>
-<!-- 
-{% comment %} <div style="text-align:center;">
-  <table class="table table-striped">
-    {% if job is not None %}
-      <!-- employee detail information-->
-<!--  
-                <tr>
-                    <td>Title:</td><td>{{ job.jobtitle }}</td>
-                </tr>
-                <tr>
-                    <td>Description:</td><td>{{ job.job_description }}</td>
-                </tr>
-                <tr>
-                    <td>location:</td><td>{{ job.joblocation }}</td>
-                </tr>
-                <tr>
-                    <td>city :</td><td>{{ job.city }}</td>
-                </tr>
-                <tr>
-                  <td>Area:</td><td>{{ job.Area }}</td>
-              </tr>
-              <tr>
-                <td>careerlevel:</td><td>{{ job.careerlevel }}</td>
-              </tr>
-              <tr>
-                <td>year Of Experience:</td><td>{{ job.year_of_experience }}</td>
-              </tr>
-              <tr>
-                <td>Salary start-from:</td><td>{{ job.salary_range1 }}</td>
-              </tr>
-              <tr>
-                <td>Salary-up to:</td><td>{{ job.salary_range2}}</td>
-              </tr>
-              <tr>
-                <td>Num Of vacancies:</td><td>{{ job.num_vacancies }}</td>
-              </tr>
-              <tr>
-                <td> Job Role:</td><td>{{ job.rolejob_id}}</td>
-              </tr>
-              <tr>
-                <td>Related Industry:</td><td>{{ job.related_industry_id }}</td>
-              </tr>
-              <tr>
-                <td>Job Type:</td><td>{{ job.jobtype}}</td>
-              </tr>
-              
-                <tr>
-                    <td>skills:</td><td>{{ job.skills_id }}</td>
-                </tr>
-                <tr>
-                  <td>Deadline:</td><td>{{ job.deadline }}</td>
-              </tr>
-              <tr>
-                <td>status:</td><td>{{ job.status }}</td>
-            </tr>
-            <tr>
-              <td>Published In:</td><td>{{ job.date_published }}</td>
-          </tr>
-    {% else %}
-        <tr>
-            <td>
-                No employee data returned.
-            </td>
-        </tr>
-    {% endif %}
-            </table> -->
-            <!--button to edit and delete-->
-   <!--          {% if post.author == user%}
-            <div>
-            <button type="button" class="btn btn-success"  style="margin-top: 5px; margin-bottom: 15px;">
-              <a href="delete/{{CreatePost.id}}" style="color: #FFF;"> Delete</a>
-            </button>
-             
-            <button type="button" class="btn btn-success"  style="margin-top: 5px; margin-bottom: 15px;">
-              <a href="update/{{CreatePost.id}}" style="color: #FFF;"> Edit</a>
-            </button>
-          </div>
-            {%endif%}
-            
+<style>
+  .col-md-12 , .p-4
+  {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+  }
+  .custom-scrollbar-css {
+    background-color: #FFF;
+    margin-top: 0px;
+    margin-left: 12%;
+    margin-bottom: 10%;
+    height: 530px;
+    width:80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .custom-scrollbar-css{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .custom-scrollbar-css::-webkit-scrollbar {
+    width: 5px;
+  }
 
-    
+  /* scrollbar track */
+  .custom-scrollbar-css::-webkit-scrollbar-track {
+    background: #eee;
+  }
 
-</div> {% endcomment %} -->
- 
-<div class="site-section bg-light">
+  /* scrollbar handle */
+  .custom-scrollbar-css::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #28a745;
+  }
+  .link {
+      margin-left: 10% ;
+      color:black;
+      font-size: 18px;
+    }
+  .progress-bar h5{
+    padding-left: 420px;
+    padding-top: 5px;
+    font-size:13px;
+    color:black
+    }
+  .progress{
+      width :600%;
+      height:15px;
+      margin-top: 5px;
+    }
+  .progress-bar{
+    height:15px;
+
+  }
+  .nav-item{
+    margin: 10px;
+    margin-top: 25px;
+    margin-left: 3px;
+  }
+  .nav-item a {
+    padding-bottom: 15px;
+    color:black;
+
+  }
+  .nav-item a:hover {
+    color: #28a745;
+  }
+  
+  .nav-item a.active{
+    color: #28a745;
+  }
+  /* .review
+  {
+    padding-top: 0px;
+    height: 700px;
+    width:100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-width:3px;
+    border-color:black
+  } */
+
+
+</style>
+
+    <div class="site-section bg-light">
       <div class="container">
         {% if messages %}
           {% for message in messages %}
@@ -159,9 +157,9 @@
    
 
 
-    <div class="site-section" >
-      <div class="container" >
-      
+    <div class="site-section bg-light"  >
+      <div class="container">
+   
         <!-- <div class="row justify-content-center text-center mb-5" style="width: 100%;">
           <div class="col-md-6" data-aos="fade" style="width: 100%;" >
             <h2>Applicants Job Requests</h2>
@@ -169,26 +167,28 @@
         </div>
          -->
         <!--Icons row -->
+        <div  class="custom-scrollbar-css p-2">
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-6" data-aos="fade" >
-             <div class="row">
+             <div class="row" style="margin-left: 150px;">
                         <div class="profile-tabs" style="text-align: center;">
                           <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#studio" role="tab" data-toggle="tab">
-                                  <i class="material-icons">camera</i>
-                                  Studio
+                                <a  class="active" href="#studio" role="tab" data-toggle="tab" >
+                                  <i class="fa fa-align-justify fa-lg" ></i> <br>
+                                  ALL
                                 </a>
                             </li>
 
                            
                             <li class="nav-item">
-                              <a class="nav-link" href="#works" role="tab" data-toggle="tab">
-                                <i class="material-icons">palette</i>
-                                  Work
+                              <a  href="#works" role="tab" data-toggle="tab">
+                                <i class="fa fa-check fa-lg"></i>
+                                <br>  
+                                Accepted
                               </a>
                           </li>
-
+<!-- 
                           <li class="nav-item">
                             <a class="nav-link" href="#works" role="tab" data-toggle="tab">
                               <i class="material-icons">palette</i>
@@ -201,14 +201,25 @@
                             <i class="material-icons">palette</i>
                               Work
                           </a>
-                         </li>
+                         </li> -->
 
                          <li class="nav-item">
-                                <a class="nav-link" href="#favorite" role="tab" data-toggle="tab">
-                                  <i class="material-icons">favorite</i>
-                                    Favorite
+                                <a  href="#favorite" role="tab" data-toggle="tab">
+                                  <i class="fa fa-times fa-lg"></i>
+                                  <br>
+                                  Rejected
                                 </a>
                           </li>
+
+                          
+                       <!--   <li class="nav-item">
+                          <a  href="#" role="tab" data-toggle="tab">
+                            <i class="fas fa-arrow-up"></i>
+                            <br>
+                            Top <input name="num" type="text" min="1" style="width:40px;height:20px;">
+                          </a>
+                        </li>
+ -->
                         </ul>
                       </div>
     	    	</div>
@@ -222,57 +233,75 @@
 
           <div class="tab-pane active text-center gallery" id="studio">
             <div class="col-md-3 ml-auto" style="float: left;">
-
+                {% for post in posts %}
               <div class="row" >
-                <h5 style="padding-left: 5%;">Cv1</h5> <h5 style="padding-left: 60%;">70%</h5>
+                <a  class="link" href="#">{{post.jobtitle}}</a> 
+               
               </div>
-              <div class="progress" >
-                <div class="progress-bar bg-success" style="width:70% ;" value="70%" ></div><br>
+              <div class="progress"  >
+                <div class="progress-bar"  role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"><h5>{{post.num_vacancies}}%</h5> </div><br>
               </div>
               <br>
-
-              <div class="row">
-                  <h5 style="padding-left: 5%;">Cv2</h5> <h5 style="padding-left: 60%;">20%</h5>
+              {% endfor %}
+<!-- 
+              <div class="row" >
+                <a  class="link" href="#">Cv2 </a> <h5 >20%</h5>
               </div>
-              <div class="progress">
-                  <div class="progress-bar bg-success" style="width:20%"></div> <br>
+              <div class="progress" >
+                  <div class="progress-bar "role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> <br>
               </div>
 
+              <br>
+              <div class="row" >
+                <a  class="link" href="#">Cv3 </a> <h5 >50%</h5>
+              </div>
+              <div class="progress" >
+                  <div class="progress-bar "  role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div> <br>
+              </div>
+ -->
             </div>
           </div>
 
 
           <div class="tab-pane text-center gallery" id="works">
-            <div class="col-md-3 ml-auto">
+            <div class="col-md-3 ml-auto"  style="float: left;">
+              
+            {% for post in posts%}
+              {% if forloop.counter < 3 %}
               <div class="row">
-                <h5 style="padding-left: 5%;">Cv1</h5> <h5 style="padding-left: 60%;">50%</h5>
+                <a class="link" href="#">{{post.jobtitle}}</a> 
               </div>
-
-            <div class="col-md-3 ml-auto">
-              <div class="progress" >
-                <div class="progress-bar bg-success" style="width:50% ;" ></div> <br>
+              
+              <div class="progress"  >
+                <div class="progress-bar"  role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"> <h5>{{post.num_vacancies}}%</h5> </div><br>
               </div>
-            <br>
+              {%else%}
+                <div></div>
+              {%endif %}
+              <br>
+              {% endfor %}
             </div>
           </div>
 
-          </div>
-
           <div class="tab-pane text-center gallery" id="favorite">
-            <div class="row">
-              <div> 
+            <div class="col-md-3 ml-auto" style="float: left; ">
+              {% for post in posts%}
+              {% if forloop.counter < 5  %}
+             <!--  <div> 
               <img src=" {% static 'jobinza/images/company_logo_blank.png' %}" alt="Image" class="img-fluid mx-auto">
+              </div> -->        
+              <div class="row">
+                <a class="link"  href="#">{{post.jobtitle}} </a> 
               </div>
 
-            <div class="col-md-3 ml-auto">
-              <div class="row">
-                <h5 style="padding-left: 5%;">Cv1</h5> <h5 style="padding-left: 60%;">100%</h5>
+              <div class="progress" >
+                <div class="progress-bar "role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"> <h5>{{post.num_vacancies}}%</h5> </div> <br>
               </div>
-              <div class="progress" style="text-align: center;">
-               <div class="progress-bar bg-success" style="width:100% ;"></div> <br>
-              </div>
+              {% else %}
+                <div></div>
+               {% endif %} 
               <br>
-            </div> 
+              {% endfor %}
            </div> 
          </div>
 
@@ -351,8 +380,9 @@
 
           </div>
          </div>
-       </div>
-       </div>
+      </div> <!--review-->
+ <!--       </div>
+       </div> -->
       </div>
       
     </div>
@@ -378,6 +408,10 @@
     </div>
   </div>
 </div>
+
+
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 <script>
   $(document).on("click","#state",function(){
     $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
@@ -396,6 +430,48 @@
   $(function(){
     $('#mess').delay(4000).fadeOut('fast')
   })
+  
+  //progress bar
+   $(document).ready(function() {
+      $('.progress .progress-bar').css("width",
+                function() {
+                    return $(this).attr("aria-valuenow") + "%";
+                }
+        )
+    });
+
+  $(function() {
+  /* Rounded Dark */
+  $("#content-2").mCustomScrollbar({
+    theme: "rounded-dark"
+  });
+});
+/* $('#pay').click(function() {
+
+var timerId, percent;
+
+// reset progress bar
+percent = 0;
+$('#pay').attr('disabled', true);
+$('#load').css('width', '0px');
+$('#load').addClass('progress-bar active');
+
+timerId = setInterval(function() {
+
+  // increment progress bar
+  percent += 5;
+  $('#load').css('width', percent + '%');
+  $('#load').html(percent + '%');
+
+
+  if (percent >= 100) {
+    clearInterval(timerId);
+    $('#pay').attr('disabled', false);
+    $('#load').removeClass('progress-bar active');
+  }
+}, 200);
+});
+ */
 </script>
 
 {% endblock content %}
