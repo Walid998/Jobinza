@@ -9,15 +9,11 @@
   }
   .custom-scrollbar-css {
     background-color: #FFF;
-    margin-top: 0px;
     margin-left: 12%;
-    margin-bottom: 10%;
-    height: 530px;
+    height: 650px;
     width:80%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-  .custom-scrollbar-css{
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
   }
   .custom-scrollbar-css::-webkit-scrollbar {
@@ -33,26 +29,6 @@
   .custom-scrollbar-css::-webkit-scrollbar-thumb {
     border-radius: 1rem;
     background-color: #28a745;
-  }
-  .link {
-      margin-left: 10% ;
-      color:black;
-      font-size: 18px;
-    }
-  .progress-bar h5{
-    padding-left: 420px;
-    padding-top: 5px;
-    font-size:13px;
-    color:black
-    }
-  .progress{
-      width :600%;
-      height:15px;
-      margin-top: 5px;
-    }
-  .progress-bar{
-    height:15px;
-
   }
   .nav-item{
     margin: 10px;
@@ -71,18 +47,31 @@
   .nav-item a.active{
     color: #28a745;
   }
-  /* .review
-  {
-    padding-top: 0px;
-    height: 700px;
-    width:100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    border-width:3px;
-    border-color:black
-  } */
+  .link {
+      text-align:left;
+      margin-left: 10% ;
+      color:black;
+      font-size: 18px;
+      min-width: 250px !important;
+      overflow: hidden;
+  }
 
+  .progress-bar h5{
+    padding-left: 420px;
+    padding-top: 5px;
+    font-size:13px;
+    color:black
+    }
+  .progress{
+      width :600%;
+      height:15px;
+    }
+  .progress-bar{
+    height:15px;
 
+  }
+  
+  
 </style>
 
     <div class="site-section bg-light">
@@ -159,14 +148,7 @@
 
     <div class="site-section bg-light"  >
       <div class="container">
-   
-        <!-- <div class="row justify-content-center text-center mb-5" style="width: 100%;">
-          <div class="col-md-6" data-aos="fade" style="width: 100%;" >
-            <h2>Applicants Job Requests</h2>
-          </div>
-        </div>
-         -->
-        <!--Icons row -->
+
         <div  class="custom-scrollbar-css p-2">
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-6" data-aos="fade" >
@@ -236,7 +218,6 @@
                 {% for post in posts %}
               <div class="row" >
                 <a  class="link" href="#">{{post.jobtitle}}</a> 
-               
               </div>
               <div class="progress"  >
                 <div class="progress-bar"  role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"><h5>{{post.num_vacancies}}%</h5> </div><br>
@@ -261,7 +242,6 @@
  -->
             </div>
           </div>
-
 
           <div class="tab-pane text-center gallery" id="works">
             <div class="col-md-3 ml-auto"  style="float: left;">
