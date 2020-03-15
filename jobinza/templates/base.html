@@ -30,7 +30,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <style>
-        .add-btn{
+
+body{
+    /*background-color: #f0f0f0;*/
+    /* background-color: #579464; */
+    background-color: #f0f0f0;
+  }
+.add-btn{
     /*position: fixed;*/
     background-color : #fff;
     /* bottom:50px;
@@ -47,9 +53,75 @@
     position: fixed;
     bottom: 20px;
     right: 40px;
+    z-index: 3;
 }
-    </style>
-    
+
+.search{
+  margin-right: 30px;
+  border: 0;
+  width: 400px;
+  height: 30px;
+  padding: 10px 32px 10px 20px;
+  font-size: 15px;
+  color: #fff;
+  background: linear-gradient(to right, #195c2f 0%, #618B25 28%, #26a84a 50%, #CEEC97 120%);
+  background-color: #fff;
+  font-family: 'Lato', sans-serif;
+  border-radius: 30px;
+  /* border-image: linear-gradient(to right, #272838 0%, #386C0B 28%, #618B25 50%, #38A700 120%);
+  border-image-slice: 1; */
+}
+
+
+.icon-search { 
+            position: absolute; 
+        } 
+
+
+input.placeholder {
+  color: rgba(255, 255, 255, 1);
+  font-size: 15px;
+  font-weight: 400;
+}
+ input:-moz-placeholder {
+  color: rgba(255, 255, 255, 1);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 1);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.icon-wrap {
+  position: absolute;
+  top: 0;
+  right: 210px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 60px;
+  height: 100%;
+}
+
+ .icon-wrap svg {
+  width: 25px;
+  height: 25px;
+  fill: #fff;
+}
+
+.site-navbar .site-navigation .site-menu > li > a {
+  font-weight: bold;
+  font-size: 15px; 
+}
+  </style>
+ 
+ 
+
+ 
   </head>
   <body>
   <div class="site-wrap">
@@ -71,9 +143,10 @@
           <div class="py-1">
             <div class="row align-items-center">
               <div class="col-2">
-               <h2 class="mb-0 site-logo"><a href="index.html"><img src="{% static 'jobinza/images/logoo.png' %}"> </a></h2> 
+               <h2 class="mb-0 site-logo"><a href="index.html"><img src="{% static 'jobinza/images/jobinza.png' %}" style="width: 150px;height: 55px;"> </a></h2> 
               <!--<img src="../static/jobinza/images/logoo.png">-->
               </div>
+
               <div class="col-10">
                 <nav class="site-navigation text-right" role="navigation">
                   <div class="container">
@@ -82,7 +155,15 @@
                     <ul class="site-menu js-clone-nav d-none d-lg-block">
                     {% if user.is_authenticated %}
                       <!--<li><a href="categories.html">For Candidates</a></li>-->
+                      <input class="search" type="text" placeholder="Search ..." />
+                      <div class="icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                        </svg>
+                      </div>
+
                       <li class="has-children">
+
                         <a href="#">Jobs</a>
                         <ul class="dropdown arrow-top">
                           <li><a href="/company/create">Post a Job</a></li>
@@ -100,7 +181,7 @@
                       </li>
                       <!--<li><a href="contact.html">Contact</a></li>-->
                       
-                      <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
+                     <!-- <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>-->
                       <li class="nav-item dropdown">
                           <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{user.username }}
@@ -265,10 +346,14 @@
     {% block content %}
     
     {% endblock content %}
-
+    {% if request.path != '/company/create/' %}
     <div class="add-button">
       <button class="add-btn" href="#"><i class="fa fa-plus" style="color: #28a745;"></i></button>
-  </div>
+    </div>
+    {% endif %}
+  <!--<p>URL of this page: {{ request.path }}</p>-->
+
+
     <footer class="site-footer">
       <div class="container">
         
@@ -322,7 +407,7 @@
           <div class="col-md-12">
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy; <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All Rights Reserved | This template is made with <i class="icon-heart text-warning" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            Copyright &copy; <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All Rights Reserved
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>

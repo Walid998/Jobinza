@@ -269,9 +269,10 @@ a {
         padding: 10px 10px;
         text-transform: uppercase;
         letter-spacing: .05em;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 15px;
-        text-decoration: none !important; }
+        color: #000;
+        font-size: 18px;
+        font-weight: bold;
+        /*text-decoration: none !important;*/ }
         .site-navbar .site-navigation .site-menu > li > a:hover {
           color: #000; }
       .site-navbar .site-navigation .site-menu > li:last-child {
@@ -959,3 +960,5 @@ a {
     background: #28a745;
     color: #fff;
     border: 1px solid transparent; }
+
+
