@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from company.models import CreatePost
 from applicant.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from company.views import update_status
 from django.contrib.auth.models import User
-
+from django.core.files.storage import FileSystemStorage
+from applicant.forms import uploadForm
 # Create your views here.
 
 @login_required(login_url='login')
@@ -57,4 +58,3 @@ def list_applicant(request):
     listpost=CreatePost.objects.all()
 
     return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
- 

@@ -71,7 +71,7 @@
             <div class="job-category align-self-center">
               <div class="p-3">
                 {% if post.status == 'Publishing' %}
-                <button type="button" class="btn btn-outline-info " onclick=""> Apply Now</button>
+                <button type="button" class="btn btn-outline-info " >More Details</button>
                 {% else %}
                 <p  style="text-align: center;"
                class="border border-danger rounded p-1 px-2 text-danger" >Closed </p>
@@ -115,6 +115,41 @@
           <br> - {{post.skills_id}} skills </p>
           </div>
  
+
+
+          
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5>Please upload your cv</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post" enctype="multipart/form-data">
+                   {% csrf_token %}
+                    <div class="modal-body">
+                      <div class="container p-5" style="width: 100%;text-align: center;">
+
+                            <label class="upload"><img src="../../../static/jobinza/images/upload.png" alt="" width="220" height="180" class="d-block mx-auto mb-4 rounded-pill">
+                              <input id="fileUpload" name="cv" type="file" required style="display: none;" >
+                              <h6 id="select">Click to Browse</h6>
+                            </label> <br>
+                            <label for="file_default">No File Choosen </label>
+                            <label for="file_name"><b></b></label>
+               
+                      </div>
+                    </div>
+                     <div class="modal-footer">
+                      <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
+                    </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
         {% endfor %}
       </div>
 
