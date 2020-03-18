@@ -7,6 +7,8 @@ from company.views import update_status
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm
+from applicant.models import contacts
+from applicant.forms import contactform
 # Create your views here.
 
 @login_required(login_url='login')
@@ -24,8 +26,17 @@ def home(request):
     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
 
 def contact(request):
+    if request.method =='POST':
+            post=contacts()
+            post.fullname=request.POST.get('fullname')
+            post.email=request.POST.get('email')
+            post.phone=request.POST.get('phone')
+            post.message=request.POST.get('message')
+            post.save()
+            
     
     return render(request,'applicant/contact.html')
+
 
 
 @login_required(login_url='login')

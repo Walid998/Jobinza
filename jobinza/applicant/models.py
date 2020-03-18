@@ -18,3 +18,9 @@ class upload(models.Model):
     pdf = models.FileField(upload_to='media/pdfs/')
     status = models.CharField(max_length=30 , default="pending")
   #  cover = models.ImageField(upload_to='media/covers/', null=True, blank=True)
+
+class contacts(models.Model):
+    fullname 		= models.CharField(max_length=50, null=False, blank=True)
+    email 		= models.CharField(max_length=50, null=False, blank=True)
+    phone = models.PositiveIntegerField(null=False, blank=True)
+    message 		= models.CharField(max_length=200, null=False, blank=True)
