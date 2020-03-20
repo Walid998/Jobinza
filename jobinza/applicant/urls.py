@@ -16,6 +16,6 @@ urlpatterns = [
 	path('profile/<str:user_name>/', views.profile_info, name='profile'),
 	path('addinfo/',views.addinfo, name='addinfo'),
 	path('listapp/',views.list_applicant,name='listapp'),
-	
+	path('upload/', views.upload, name='upload'),
 	#path('details/', views.job_details, name='emp_detail'),
 ]
