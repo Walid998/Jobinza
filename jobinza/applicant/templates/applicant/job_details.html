@@ -1,83 +1,26 @@
 {% extends 'base.html' %}
+{% load static%}
 {% block content %}
-{% comment %} <div class="card mb-3">
-    <img src="../../../static/jobinza/images/mm.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Full Stack Developer</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    </div>
-  </div> {% endcomment %}
 
-{% comment %} <div style="text-align:center;">
-  <table class="table table-striped">
-    {% if job is not None %}
-      <!-- employee detail information-->
- 
-                <tr>
-                    <td>Title:</td><td>{{ job.jobtitle }}</td>
-                </tr>
-                <tr>
-                    <td>Description:</td><td>{{ job.job_description }}</td>
-                </tr>
-                <tr>
-                    <td>location:</td><td>{{ job.joblocation }}</td>
-                </tr>
-                <tr>
-                    <td>city :</td><td>{{ job.city }}</td>
-                </tr>
-                <tr>
-                  <td>Area:</td><td>{{ job.Area }}</td>
-              </tr>
-              <tr>
-                <td>careerlevel:</td><td>{{ job.careerlevel }}</td>
-              </tr>
-              <tr>
-                <td>year Of Experience:</td><td>{{ job.year_of_experience }}</td>
-              </tr>
-              <tr>
-                <td>Salary start-from:</td><td>{{ job.salary_range1 }}</td>
-              </tr>
-              <tr>
-                <td>Salary-up to:</td><td>{{ job.salary_range2}}</td>
-              </tr>
-              <tr>
-                <td>Num Of vacancies:</td><td>{{ job.num_vacancies }}</td>
-              </tr>
-              <tr>
-                <td> Job Role:</td><td>{{ job.rolejob_id}}</td>
-              </tr>
-              <tr>
-                <td>Related Industry:</td><td>{{ job.related_industry_id }}</td>
-              </tr>
-              <tr>
-                <td>Job Type:</td><td>{{ job.jobtype}}</td>
-              </tr>
-              
-                <tr>
-                    <td>skills:</td><td>{{ job.skills_id }}</td>
-                </tr>
-                <tr>
-                  <td>Deadline:</td><td>{{ job.deadline }}</td>
-              </tr>
-              <tr>
-                <td>status:</td><td>{{ job.status }}</td>
-            </tr>
-            <tr>
-              <td>Published In:</td><td>{{ job.date_published }}</td>
-          </tr>
-    {% else %}
-        <tr>
-            <td>
-                No employee data returned.
-            </td>
-        </tr>
-    {% endif %}
-            </table>
+<style>
+  .file-upload input[type='file'] {
+  display: none;
+}
+.rounded-lg {
+  border-radius: 1rem;
+}
 
-    <button type="button" class="btn btn-success btn-lg">Apply request</button>
-</div> {% endcomment %}
+.custom-file-label.rounded-pill {
+  border-radius: 50rem;
+}
 
+.custom-file-label.rounded-pill::after {
+  border-radius: 0 50rem 50rem 0;
+}
+.upload:hover{
+  cursor: pointer;
+}
+</style>
 <div class="site-section bg-light">
       <div class="container">
         {% if messages %}
@@ -142,8 +85,11 @@
                  
             <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white">    
               {% if job.status == "Publishing" %}
-              <a href="#" style="width: 90%;font-size: 20px;"
-               class="btn btn-info  py-2 px-3">Apply For Job</a>
+              <button type="button" class="btn btn-info" style="width: 90%;font-size: 20px;" data-toggle="modal" data-target="#exampleModal">
+                Apply For Job
+              </button>
+              <!-- <a href="#" style="width: 90%;font-size: 20px;"
+               class="btn btn-info  py-2 px-3">Apply For Job</a> -->
                {% else %}
                <a  style="width: 90%;font-size: 20px;text-align: center;"
                class="border border-danger rounded py-2 px-3 text-danger" >Closed</a>
@@ -153,9 +99,57 @@
 
           
         </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5>Please upload your cv</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post" enctype="multipart/form-data">
+                   {% csrf_token %}
+                    <div class="modal-body">
+                      <div class="container p-5" style="width: 100%;text-align: center;">
+
+                            <label class="upload"><img src="../../../static/jobinza/images/upload.png" alt="" width="220" height="180" class="d-block mx-auto mb-4 rounded-pill">
+                              <input id="fileUpload" name="cv" type="file" required style="display: none;" >
+                              <h6 id="select">Click to Browse</h6>
+                            </label> <br>
+                            <label for="file_default">No File Choosen </label>
+                            <label for="file_name"><b></b></label>
+               
+                      </div>
+                    </div>
+                     <div class="modal-footer">
+                      <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
+                    </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
         {%endif%}
+
       </div>
     </div>
 
+  <script>
+$('#fileUpload').change(function() {
+    var filename = $('#fileUpload').val();
+    if (filename.substring(3,11) == 'fakepath') {
+        filename = filename.substring(12);
+    } // For Remove fakepath
+    document.getElementById("select").style.display = 'none'
+    $("label[for='file_name'] b").html(filename);
+    $("label[for='file_default']").text('Selected File: ');
+    if (filename == "") {
+        $("label[for='file_default']").text('No File Choosen');
+    }
+
+});
+</script>
 
 {% endblock content %}
