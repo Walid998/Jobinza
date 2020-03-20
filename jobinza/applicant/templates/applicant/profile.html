@@ -394,6 +394,54 @@ footer p a:hover {
     text-decoration: none;
 }
 
+
+/*************Modal**************/
+.popup-avatar{
+    width: 170px;
+    height: 170px;
+    text-align: center;
+    margin: auto;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    border-radius: 50%;
+}
+
+.modal-content{
+    background-image: linear-gradient(to bottom,  #195c2f 0%, #618B25 28%, #26a84a 50%, #000 120%);
+}
+
+.input-form{
+    background-color: #fff;
+    border: 3px solid #fff;
+    width: 200px;
+    color: #000;
+    font-weight: bold;
+    padding-left: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 20px;
+}
+
+
+.form-inputs{
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+ .popup-avatar a{
+     position: absolute;
+     background-color: #FFF;
+     padding: 4px 9px;
+     font-size: 18px;
+     border-radius: 50%;
+     top: 140px;
+     left: 290px;
+ }
+
+
+
+
 </style>
 
 
@@ -452,46 +500,8 @@ footer p a:hover {
                 </div>
            
                 <div class="edit">
-                    <button type="button" class="edit-btn" data-toggle="modal" data-target="#modalLoginAvatar">Edit Profile</button>
-                 </div>
-
-<!------------------------------------------Model--------------------------------------------->
-<!--Modal: Login with Avatar Form-->
-<div class="modal fade" id="modalLoginAvatar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
-    <!--Content-->
-    <div class="modal-content" style="z-index: 9999q;">
-
-      <!--Header-->
-      <div class="modal-header">
-        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg" alt="avatar" class="rounded-circle img-responsive">
-      </div>
-      <!--Body-->
-      <div class="modal-body text-center mb-1">
-
-        <h5 class="mt-1 mb-2">Maria Doe</h5>
-
-        <div class="md-form ml-0 mr-0">
-          <input type="password" type="text" id="form29" class="form-control form-control-sm validate ml-0">
-          <label data-error="wrong" data-success="right" for="form29" class="ml-0">Enter password</label>
-        </div>
-
-        <div class="text-center mt-4">
-          <button class="btn btn-cyan mt-1">Login <i class="fas fa-sign-in ml-1"></i></button>
-        </div>
-      </div>
-
-    </div>
-    <!--/.Content-->
-  </div>
-</div>
-
-
-
-
-
-
+                    <button type="button" class="edit-btn" data-toggle="modal" data-target="#modalAvatar">Edit Profile</button>
+                </div>
 
 
 				<div class="row">
@@ -574,5 +584,53 @@ footer p a:hover {
 
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+
+    <!------------------------------------------Model--------------------------------------------->
+    <div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+                <div class="popup-avatar">
+                    <img id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                    <div class="overlay"></div>
+                    <input type="file" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
+                    <a href="" onclick="document.getElementById('upload').click(); return false"><i class="fa fa-camera" style="color: black;"></i></a>
+                    <script>
+                        function uploadImage(input){
+                            if(input.files && input.files[0]){
+                                var reader = new FileReader();
+
+                                reader.onload = function (e){
+                                    $('#profilepic').attr('src', e.target.result).width(170).height(170);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="form-inputs">
+                    <input type="text" placeholder="First Name.." class="input-form" value="{{result.first_name}}">
+                    <input type="text" placeholder="last Name.." class="input-form" value="{{result.last_name}}">
+                </div>
+                <div class="form-inputs">
+                    <input type="text" placeholder="Email.." class="input-form" value="{{result.email}}">
+                    <input type="text" placeholder="Address.." class="input-form" value="{{info.address}}">
+                </div>
+                <div class="form-inputs">
+                    <input type="text" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}">
+                    <input type="text" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 </div>
     {% endblock %}
