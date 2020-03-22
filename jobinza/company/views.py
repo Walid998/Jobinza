@@ -57,9 +57,20 @@ def update_status():
 def list_job_view(request):
 	update_status()
 	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	x = len(listpost)
+	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
+	y =len(close)
+	open = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
+	z =len(open)
+	
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
+		'contact' : x,
+		'clo' : y,
+		'ope' : z,
+
+
 	}
 	
 	return render(request,"company/list_job.html", context)
@@ -116,7 +127,7 @@ def job_delete(request, job_id):
 @login_required(login_url='login')
 def list_job_publish_view(request):
 	update_status()
-	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	listpost = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
@@ -129,10 +140,10 @@ def list_job_publish_view(request):
 @login_required(login_url='login')
 def list_job_close_view(request):
 	update_status()
-	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	listpost = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
-	}
-	
+		}
+
 	return render(request,"company/list_job_closed.html", context)

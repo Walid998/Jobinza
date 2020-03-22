@@ -24,7 +24,7 @@
             <div class="dropdown-menu">
               <a class="dropdown-item" href="/company/list">All </a>
 
-              <a class="dropdown-item" href="/company/list_publish/">In 
+              <a class="dropdown-item" method="POST" href="/company/list_publish/">In 
                 
               </a>
               <a class="dropdown-item" href="/company/list_close/">Close</a>
@@ -37,8 +37,8 @@
         <div class="rounded border jobs-wrap">
            
           {% for post in posts %} 
-          {%if post.deadline == deadline %}
-            {{post.status}}
+          
+           
           <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
             <div class="company-logo blank-logo text-center text-md-left pl-3">
               <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
@@ -96,7 +96,7 @@
               </div>
             </div> 
           </a>
-          {%endif%}  
+         
                <!-- <li class="list-group-item ">no jobs added</li>--> 
               
           {% endfor %}
