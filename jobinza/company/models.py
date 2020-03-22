@@ -26,10 +26,11 @@ class CreatePost(models.Model):
     salary_range1 		= models.CharField(max_length=50, null=False, blank=True)  
     salary_range2 		= models.CharField(max_length=50, null=False, blank=True)
     num_vacancies 		= models.TextField(max_length=50, null=False, blank=True)
-    rolejob 		= models.ForeignKey('jobRole' , on_delete=models.CASCADE)
-    related_industry 	= models.ForeignKey('relatedIndustry' , on_delete=models.CASCADE)
+    #rolejob 		= models.ForeignKey('jobRole' , on_delete=models.CASCADE)
+    #related_industry 	= models.ForeignKey('relatedIndustry' , on_delete=models.CASCADE)
     jobtype			= models.CharField(max_length=50, null=False, blank=True)
-    skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
+    #skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
+    skills 			= models.CharField(max_length=500, null=False, blank=True)
     deadline 		= models.DateField()
     status          = models.CharField(max_length=10 , default="Publishing" )
     date_published 		= models.DateTimeField(auto_now_add=True, verbose_name="date published")
@@ -43,14 +44,14 @@ class CreatePost(models.Model):
     def get_absolute_url(self):
         return  reverse('details',args=[self.pk])
 
-class jobRole(models.Model):
-    name = models.CharField(max_length = 50 , primary_key=True)
+# class jobRole(models.Model):
+#     name = models.CharField(max_length = 50 , primary_key=True)
 
-class relatedIndustry(models.Model):
-    name = models.CharField(max_length = 50 , primary_key=True)
+# class relatedIndustry(models.Model):
+#     name = models.CharField(max_length = 50 , primary_key=True)
 
-class skills(models.Model):
-    name = models.CharField(max_length = 70 , primary_key=True)
+# class skills(models.Model):
+#     name = models.CharField(max_length = 70 , primary_key=True)
 
 
 ###
