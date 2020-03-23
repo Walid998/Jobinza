@@ -109,14 +109,20 @@
           <div class="owl-stage-outer owl-height" style="height: 494.4px;">
               <div class="owl-item cloned" style="width: 349.983px; margin-right: 20px;">
                 <div class="border rounded p-4 bg-white">
-              <h2 class="h5">Assistant Brooker (TEST)</h2>
+              <h2 class="h5">Summary</h2>
               <p><span class="border border-warning rounded p-1 px-2 text-warning">Freelance</span></p>
               <p>
-                <span class="d-block"><span class="icon-suitcase"></span> Resto Bar</span>
-                <span class="d-block"><span class="icon-room"></span> Florida</span>
-                <span class="d-block"><span class="icon-money mr-1"></span> $55000 — 70000</span>
+                {% if contact is not none %}
+                <span class="d-block"><span class="icon-suitcase"></span> all jobs : {{contact}}</span>
+                {% endif %}
+                {% if clo is not none %}
+                <span class="d-block"><span class="icon-suitcase"></span> Closed Jobs : {{clo}}</span>
+                {%endif%}
+                {% if ope is not none%}
+                <span class="d-block"><span class="icon-suitcase"></span> Open Jobs : {{ope}}</span>
+                {%endif%}
               </p>
-              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse, quam consectetur ipsum quibusdam ullam ab nesciunt, doloribus voluptatum neque iure perspiciatis vel vero illo consequatur facilis, fuga nobis corporis.</p>
+              
             </div>
             </div>
           </div>

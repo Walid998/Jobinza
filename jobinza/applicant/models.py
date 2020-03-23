@@ -22,7 +22,7 @@ class upload(models.Model):
 class contacts(models.Model):
     fullname 		= models.CharField(max_length=50, null=False, blank=True)
     email 		= models.CharField(max_length=50, null=False, blank=True)
-    phone = models.PositiveIntegerField(null=False, blank=True)
+    phone =   models.PositiveIntegerField(null=False, blank=True)
     message 		= models.CharField(max_length=200, null=False, blank=True)
 
 class Resume_Parsed(models.Model):
