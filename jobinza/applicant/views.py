@@ -10,7 +10,7 @@ from applicant.forms import uploadForm
 from applicant.models import contacts,Resume_Parsed
 from applicant.forms import contactform
 from django.conf import settings
-from parser_model import ResumeParser
+from pyresparser import ResumeParser
 import os
 # Create your views here.
 
