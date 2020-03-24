@@ -402,7 +402,8 @@ footer p a:hover {
     text-align: center;
     margin: auto;
     margin-top: 0px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 0;
     border-radius: 50%;
 }
 
@@ -437,6 +438,14 @@ footer p a:hover {
      border-radius: 50%;
      top: 140px;
      left: 290px;
+ }
+
+
+ .unupdate{
+     color: #fff;
+     font-weight: bold;
+     margin-top: 0;
+     font-size: 20px;
  }
 
 
@@ -590,11 +599,12 @@ footer p a:hover {
     <div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <form method="post">
+            <form method="POST">
+                {% csrf_token %}
                 <div class="modal-body">
                     <div class="popup-avatar">
                         <img id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
-                        <div class="overlay"></div>
+                        <p class="unupdate">@{{result.username}}</p>
                         <input type="file" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
                         <a href="" onclick="document.getElementById('upload').click(); return false"><i class="fa fa-camera" style="color: black;"></i></a>
                         <script>
@@ -612,11 +622,11 @@ footer p a:hover {
                         </script>
                     </div>
                     <div class="form-inputs">
-                        <input type="text" placeholder="First Name.." class="input-form" value="{{result.first_name}}">
-                        <input type="text" placeholder="last Name.." class="input-form" value="{{result.last_name}}">
+                        <input type="text"  name="first" placeholder="First Name.." class="input-form" value="{{result.first_name}}" readonly>
+                        <input type="text" placeholder="last Name.." class="input-form" value="{{result.last_name}}" readonly>
                     </div>
                     <div class="form-inputs">
-                        <input type="text" placeholder="Email.." class="input-form" value="{{result.email}}">
+                        <input type="text" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
                         <input type="text" placeholder="Address.." class="input-form" value="{{info.address}}">
                     </div>
                     <div class="form-inputs">
