@@ -115,24 +115,11 @@ def job_state_closed(request , job_id):
 		job.status = 'closed'
 		messages.warning(request ,f'Job \"{job.jobtitle}\" has been closed !!')
 	else :
-		job.deadline = request.get('deadline')
 		job.status = 'Publishing'
-		messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')
+		messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')	
 	job.save()
 	return redirect(f'/company/details/{job.id}')
-""" def job_state_closed(request , job_id):
-    id_num = int(job_id)
-    job = CreatePost.objects.get(id=id_num)
-    if job.status != 'closed' :
-        job.status= 'closed'
-        messages.warning(request,f'Job \"{job.jobtitle}\" has been closed !!')
-    else:
-		job.deadline = request.get('deadline')
-		job.status= 'Publishing'
-        messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')
-    job.save()
-    return redirect(f'/company/details/{job.id}')
- """
+	
 def job_delete(request, job_id):
 	job_id = int(job_id)
 	try:

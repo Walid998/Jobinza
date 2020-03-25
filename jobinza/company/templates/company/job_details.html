@@ -402,15 +402,23 @@
     $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
     if($('#state').text() == 'Close'){
       $('#contentmessage').text('Are you sure to Close this job ? ');
+      $('#action').attr('href','/company/status/{{job.id}}')
+
     }else{
       $('#contentmessage').text('Please select the deadline to close this post ');
+      var form =$('<form>{% csrf_token %}</form>');
+      form.attr("method", "post");
       var x = document.createElement("INPUT");
       x.setAttribute("name" , "deadline")
       x.setAttribute("type", "datetime-local");
-      $('#contentmessage').append(x)
+      form.append(x)
+
+      $('#contentmessage').append(form)
       
-    }
-    $('#action').attr('href','/company/status/{{job.id}}')
+      $('#action').attr('href','/company/status/{{job.id}}' );
+
+      }
+
   });
   $(document).on("click","#delete",function(){
     $('#exampleModalLabel').css('color','red').text('Delete \"{{job.jobtitle}}\" Job !!');
