@@ -143,7 +143,7 @@
 		
 		<!--Deadline-->
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
-        <input name ="deadline" value="{{job.deadline}}" class="form-control"  type="date"  required style="width:100%; height:35px"/>
+        <input name ="deadline" id="date" value="{{job.deadline}}" class="form-control"  type="date"  required style="width:100%; height:35px"/>
 		
 		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
 
@@ -166,7 +166,20 @@
 
 $(function () {
     $('select').selectpicker();});
+	var today = new Date()
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10){
+			dd='0'+dd
+		} 
+		if(mm<10){
+			mm='0'+mm
+		} 
 
+	today = yyyy+'-'+mm+'-'+dd;
+	document.getElementById("date").setAttribute("min", today);
 </script>			
 {% endblock content %}
 			

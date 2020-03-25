@@ -22,14 +22,5 @@ class Migration(migrations.Migration):
             model_name='createpost',
             name='skills',
             field=models.CharField(blank=True, max_length=500),
-        ),
-        migrations.DeleteModel(
-            name='jobRole',
-        ),
-        migrations.DeleteModel(
-            name='relatedIndustry',
-        ),
-        migrations.DeleteModel(
-            name='skills',
-        ),
+        )
     ]
