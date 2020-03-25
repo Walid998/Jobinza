@@ -384,11 +384,11 @@
         </button>
       </div>
       <div class="modal-body" id="contentmessage">
-        ...
+          ...
       </div>
       <div class="modal-footer">
         <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">Yes</a>
+        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
       </div>
     </div>
   </div>
@@ -401,9 +401,14 @@
   $(document).on("click","#state",function(){
     $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
     if($('#state').text() == 'Close'){
-      $('#contentmessage').text('Are you sure to Close this job ?');
+      $('#contentmessage').text('Are you sure to Close this job ? ');
     }else{
-      $('#contentmessage').text('Are you sure to Publish this job ?');
+      $('#contentmessage').text('Please select the deadline to close this post ');
+      var x = document.createElement("INPUT");
+      x.setAttribute("name" , "deadline")
+      x.setAttribute("type", "datetime-local");
+      $('#contentmessage').append(x)
+      
     }
     $('#action').attr('href','/company/status/{{job.id}}')
   });
@@ -416,15 +421,6 @@
     $('#mess').delay(4000).fadeOut('fast')
   })
   
-  //progress bar
-   $(document).ready(function() {
-      $('.progress .progress-bar').css("width",
-                function() {
-                    return $(this).attr("aria-valuenow") + "%";
-                }
-        )
-    });
-
   $(function() {
   /* Rounded Dark */
   $("#content-2").mCustomScrollbar({

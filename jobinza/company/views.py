@@ -99,19 +99,34 @@ def job_edit(request, job_id):
 		messages.success(request,f'Job \"{jobpost.jobtitle}\" has been updated successfully !!')
 		return redirect(f'/company/details/{jobpost.id}')
 	return render(request,'company/edit_post.html',{'job':jobpost,'jobs':job , 'industries': industry , 'skills':skill})
-	
+
+
 def job_state_closed(request , job_id):
+	id_num = int(job_id)
+	job = CreatePost.objects.get(id=id_num)
+	if job.status != 'closed':
+		job.deadline = datetime.date.today()
+		job.status = 'closed'
+		messages.warning(request ,f'Job \"{job.jobtitle}\" has been closed !!')
+	else :
+		job.deadline = request.get('deadline')
+		job.status = 'Publishing'
+		messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')
+	job.save()
+	return redirect(f'/company/details/{job.id}')
+""" def job_state_closed(request , job_id):
     id_num = int(job_id)
     job = CreatePost.objects.get(id=id_num)
-    if job.status != 'closed':
+    if job.status != 'closed' :
         job.status= 'closed'
         messages.warning(request,f'Job \"{job.jobtitle}\" has been closed !!')
     else:
-        job.status= 'Publishing'
+		job.deadline = request.get('deadline')
+		job.status= 'Publishing'
         messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')
     job.save()
     return redirect(f'/company/details/{job.id}')
-
+ """
 def job_delete(request, job_id):
 	job_id = int(job_id)
 	try:
