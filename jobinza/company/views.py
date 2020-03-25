@@ -50,6 +50,8 @@ def update_status():
 	for doc in form :
 		if doc.deadline < now or doc.deadline == now:
 			doc.status = 'closed'
+		else :
+			doc.status = 'Publishing'
 		doc.save()
 
 
@@ -88,19 +90,23 @@ def job_details(request , job_id):
 	return render(request,'company/job_details.html', context)
 
 def job_edit(request, job_id):
-	job = jobRole.objects.all()
-	industry = relatedIndustry.objects.all()
-	skill = skills.objects.all()
 	id_num = int(job_id)
 	jobpost = CreatePost.objects.get(id = id_num)
+	context ={
+		'job':jobpost,
+		'skills':skillsToList(jobpost.skills)
+		}
 	job_form = CreatePostForm(request.POST or None, instance = jobpost)
 	if job_form.is_valid():
-		job_form.save()
+		obj = job_form.save(commit=False)
+		obj.skills=  obj.skills.lower()
+		obj.save()
 		messages.success(request,f'Job \"{jobpost.jobtitle}\" has been updated successfully !!')
+		update_status()
 		return redirect(f'/company/details/{jobpost.id}')
-	return render(request,'company/edit_post.html',{'job':jobpost,'jobs':job , 'industries': industry , 'skills':skill})
 
-
+	return render(request,'company/edit_post.html',context)
+	
 def job_state_closed(request , job_id):
 	id_num = int(job_id)
 	job = CreatePost.objects.get(id=id_num)

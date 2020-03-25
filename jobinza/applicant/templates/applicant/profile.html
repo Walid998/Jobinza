@@ -394,6 +394,63 @@ footer p a:hover {
     text-decoration: none;
 }
 
+
+/*************Modal**************/
+.popup-avatar{
+    width: 170px;
+    height: 170px;
+    text-align: center;
+    margin: auto;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    padding-bottom: 0;
+    border-radius: 50%;
+}
+
+.modal-content{
+    background-image: linear-gradient(to bottom,  #195c2f 0%, #618B25 28%, #26a84a 50%, #000 120%);
+}
+
+.input-form{
+    background-color: #fff;
+    border: 3px solid #fff;
+    width: 200px;
+    color: #000;
+    font-weight: bold;
+    padding-left: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 20px;
+}
+
+
+.form-inputs{
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+ .popup-avatar a{
+     position: absolute;
+     background-color: #FFF;
+     padding: 4px 9px;
+     font-size: 18px;
+     border-radius: 50%;
+     top: 140px;
+     left: 290px;
+ }
+
+
+ .unupdate{
+     color: #fff;
+     font-weight: bold;
+     margin-top: 0;
+     font-size: 20px;
+ }
+
+
+
+
 </style>
 
 
@@ -408,6 +465,12 @@ footer p a:hover {
 	                        <div class="avatar">
 	                            <img src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
                             </div>
+                            <!-- <div class="view zoom">
+                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/6-col/img%20(131).jpg" class="img-fluid img-raised rounded-circle img-thumbnail" alt="smaple image">
+                                <div class="mask flex-center">
+                                    <p class="white-text">Zoom effect</p>
+                                </div>
+                            </div> -->
 	                        <div class="name">
                                 
                                 
@@ -446,8 +509,10 @@ footer p a:hover {
                 </div>
            
                 <div class="edit">
-                    <button class="edit-btn">Edit Profile</button>
-                 </div>
+                    <button type="button" class="edit-btn" data-toggle="modal" data-target="#modalAvatar">Edit Profile</button>
+                </div>
+
+
 				<div class="row">
 					<div class="col-md-6 ml-auto mr-auto">
                         <div class="profile-tabs">
@@ -528,5 +593,56 @@ footer p a:hover {
 
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+
+    <!------------------------------------------Model--------------------------------------------->
+    <div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="popup-avatar">
+                        <img id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                        <p class="unupdate">@{{result.username}}</p>
+                        <input type="file" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
+                        <a href="" onclick="document.getElementById('upload').click(); return false"><i class="fa fa-camera" style="color: black;"></i></a>
+                        <script>
+                            function uploadImage(input){
+                                if(input.files && input.files[0]){
+                                    var reader = new FileReader();
+
+                                    reader.onload = function (e){
+                                        $('#profilepic').attr('src', e.target.result).width(170).height(170);
+                                    };
+
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="form-inputs">
+                        <input type="text"  name="first" placeholder="First Name.." class="input-form" value="{{result.first_name}}" readonly>
+                        <input type="text" placeholder="last Name.." class="input-form" value="{{result.last_name}}" readonly>
+                    </div>
+                    <div class="form-inputs">
+                        <input type="text" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
+                        <input type="text" placeholder="Address.." class="input-form" value="{{info.address}}">
+                    </div>
+                    <div class="form-inputs">
+                        <input type="text" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}">
+                        <input type="text" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
 </div>
     {% endblock %}

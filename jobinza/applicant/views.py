@@ -53,17 +53,18 @@ def profile_info(request,user_name):
     except:
         return render(request,'applicant/profile.html', {'result': user_info , 'info':'' })
 
-def addinfo (request):
+def update (request):
     user = request.user
     if request.method == 'POST':
-        author = User.objects.filter(username=user.username).first()
-        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author)
+        """ author = User.objects.filter(username=user.username).first()
+        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author) """
+        
         job = Profile()
         job.phonenumber = request.POST.get('phone')
         job.address = request.POST.get('address')
         job.author = author
         job.save()
-    return render(request, 'applicant/form.html')
+    return profile_info()
 
 @login_required(login_url='login')
 def list_applicant(request):
