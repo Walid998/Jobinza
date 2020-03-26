@@ -3,7 +3,8 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
-from applicant.views import home ,contact
+from django.conf.urls import url
+from applicant.views import home ,contact,search
 
 from account.views import (
     registration_view_hr,    
@@ -42,7 +43,7 @@ urlpatterns = [
     
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset_complete.html'),
      name='password_reset_complete'),
-
+    url(r'^search/$',search,name="search"),
 
     path('applicant/', include('applicant.urls')), 
 

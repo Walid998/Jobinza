@@ -17,5 +17,6 @@ urlpatterns = [
 	#path('addinfo/',views.addinfo, name='addinfo'),
 	path('listapp/',views.list_applicant,name='listapp'),
 	path('upload/', views.upload, name='upload'),
+	
 	#path('details/', views.job_details, name='emp_detail'),
 ]

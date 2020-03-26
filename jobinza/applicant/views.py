@@ -11,7 +11,9 @@ from applicant.models import contacts,Resume_Parsed
 from applicant.forms import contactform
 from django.conf import settings
 from pyresparser import ResumeParser
+from django.contrib import messages
 import os
+from django.db.models import Q
 # Create your views here.
 
 @login_required(login_url='login')
@@ -112,3 +114,23 @@ def upload(request):
         fs.delete(uploaded_file.name)
         
     return render(request ,'applicant/test_upload.html')
+
+
+
+###################search################################
+
+def search(request):
+    if request.method=='POST':
+        srch = request.POST['srh']
+
+        if srch:
+            match = CreatePost.objects.filter(
+                Q(jobtitle__icontains=srch)|Q(city__icontains=srch)
+            )
+            if match:
+                return render(request,'applicant/search.html',{'sr':match})
+            else:
+                messages.error(request,'no result found')
+        else:
+            return HttpResponseRedirect('/search/')
+    return render(request,'applicant/search.html')

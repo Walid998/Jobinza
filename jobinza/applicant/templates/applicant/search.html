@@ -1,5 +1,7 @@
 {% extends 'base.html'%}
 {%block content%}
+  
+
 <div style="height: 113px;"></div>
       <div class="site-section bg-light">
         <div class="container">
@@ -19,7 +21,7 @@
       
              
               <div class="rounded border jobs-wrap">
-                {% for post in posts %} 
+                {% for post in sr %} 
                 {% if forloop.counter < 5 %}
 
                 <a href="{% url 'login' %}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
@@ -98,49 +100,5 @@
                 <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
               </div>
             </div>
-  <!-- 
-          <div class="col-md-4 block-16" data-aos="fade-up" data-aos-delay="150">
-            <div class="d-flex mb-0">
-              <h2 class="mb-5 h3 mb-0">Featured Jobs</h2>
-              <div class="ml-auto mt-1"><a href="#" class="owl-custom-prev">Prev</a> / <a href="#" class="owl-custom-next">Next</a></div>
-            </div>
-      
-            <div class="nonloop-block-16 owl-carousel">
-                {% for post in posts %}
-                {% if forloop.counter < 7 %}
-              <div class="border rounded p-4 bg-white">
-                <h2 class="h5">{{post.jobtitle}} </h2> 
-                {% for user in users%}
-                {% if post.author_id == user.id %}
-                  <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
-                {% else %} <a></a>
-                {% endif %}
-                {% endfor %}
-                <p>
-                  <span class="d-block"><span class="icon-room"></span>  {{post.joblocation}} , {{post.city}} , {{post.Area}}</span>
-                  <span class="d-block"><span class="icon-money mr-1"></span> {{post.salary_range1}} &mdash; {{post.salary_range2}}</span>
-                </p>
-                <p class="mb-0">We are hiring a {{post.job_description}} with : <br> - {{post.year_of_experience}} years Experience
-                <br> - {{post.skills_id}} skills </p>
 
-                <a href="/company/details/{{post.id}}" class="text-danger" style="text-decoration: underline; margin-left:40%; padding-top: 15px;">More details</a>
-              
-              {% else %}<p></p>
-              {% endif %}
-              {% endfor %}
-            </div> -->
-      
-            </div>
-          </div>
-        </div>
-      </div>
-      <script>
-        $(function(){
-          $('#mess').delay(4000).fadeOut('fast')
-        })
-        
-      </script>
-  
-
-
-{%endblock content%}
+{%endblock%}
