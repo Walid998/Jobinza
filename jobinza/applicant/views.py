@@ -14,6 +14,7 @@ from pyresparser import ResumeParser
 from django.contrib import messages
 import os
 from django.db.models import Q
+from django.core.paginator import Paginator
 # Create your views here.
 
 @login_required(login_url='login')
@@ -27,7 +28,9 @@ def home(request):
     update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-
+    paginator = Paginator(listpost,2)
+    page = request.GET.get('page')
+    listpost = paginator.get_page(page)
     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
 
 def contact(request):
