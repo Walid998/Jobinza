@@ -373,6 +373,16 @@
     </div>
   </div>
 
+<!--   {%if job.status != 'closed'%}
+  <script>
+    alert(' this post will close at {{ job.deadline }}').setAttribute('color' , 'red')
+  </script>
+  {%else%}<div></div>
+  {% endif %}
+ -->
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -389,6 +399,7 @@
       <div class="modal-footer">
         <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
+        
       </div>
     </div>
   </div>
@@ -402,23 +413,44 @@
     $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
     if($('#state').text() == 'Close'){
       $('#contentmessage').text('Are you sure to Close this job ? ');
-      $('#action').attr('href','/company/status/{{job.id}}')
+      $('#action').attr('href','/company/status/{{job.id}}');
 
     }else{
       $('#contentmessage').text('Please select the deadline to close this post ');
-      var form =$('<form>{% csrf_token %}</form>');
+ /*      var form =$('<form>{% csrf_token %}</form>');
       form.attr("method", "post");
+      form.attr("id", "form") */
       var x = document.createElement("INPUT");
-      x.setAttribute("name" , "deadline")
-      x.setAttribute("type", "datetime-local");
-      form.append(x)
+      x.setAttribute("id" , "deadline");
+      x.setAttribute("name" , "deadline");
+      x.setAttribute("type", "date");
+     // x.setAttribute("value" , "YYYY-MM-DD")
+      //x.inputdateObject.value = "YYYY-MM-DD"
+      //form.append(x)
 
-      $('#contentmessage').append(form)
-      
-      $('#action').attr('href','/company/status/{{job.id}}' );
+   /*    var btn = document.createElement("INPUT");
+      btn.setAttribute("type", "button");
+      btn.setAttribute("value" , "submit")
+      btn.setAttribute("id" , "btn")
+      form.append(btn) */
+      $('#contentmessage').append(x);
+      const domObj = document.getElementsByName("deadline")[0].value; // An ID might be better. Here `input[type=text]` just for example.
+      const today = new Date(domObj.value);
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+      if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        } 
 
-      }
-
+      var newDate = yyyy+'-'+mm+'-'+dd;
+     // var new = new Date.prototype.toLocaleDateString(document.getElementsByName(deadline).value);
+      $('#action').attr('href','/company/status_open/{{job.id}}/$document.getElementsByName("deadline").value ');
+    
+    } 
   });
   $(document).on("click","#delete",function(){
     $('#exampleModalLabel').css('color','red').text('Delete \"{{job.jobtitle}}\" Job !!');
@@ -461,6 +493,15 @@ timerId = setInterval(function() {
 }, 200);
 });
  */
+
+  //progress bar
+  $(document).ready(function() {
+      $('.progress .progress-bar').css("width",
+                function() {
+                    return $(this).attr("aria-valuenow") + "%";
+                }
+        )
+    });
 </script>
 
 {% endblock content %}

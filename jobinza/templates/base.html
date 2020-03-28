@@ -359,7 +359,7 @@ input::-webkit-input-placeholder {
     
     {% endblock content %}
 
-    {% if request.path != '/company/create/' %}
+    {% if request.path != '/company/create/' and user.is_authenticated %}
     <div class="add-button">
       <a class="add-btn" href="/company/create"><i class="fa fa-plus" style="color: #28a745;"></i></a>
     </div>
