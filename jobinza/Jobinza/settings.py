@@ -130,7 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+input_formats = [
+    '%Y-%m-%d %H:%M:%S'
+]
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 

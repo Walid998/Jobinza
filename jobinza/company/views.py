@@ -3,6 +3,9 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import timezone
 import datetime
+from dateutil.parser import parse
+import time
+import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
 from company.models import CreatePost
@@ -12,6 +15,7 @@ from account.decorators import allowed_users , unauthenticated_user
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib import messages
+from django.utils.dateparse import parse_date
 
 def skillsToList(txt):
 	lst = list()
@@ -27,35 +31,69 @@ def skillsToList(txt):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant' , 'employeer'])
+#def create_post_view(request):
+#	context = {}
+#	user = request.user
+#	form = CreatePostForm(request.POST or None, request.FILES or None)
+#	deadline = request.POST.get('deadline')
+#	form.deadline = datetime.strptime(deadline, '%Y-%m-%d')
+#	if form.is_valid():
+#		obj = form.save(commit=False)
+#		author = User.objects.filter(email=user.email).first()
+#		obj.author = author
+#		obj.skills = obj.skills.lower()
+#		obj.save()
+#		form = CreatePostForm()
+
+
+#	context['form'] = form
+#	return render(request, "company/create_post.html" , context)
+
 def create_post_view(request):
 	context = {}
 	user = request.user
-	form = CreatePostForm(request.POST or None, request.FILES or None)
-	
-	if form.is_valid():
-		obj = form.save(commit=False)
-		author = User.objects.filter(email=user.email).first()
-		obj.author = author
-		obj.skills = obj.skills.lower()
-		obj.save()
+	#form = CreatePostForm(request.POST or None, request.FILES or None)
+	if request.method =='POST':
 		form = CreatePostForm()
+		form.jobtitle= request.POST.get('jobtitle')
+		form.job_description = request.POST.get('job_description')
+		form.joblocation = request.POST.get('joblocation')
+		form.city = request.POST.get('city')
+		form.Area = request.POST.get('Area')
+		form.careerlevel = request.POST.get('careerlevel')
+		form.jobtype = request.POST.get('jobtype')
+		form.salary_range1 = request.POST.get('salary_range1')
+		form.salary_range2 = request.POST.get('salary_range2')
+		form.num_vacancies = request.POST.get('num_vacancies')
+		form.year_of_experience = request.POST.get('year_of_experience')
+		form.deadline = request.POST.get('deadline')
+		print(form.deadline)
+		#form.deadline = datetime.datetime.strptime(deadline , 'YYYY-mm-ddTHH:MM:ssZ')
+		#date_processing = deadline.replace('T', '-').replace(':', '-').split('-')
+		#date_processing = [int(v) for v in date_processing]
+		#form.deadline = datetime.datetime(*date_processing)
+		#form.deadline = datetime.datetime(*[int(v) for v in deadline.replace('T', '-').replace(':', '-').split('-')])
+		if form.is_valid():
+			obj = form.save(commit=False)
+			author = User.objects.filter(email=user.email).first()
+			obj.author = author
+			obj.skills = obj.skills.lower()
+			obj.save()
 
+	form = CreatePostForm()
 	context['form'] = form
 	return render(request, "company/create_post.html" , context)
-
-
-def update_status():
-	now = datetime.date.today()
-	form = CreatePost.objects.all()
-	for doc in form :
-		if doc.deadline < now or doc.deadline == now:
-			doc.status = 'closed'
-		doc.save()
-
-
+#def update_status():
+#	now = datetime.date.today()
+#	form = CreatePost.objects.all()
+#	for doc in form :
+#		if doc.deadline < now or doc.deadline == now:
+#			doc.status = 'closed'
+#		doc.save()
+ 
 @login_required(login_url='login')
 def list_job_view(request):
-	update_status()
+	#update_status()
 	listpost = CreatePost.objects.all().filter(author= request.user.id)
 	x = len(listpost)
 	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
@@ -126,7 +164,7 @@ def job_delete(request, job_id):
 #publish job
 @login_required(login_url='login')
 def list_job_publish_view(request):
-	update_status()
+	#update_status()
 	listpost = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	context = {
 		'title' : 'list jobs',
@@ -139,7 +177,7 @@ def list_job_publish_view(request):
 #close job
 @login_required(login_url='login')
 def list_job_close_view(request):
-	update_status()
+	#update_status()
 	listpost = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	context = {
 		'title' : 'list jobs',
