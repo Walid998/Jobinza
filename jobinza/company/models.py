@@ -31,7 +31,7 @@ class CreatePost(models.Model):
     jobtype			= models.CharField(max_length=50, null=False, blank=True)
     #skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
     skills 			= models.CharField(max_length=500, null=False, blank=True)
-    deadline 		= models.DateField()
+    deadline 		= models.DateTimeField(null=False, blank=True ) 
     status          = models.CharField(max_length=10 , default="Publishing" )
     date_published 		= models.DateTimeField(auto_now_add=True, verbose_name="date published")
     date_updated 		= models.DateTimeField(auto_now=True, verbose_name="date updated")

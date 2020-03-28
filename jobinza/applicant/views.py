@@ -3,7 +3,7 @@ from company.models import CreatePost
 from applicant.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from company.views import update_status
+#from company.views import update_status
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm
@@ -25,7 +25,7 @@ def job_details(request , job_id):
     return render(request,'applicant/job_details.html', {'job': job_list })
 
 def home(request):   
-    update_status()
+    #update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     paginator = Paginator(listpost,2)
