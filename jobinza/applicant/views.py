@@ -10,8 +10,11 @@ from applicant.forms import uploadForm
 from applicant.models import contacts,Resume_Parsed
 from applicant.forms import contactform
 from django.conf import settings
-from parser_model import ResumeParser
+from pyresparser import ResumeParser
+from django.contrib import messages
 import os
+from django.db.models import Q
+from django.core.paginator import Paginator
 # Create your views here.
 
 @login_required(login_url='login')
@@ -25,7 +28,9 @@ def home(request):
     #update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-
+    paginator = Paginator(listpost,2)
+    page = request.GET.get('page')
+    listpost = paginator.get_page(page)
     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
 
 def contact(request):
@@ -53,17 +58,18 @@ def profile_info(request,user_name):
     except:
         return render(request,'applicant/profile.html', {'result': user_info , 'info':'' })
 
-def addinfo (request):
+def update (request):
     user = request.user
     if request.method == 'POST':
-        author = User.objects.filter(username=user.username).first()
-        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author)
+        """ author = User.objects.filter(username=user.username).first()
+        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author) """
+        
         job = Profile()
         job.phonenumber = request.POST.get('phone')
         job.address = request.POST.get('address')
         job.author = author
         job.save()
-    return render(request, 'applicant/form.html')
+    return profile_info()
 
 @login_required(login_url='login')
 def list_applicant(request):
@@ -111,3 +117,23 @@ def upload(request):
         fs.delete(uploaded_file.name)
         
     return render(request ,'applicant/test_upload.html')
+
+
+
+###################search################################
+
+def search(request):
+    if request.method=='POST':
+        srch = request.POST['srh']
+
+        if srch:
+            match = CreatePost.objects.filter(
+                Q(jobtitle__icontains=srch)|Q(city__icontains=srch)
+            )
+            if match:
+                return render(request,'applicant/search.html',{'sr':match})
+            else:
+                messages.error(request,'no result found')
+        else:
+            return HttpResponseRedirect('/search/')
+    return render(request,'applicant/search.html')

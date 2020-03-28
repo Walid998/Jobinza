@@ -100,7 +100,7 @@
                  <div><span class="fl-bigmug-line-big104"></span> <span>{{job.city}} , {{job.Area}}</span></div>
                </div>
               </div>
-              <p>{{job.job_description}}</p>
+              <p style="word-wrap: break-word;">{{job.job_description}}</p>
               <p><strong>Career level:</strong> {{job.careerlevel}}</p>
               <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
               <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
@@ -384,11 +384,11 @@
         </button>
       </div>
       <div class="modal-body" id="contentmessage">
-        ...
+          ...
       </div>
       <div class="modal-footer">
         <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">Yes</a>
+        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
       </div>
     </div>
   </div>
@@ -401,11 +401,24 @@
   $(document).on("click","#state",function(){
     $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
     if($('#state').text() == 'Close'){
-      $('#contentmessage').text('Are you sure to Close this job ?');
+      $('#contentmessage').text('Are you sure to Close this job ? ');
+      $('#action').attr('href','/company/status/{{job.id}}')
+
     }else{
-      $('#contentmessage').text('Are you sure to Publish this job ?');
-    }
-    $('#action').attr('href','/company/status/{{job.id}}')
+      $('#contentmessage').text('Please select the deadline to close this post ');
+      var form =$('<form>{% csrf_token %}</form>');
+      form.attr("method", "post");
+      var x = document.createElement("INPUT");
+      x.setAttribute("name" , "deadline")
+      x.setAttribute("type", "datetime-local");
+      form.append(x)
+
+      $('#contentmessage').append(form)
+      
+      $('#action').attr('href','/company/status/{{job.id}}' );
+
+      }
+
   });
   $(document).on("click","#delete",function(){
     $('#exampleModalLabel').css('color','red').text('Delete \"{{job.jobtitle}}\" Job !!');
@@ -416,15 +429,6 @@
     $('#mess').delay(4000).fadeOut('fast')
   })
   
-  //progress bar
-   $(document).ready(function() {
-      $('.progress .progress-bar').css("width",
-                function() {
-                    return $(this).attr("aria-valuenow") + "%";
-                }
-        )
-    });
-
   $(function() {
   /* Rounded Dark */
   $("#content-2").mCustomScrollbar({

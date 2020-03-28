@@ -83,6 +83,7 @@ def create_post_view(request):
 	form = CreatePostForm()
 	context['form'] = form
 	return render(request, "company/create_post.html" , context)
+<<<<<<< HEAD
 #def update_status():
 #	now = datetime.date.today()
 #	form = CreatePost.objects.all()
@@ -91,6 +92,21 @@ def create_post_view(request):
 #			doc.status = 'closed'
 #		doc.save()
  
+=======
+
+
+def update_status():
+	now = datetime.date.today()
+	form = CreatePost.objects.all()
+	for doc in form :
+		if doc.deadline < now or doc.deadline == now:
+			doc.status = 'closed'
+		else :
+			doc.status = 'Publishing'
+		doc.save()
+
+
+>>>>>>> cacbd5f1596286b85011acd76f272c2b08a5384a
 @login_required(login_url='login')
 def list_job_view(request):
 	#update_status()
@@ -126,30 +142,36 @@ def job_details(request , job_id):
 	return render(request,'company/job_details.html', context)
 
 def job_edit(request, job_id):
-	job = jobRole.objects.all()
-	industry = relatedIndustry.objects.all()
-	skill = skills.objects.all()
 	id_num = int(job_id)
 	jobpost = CreatePost.objects.get(id = id_num)
+	context ={
+		'job':jobpost,
+		'skills':skillsToList(jobpost.skills)
+		}
 	job_form = CreatePostForm(request.POST or None, instance = jobpost)
 	if job_form.is_valid():
-		job_form.save()
+		obj = job_form.save(commit=False)
+		obj.skills=  obj.skills.lower()
+		obj.save()
 		messages.success(request,f'Job \"{jobpost.jobtitle}\" has been updated successfully !!')
+		update_status()
 		return redirect(f'/company/details/{jobpost.id}')
-	return render(request,'company/edit_post.html',{'job':jobpost,'jobs':job , 'industries': industry , 'skills':skill})
+
+	return render(request,'company/edit_post.html',context)
 	
 def job_state_closed(request , job_id):
-    id_num = int(job_id)
-    job = CreatePost.objects.get(id=id_num)
-    if job.status != 'closed':
-        job.status= 'closed'
-        messages.warning(request,f'Job \"{job.jobtitle}\" has been closed !!')
-    else:
-        job.status= 'Publishing'
-        messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')
-    job.save()
-    return redirect(f'/company/details/{job.id}')
-
+	id_num = int(job_id)
+	job = CreatePost.objects.get(id=id_num)
+	if job.status != 'closed':
+		job.deadline = datetime.date.today()
+		job.status = 'closed'
+		messages.warning(request ,f'Job \"{job.jobtitle}\" has been closed !!')
+	else :
+		job.status = 'Publishing'
+		messages.info(request,f'Job \"{job.jobtitle}\" has been published !!')	
+	job.save()
+	return redirect(f'/company/details/{job.id}')
+	
 def job_delete(request, job_id):
 	job_id = int(job_id)
 	try:

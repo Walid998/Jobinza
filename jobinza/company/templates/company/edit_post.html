@@ -4,10 +4,9 @@
 {% load static %}
 
 {% block content %}
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
-<link rel="stylesheet" href="//unpkg.com/bootstrap-select-country@4.0.0/dist/css/bootstrap-select-country.min.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+<link rel="stylesheet" href="//unpkg.com/bootstrap-select-country@4.0.0/dist/css/bootstrap-select-country.min.css" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 
 <style>
 
@@ -36,13 +35,25 @@
 	{
 		color:green
 	}
+	.skilldiv{
+        background-color: gainsboro;  
+        display: inline-block;
+        padding: 2px 12px;
+        width: -moz-fit-content;
+        width: fit-content;
+        margin: 5px 2px;
+        font-size: 18px;
+        border-radius: 12px 12px 0px 12px;
+        clear: both;
+		
+    };
   </style>
 
-
+<script src="../../../static/jobinza/js/job_skills.js"></script>
 <div class="container" >
 	<div class="row">
-{% if job is not None%}
-<form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+	{% if job is not None %}
+<form class="create-form" id="crtform" method="post" enctype="multipart/form-data">{% csrf_token %}
 	<div class="card" >
     <div class="card-body">
 	  <!--Form Header-->
@@ -54,35 +65,33 @@
 
 		<!--job title-->
 		<h5>Title:</h5>
-		<input type="text" value="{{job.jobtitle}}" name="jobtitle"  id="title" class="form-control form-control-sm" required  style="height: 30px;" />
+		<input type="text"  name="jobtitle" value="{{job.jobtitle}}"  id="title" class="form-control form-control-sm" required  style="height: 35px;" />
 
 	   	<!-- job_description -->
 	   <h5 >Job Description:</h5>
-	   <input type="text" value="{{job.job_description}}" name="job_description" id="title" class="form-control form-control-sm" required  style="height: 30px;"  />
+	   <textarea  name="job_description" rows="4" id="title" class="form-control form-control-sm" required>{{job.job_description}}</textarea>
    
 		<!-- job location  -->
 		<h5>Location:</h5>
-		<select  name="joblocation" class="selectpicker countrypicker" data-width="100%" data-flag="true" required>
-			<option nonactive>{{job.joblocation}}</option>
-		</select>
+		<select  name="joblocation" class="selectpicker countrypicker" data-flag="true" data-width="100%" data-flag="true" required></select>
 
 		<!-- city -->
 		<h5>City:</h5>
-		<input type="text" value="{{job.city}}" name="city" id="id_location" class="form-control"  required style="height: 30px;"  placeholder="ex : cairo,alexandria,giza...etc,"  autofocus>
+		<input type="text" value="{{job.city}}" name="city" id="id_location" class="form-control"  required style="height: 35px;"  placeholder="ex : cairo,alexandria,giza...etc,"  autofocus>
 				
 				
 		<!-- Area -->
 		<h5>Area:</h5>
-		<input type="text" value="{{job.Area}}" name="Area" id="id_Area" class="form-control"  required style="height: 30px;"  placeholder="Area"  autofocus>
+		<input type="text" value="{{job.Area}}" name="Area" id="id_Area" class="form-control"  required style="height: 35px;"  placeholder="Area"  autofocus>
 				
 				
 		<!--Career level-->
 		 <h5>Career level:</h5>
 		 <select name="careerlevel" id="sell" class="form-control" required style="font-size: 10px; color: gray;" >
-			 <option nonactive>{{job.careerlevel}}</option>
+			 <option selected>{{job.careerlevel}}</option>
 			 <option>Student</option>
 			 <option>Entry level</option>
-			 <option>Experienced (non-manager)</option>
+			 <option>Experienced </option>
 			 <option>Manager</option>
 			 <option>Senior Manager</option>
 		 </select>
@@ -92,83 +101,51 @@
   		<h5 margin-top: 20px;>Years Of Experience:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
 		</div>
-		<input type="number" value="{{job.year_of_experience}}" id="Experience"  name="year_of_experience" class="form-control form-control-sm" min="0" required placeholder="e.g. 1, 2 "  style="height: 30px;" />
+		<input type="number" value="{{job.year_of_experience}}" id="Experience"  name="year_of_experience" class="form-control form-control-sm" min="0" required placeholder="e.g. 1, 2 "  style="height: 35px;" />
 
 	    <!--Salary Range-->
 		<h5>Salary Range :</h5>
-		<input type ="number" value="{{job.salary_range1}}" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:30px;"/> up to <input type="number" value="{{job.salary_range2}}" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:30px;"/>
+		<input type ="number" value="{{job.salary_range1}}" class="form-control" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:35px;"/>
+		up to
+		<input type="number" value="{{job.salary_range2}}" class="form-control" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:35px;"/>
 
 		<!--vacancies-->
 		<div class="input-group">
 		<h5>Number of vacancies:</h5>
 		<i class='fas fa-question-circle' style='font-size:20px; margin-top:23px; margin-left:10px; color:green'></i>
     	</div>
-		<input type="number" value="{{job.num_vacancies}}" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="1" required style="height: 30px;" placeholder="e.g. 1, 2 (minimum 1)" />
+		<input type="number" value="{{job.num_vacancies}}" name="num_vacancies" id="vacancies" class="form-control form-control-sm" min="1" required style="height: 35px;" placeholder="e.g. 1, 2 (minimum 1)" />
 		
 		<!--Job Type-->
 		<h5>Job Type:</h5>
-		 
-		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;" value="Time">
-			<option>{{job.jobtype}}</option>
+
+		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;">
+			<option selected>{{job.jobtype}}</option>
 			<option>Full Time</option>
 			<option>Part Time</option>
-			<option>Freelance / Project</option>
-			<option>Work From Home</option>
+			<option>Freelance </option>
+			<option>From Home</option>
 			<option>Volunteering</option>
 		 </select>
 					
-			
-		<!--job Role-->
-		<h5>Job Role:</h5>
-		<select name="rolejob" id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"   style="width:auto; ">
-			
-			{% for job in jobs %}
-			<option >{{ job.name }}</option>
-			{% endfor %}
-		<!--  <option>Mustard</option>
-		  <option>Ketchup</option>
-		  <option>Relish</option> -->
-		</select> 
 
-		<!-- related industry -->
-		<h5>related industry:</h5>
-     	<select name="related_industry"  id="Role" class="selectpicker" data-width="100%"  multiple required data-live-search="true"  placeholder="Select">
-			{% for industry in industries %}
-			<option >{{ industry.name }}</option>
-			{% endfor %}
-
-			 <!--<option>Business</option>
-			<option>Accounting</option>-->
-	    </select> 
-				
 	
 		 <!-- skills -->
 		<h5>Skills:</h5>
-		<!-- <select  name="skills" multiple data-width="100%" data-live-search="true"  id="Role" placeholder="Select">
-		    <option>Communication skills</option>
-			<option>LeaderShip skiils</option>
-			<option>presentation skills</option>
-			<option>LeaderShip skills</option>
-		</select> <br> -->
-		
-		<select name="skills" class="form-control select2" id="select2"  multiple="multiple" required style="width: 100%;height:30px;">
-			<option>{{job.skills_id}}</option>
-			{% for skill in skills %}
-			<option >{{ skill.name }}</option>
+		<input name="skills" class="form-control" id="skillname" style="display: inline;width: 370px;height:35px;">
+		<button id="skilladd" type="button" style="display:inline-block;width:76px;height: 35px;color: green;background-color: white;border: 1px solid green;border-radius: 5px;" onclick="appendskill()">add</button>
+		<div id="workform" style="display: block;">
+			{% for skil in skills %}
+			<script>editskills('{{skil}}')</script>
 			{% endfor %}
-
-		</select>
-
+		</div>
+		<input type="hidden" name="skills" id="skills" value="">
+		
 		<!--Deadline-->
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
-        <input name ="deadline" value="{{job.deadline}}" type="date"  required style="width:100%; height:30px"/>
-
-		<!--Deadline
-		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
-		<input type="datetime" name="deadline" require style="width: 100%; color: green; padding-left: 3px;">
-	-->
-
-		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:30px; margin-left:170px ;">Post</button>
+        <input name ="deadline" id="date" value="{{job.deadline}}" class="form-control"  type="date"  required style="width:100%; height:35px"/>
+		
+		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
 
 		</div><!--End of Card  Body -->
 	</div>   <!--End of first part of form (Card)-->
@@ -177,12 +154,11 @@
 	{% endif %}
   </div>
 </div>	
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<script src="//unpkg.com/bootstrap-select-country@4.0.0/dist/js/bootstrap-select-country.min.js"></script> 
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+<script src="//unpkg.com/bootstrap-select-country@4.0.0/dist/js/bootstrap-select-country.min.js"></script> 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
 
 <script>
@@ -190,25 +166,20 @@
 
 $(function () {
     $('select').selectpicker();});
+	var today = new Date()
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10){
+			dd='0'+dd
+		} 
+		if(mm<10){
+			mm='0'+mm
+		} 
 
-//For skills input 
-$('.select2').select2({
-         //   data: ["Communication", "LeaderShip", "presentation"],
-            tags: true,
-            maximumSelectionLength: 10,
-            tokenSeparators: [',', ' '],
-            placeholder: " Select or type keywords",
-});
-
-
- /*$(function () {
-     $('#datetimepicker5').datetimepicker(
-		 {
-			format: 'YYYY/MM/DD HH:mm:ss',
-		 });
-    });*/
-//$('.countrypicker').countrypicker();
-
+	today = yyyy+'-'+mm+'-'+dd;
+	document.getElementById("date").setAttribute("min", today);
 </script>			
 {% endblock content %}
 			
