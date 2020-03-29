@@ -9,7 +9,7 @@ from django.urls import reverse
 
 def upload_location(instance, filename, **kwargs):
 	file_path = 'company/{author_id}/{jobtitle}-{filename}'.format(
-			author_id=str(instance.author.id), jobtitle=str(instance.jobtitle), filename=filename
+			author_id=str(instance.author), jobtitle=str(instance.jobtitle), filename=filename
 		) 
 	return file_path
 
