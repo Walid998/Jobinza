@@ -54,7 +54,7 @@ def create_post_view(request):
 	user = request.user
 	#form = CreatePostForm(request.POST or None, request.FILES or None)
 	if request.method =='POST':
-		form = CreatePostForm()
+		form = CreatePostForm(request.POST or None, request.FILES or None)
 		form.jobtitle= request.POST.get('jobtitle')
 		form.job_description = request.POST.get('job_description')
 		form.joblocation = request.POST.get('joblocation')
@@ -67,6 +67,7 @@ def create_post_view(request):
 		form.num_vacancies = request.POST.get('num_vacancies')
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
+		form.image = request.FILES.get('image')
 		print(form.deadline)
 		#form.deadline = datetime.datetime.strptime(deadline , 'YYYY-mm-ddTHH:MM:ssZ')
 		#date_processing = deadline.replace('T', '-').replace(':', '-').split('-')
@@ -83,7 +84,7 @@ def create_post_view(request):
 	form = CreatePostForm()
 	context['form'] = form
 	return render(request, "company/create_post.html" , context)
-<<<<<<< HEAD
+
 #def update_status():
 #	now = datetime.date.today()
 #	form = CreatePost.objects.all()
@@ -92,8 +93,6 @@ def create_post_view(request):
 #			doc.status = 'closed'
 #		doc.save()
  
-=======
-
 
 def update_status():
 	now = datetime.date.today()
@@ -106,7 +105,6 @@ def update_status():
 		doc.save()
 
 
->>>>>>> cacbd5f1596286b85011acd76f272c2b08a5384a
 @login_required(login_url='login')
 def list_job_view(request):
 	#update_status()

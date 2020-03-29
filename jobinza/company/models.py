@@ -7,11 +7,11 @@ from datetime import datetime , date
 from django.urls import reverse
 
 
-#def upload_location(instance, filename, **kwargs):
-#	file_path = 'company/{author_id}/{jobtitle}-{filename}'.format(
-#			author_id=str(instance.author.id), jobtitle=str(instance.jobtitle), filename=filename
-#		) 
-#	return file_path
+def upload_location(instance, filename, **kwargs):
+	file_path = 'company/{author_id}/{jobtitle}-{filename}'.format(
+			author_id=str(instance.author.id), jobtitle=str(instance.jobtitle), filename=filename
+		) 
+	return file_path
 
 
 class CreatePost(models.Model):
@@ -30,6 +30,7 @@ class CreatePost(models.Model):
     #related_industry 	= models.ForeignKey('relatedIndustry' , on_delete=models.CASCADE)
     jobtype			= models.CharField(max_length=50, null=False, blank=True)
     #skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
+    image 				= models.ImageField(upload_to=upload_location, null=False, blank=True)
     skills 			= models.CharField(max_length=500, null=False, blank=True)
     deadline 		= models.DateTimeField(null=False, blank=True ) 
     status          = models.CharField(max_length=10 , default="Publishing" )

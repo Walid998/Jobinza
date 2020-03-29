@@ -140,7 +140,7 @@
 		
 		<!--Deadline-->
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
-<<<<<<< HEAD
+
 <!--         <input name ="deadline" class="form-control"  type="date"  required style="width:100%; height:35px"/>
  -->
          <input name ="deadline" class="form-control"  type="datetime-local"  required style="width:100%; height:35px"/>
@@ -148,28 +148,28 @@
  		
 <!-- 		<div class="input-group date" id="datetimepicker2" data-target-input="nearest">
 			<input type="text" name ="deadline" class="form-control datetimepicker-input" data-target="#datetimepicker2" style="height: 35px;"/>
-=======
         <input name ="deadline"  id="date" class="form-control"  type="date"  required style="width:100%; height:35px"/>
 		
 	<!-- 	<div class="input-group date" id="datetimepicker2" data-target-input="nearest">
 			<input type="text" name="deadline" class="form-control datetimepicker-input" data-target="#datetimepicker2" style="height: 35px;"/>
->>>>>>> cacbd5f1596286b85011acd76f272c2b08a5384a
 			<div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
 				<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 			</div>
 		</div>
-<<<<<<< HEAD
  -->
 		
-=======
- --><!-- 
+ <!-- 
 		<div class="input-group date" id="datetimepicker4" data-target-input="nearest">
 			<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
 			<div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
 				<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 			</div>
 		</div> -->
->>>>>>> cacbd5f1596286b85011acd76f272c2b08a5384a
+		<!-- Image -->
+		<div class="form-group">
+			<label for="id_image">Image</label>
+			<input  type="file" name="image" id="id_image" accept="image/*" required>
+		</div>
 		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
 
 		</div><!--End of Card  Body -->
@@ -197,15 +197,8 @@
  });
  });
 $(function () {
-<<<<<<< HEAD
-    $('select').selectpicker();});
-
-
-
-=======
     $('select').selectpicker();
-		
-		});
+	});
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -226,7 +219,6 @@ $(function () {
  });*/
  
  
->>>>>>> cacbd5f1596286b85011acd76f272c2b08a5384a
 </script>			
 {% endblock content %}
 			
