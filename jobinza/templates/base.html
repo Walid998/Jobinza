@@ -99,7 +99,7 @@ input::-webkit-input-placeholder {
 .icon-wrap {
   position: absolute;
   top: 0;
-  right: 230px;
+  right: 210px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -157,11 +157,12 @@ input::-webkit-input-placeholder {
                     {% if user.is_authenticated %}
                       <!--<li><a href="categories.html">For Candidates</a></li>-->
                       <form class="form-inline mr-auto" method = "post" action="/search/">
-                        {%csrf_token%}               
-                   <input class="form-control" name="srh" type="text" placeholder="Search" aria-label="Search">
-                   <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit">Search</button>
+                        {%csrf_token%}
+                                      
+                   {% comment %} <input class="form-control" name="srh" type="text" placeholder="Search" aria-label="Search">
+                   <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit">Search</button> {% endcomment %}
                  </form>
-               
+                      <input class="search" type="text" placeholder="Search ..." /> 
                       <!--<input class="search" type="text" placeholder="Search ..." />-->
                       <div class="icon-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

@@ -21,7 +21,7 @@ def skillsToList(txt):
 			t=t+i
 		else:
 			t=t.strip()
-			lst.append(t)
+			lst.append(t.lower())
 			t=''
 	return lst
 

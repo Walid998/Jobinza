@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%load static%}
 {% block content %}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+{% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"> {% endcomment %}
 <style>
   .col-md-12 , .p-4
   {
@@ -30,21 +30,21 @@
     border-radius: 1rem;
     background-color: #28a745;
   }
-  .nav-item{
+  .nav-itemx{
     margin: 10px;
     margin-top: 25px;
     margin-left: 3px;
   }
-  .nav-item a {
+  .nav-itemx a {
     padding-bottom: 15px;
     color:black;
 
   }
-  .nav-item a:hover {
+  .nav-itemx a:hover {
     color: #28a745;
   }
   
-  .nav-item a.active{
+  .nav-itemx a.active{
     color: #28a745;
   }
   .link {
@@ -160,7 +160,7 @@
              <div class="row" style="margin-left: 150px;">
                         <div class="profile-tabs" style="text-align: center;">
                           <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
-                            <li class="nav-item">
+                            <li class="nav-itemx">
                                 <a  class="active" href="#studio" role="tab" data-toggle="tab" >
                                   <i class="fa fa-align-justify fa-lg" ></i> <br>
                                   ALL
@@ -168,7 +168,7 @@
                             </li>
 
                            
-                            <li class="nav-item">
+                            <li class="nav-itemx">
                               <a  href="#works" role="tab" data-toggle="tab">
                                 <i class="fa fa-check fa-lg"></i>
                                 <br>  
@@ -190,7 +190,7 @@
                           </a>
                          </li> -->
 
-                         <li class="nav-item">
+                         <li class="nav-itemx">
                                 <a  href="#favorite" role="tab" data-toggle="tab">
                                   <i class="fa fa-times fa-lg"></i>
                                   <br>
@@ -395,7 +395,7 @@
 </div>
 
 
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+{% comment %} <script src='https://kit.fontawesome.com/a076d05399.js'></script> {% endcomment %}
 
 <script>
   $(document).on("click","#state",function(){

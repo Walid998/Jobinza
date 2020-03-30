@@ -1,9 +1,9 @@
 from django.shortcuts import render , redirect
-from company.models import CreatePost
+from company.models import CreatePost, Match_Results
 from applicant.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from company.views import update_status
+from company.views import update_status, skillsToList
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm
@@ -17,12 +17,58 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 # Create your views here.
 
+def Percent(number,List):
+    percent = f'{(number/len(List))*100.00:.2f}'
+    return percent
+
+def Comparison(hrSkills,AppSkills):
+    found= 0
+    for i in hrSkills:
+        if i in AppSkills:
+            found=found+1
+    return Percent(found,hrSkills)
+
 @login_required(login_url='login')
 def job_details(request , job_id):
-    id_num = int(job_id)
-    job_list = CreatePost.objects.get(id=id_num)
-
-    return render(request,'applicant/job_details.html', {'job': job_list })
+    user = request.user
+    job = CreatePost.objects.get(id=job_id)
+    state = ''
+    prof = ''
+    if request.method == 'POST':
+        try:
+            uploaded_file = request.FILES['cv']
+            fs = FileSystemStorage()
+            fs.save(uploaded_file.name,uploaded_file)
+            try:
+                prof =Profile.objects.get(author = user)
+                prof.resume = uploaded_file
+                prof.save()
+            except:
+                prof = Profile()
+                prof.author = user
+                prof.resume = uploaded_file
+                prof.save()
+            parser_r(uploaded_file,uploaded_file.name,user)
+            fs.delete(uploaded_file.name)
+            state = 'new'
+        except:
+            prof = Profile.objects.get(author = user) # profile details
+            pars_obj = Resume_Parsed.objects.get(usrname = user)
+            match = Match_Results()
+            match.resume = prof.resume
+            match.author = user
+            match.job_id = job.id
+            reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
+            match.skills_rslt = reslt
+            match.status = 'pending'
+            match.save()
+    context = {
+        'skills':skillsToList(job.skills),
+        'job': job,
+        'user_':prof,
+        'newcv': state
+    }
+    return render(request,'applicant/job_details.html', context)
 
 def home(request):   
     update_status()
@@ -63,7 +109,6 @@ def update (request):
     if request.method == 'POST':
         """ author = User.objects.filter(username=user.username).first()
         print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author) """
-        
         job = Profile()
         job.phonenumber = request.POST.get('phone')
         job.address = request.POST.get('address')
@@ -81,44 +126,32 @@ def list_applicant(request):
 
 #####################################
 ########____UPLOAD RESUME____########
-@login_required(login_url='login')
-def upload(request):
-    if request.method == 'POST':
-        user = request.user
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        fs.save(uploaded_file.name,uploaded_file)
-        # context['url'] = fs.url(name)
-        pars=Resume_Parsed()
-        parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, uploaded_file.name))
-        data = parser.get_extracted_data()
-        pars.usrname = user
-        pars.resume = uploaded_file
-        pars.name = data.get('name')
-        pars.email              = data.get('email')
-        pars.mobile_number      = data.get('mobile_number')
-        if data.get('degree') is not None:
-            pars.education      = ', '.join(data.get('degree'))
-        else:
-            pars.education      = None
-        pars.company_names      = data.get('company_names')
-        pars.college_name       = data.get('college_name')
-        pars.designation        = data.get('designation')
-        pars.total_experience   = data.get('total_experience')
-        if data.get('skills') is not None:
-            pars.skills         = ', '.join(data.get('skills'))
-        else:
-            pars.skills         = None
-        if data.get('experience') is not None:
-            pars.experience     = ', '.join(data.get('experience'))
-        else:
-            pars.experience     = None
-        pars.save()
-        fs.delete(uploaded_file.name)
-        
-    return render(request ,'applicant/test_upload.html')
-
-
+def parser_r(resume,resume_name,user):
+    pars=Resume_Parsed()
+    parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, resume_name))
+    data = parser.get_extracted_data()
+    pars.usrname = user
+    pars.resume = resume
+    pars.name = data.get('name')
+    pars.email              = data.get('email')
+    pars.mobile_number      = data.get('mobile_number')
+    if data.get('degree') is not None:
+        pars.education      = ', '.join(data.get('degree'))
+    else:
+        pars.education      = None
+    pars.company_names      = data.get('company_names')
+    pars.college_name       = data.get('college_name')
+    pars.designation        = data.get('designation')
+    pars.total_experience   = data.get('total_experience')
+    if data.get('skills') is not None:
+        pars.skills         = ', '.join(data.get('skills'))
+    else:
+        pars.skills         = None
+    if data.get('experience') is not None:
+        pars.experience     = ', '.join(data.get('experience'))
+    else:
+        pars.experience     = None
+    pars.save()
 
 ###################search################################
 

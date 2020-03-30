@@ -44,6 +44,13 @@ class CreatePost(models.Model):
     def get_absolute_url(self):
         return  reverse('details',args=[self.pk])
 
+
+class Match_Results(models.Model):
+    resume = models.CharField('resume', max_length=100, null=True, blank=True)
+    author = models.CharField('applicant', max_length=100, null=True, blank=True)
+    job_id = models.CharField('the job', max_length=100, null=True, blank=True)
+    skills_rslt = models.CharField('match result', max_length=1000, null=True, blank=True)
+    status = models.CharField('status', max_length=100, null=True, blank=True)
 # class jobRole(models.Model):
 #     name = models.CharField(max_length = 50 , primary_key=True)
 
