@@ -145,7 +145,7 @@
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
         <input name ="deadline" id="date" value="{{job.deadline}}" class="form-control"  type="date"  required style="width:100%; height:35px"/>
 		
-		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
+		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Edit</button>
 
 		</div><!--End of Card  Body -->
 	</div>   <!--End of first part of form (Card)-->
@@ -167,7 +167,6 @@
 $(function () {
     $('select').selectpicker();});
 	var today = new Date()
-	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
 	var yyyy = today.getFullYear();
