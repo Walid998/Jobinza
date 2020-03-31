@@ -21,7 +21,7 @@
   cursor: pointer;
 }
 </style>
-{% if newcv == 'new' %}
+{% if newuser == True %}
   <script>
     $(document).ready(function(){
       $('#exampleModal').modal('show');
@@ -37,6 +37,19 @@
                 {{message}}
             </div>
           {% endfor %}
+        {% endif %}
+        {% if isapplied == True %}
+          <div class="alert alert-info" style="text-align:center" id="mess">
+            <small>you just sent apply request for this job,
+             be patient until you get a response !!</small>
+          </div>
+          <script>
+            $(document).ready(function(){
+              $('#applyStatusButton').prop('class', 'btn btn-secondary');
+              $('#applyStatusButton').prop('disabled', true);
+              $('#applyStatusButton').html("Request is Pending");
+            });
+          </script>
         {% endif %}
         {% if job is not None %}
         <div class="row">
@@ -55,7 +68,7 @@
                  <div><span class="fl-bigmug-line-big104"></span> <span>{{job.city}} , {{job.Area}}</span></div>
                </div>
               </div>
-              <p>{{job.job_description}}</p>
+              <p style="word-wrap: break-word;">{{job.job_description}}</p>
               <p><strong>Career level:</strong> {{job.careerlevel}}</p>
               <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
               <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
@@ -97,7 +110,7 @@
                  
             <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white">    
               {% if job.status == "Publishing" %}
-              <button type="button" class="btn btn-info" style="width: 90%;font-size: 20px;" data-toggle="modal" data-target="#exampleModal">
+              <button id="applyStatusButton" type="button" class="btn btn-info" style="width: 90%;font-size: 20px;" data-toggle="modal" data-target="#exampleModal">
                 Apply For Job
               </button>
               <!-- <a href="#" style="width: 90%;font-size: 20px;"
@@ -115,7 +128,7 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              {% if user_.resume is not None %}
+              {% if newuser == False %}
                 <div class="modal-header">
                 <h5>Confirm Apply Request</h5>
                 </div>

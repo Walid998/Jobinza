@@ -3,12 +3,12 @@ from company.models import CreatePost, Match_Results
 from applicant.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from company.views import skillsToList
+from company.views import skillsToList , update_status
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from applicant.forms import uploadForm
+from applicant.forms import uploadForm ,contactform
 from applicant.models import contacts,Resume_Parsed
-from applicant.forms import contactform
+from applicant.utils import Comparison 
 from django.conf import settings
 from pyresparser import ResumeParser
 from django.contrib import messages
@@ -17,28 +17,38 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 # Create your views here.
 
-def Percent(number,List):
-    percent = f'{(number/len(List))*100.00:.2f}'
-    return percent
-
-def Comparison(hrSkills,AppSkills):
-    found= 0
-    for i in hrSkills:
-        if i in AppSkills:
-            found=found+1
-    return Percent(found,hrSkills)
 
 @login_required(login_url='login')
 def job_details(request , job_id):
     user = request.user
     job = CreatePost.objects.get(id=job_id)
-    state = ''
+    isNewUser = False
     prof = ''
+    isApplied = False
+    try:
+        prof =Profile.objects.get(author = user.id)
+    except:
+        isNewUser = True
+
+    try:
+        if Match_Results.objects.get(author = user.id,job_id=job_id):
+            isApplied = True
+    except:
+        print('not apply yet',user.id)
+
+    context = {
+        'skills':skillsToList(job.skills),
+        'job': job,
+        'isapplied':isApplied,
+        'newuser': isNewUser
+    }
+
     if request.method == 'POST':
         try:
             uploaded_file = request.FILES['cv']
             fs = FileSystemStorage()
             fs.save(uploaded_file.name,uploaded_file)
+            
             try:
                 prof =Profile.objects.get(author = user)
                 prof.resume = uploaded_file
@@ -50,7 +60,7 @@ def job_details(request , job_id):
                 prof.save()
             parser_r(uploaded_file,uploaded_file.name,user)
             fs.delete(uploaded_file.name)
-            state = 'new'
+            return render(request,'applicant/job_details.html',context )
         except:
             prof = Profile.objects.get(author = user) # profile details
             pars_obj = Resume_Parsed.objects.get(usrname = user)
@@ -62,12 +72,9 @@ def job_details(request , job_id):
             match.skills_rslt = reslt
             match.status = 'pending'
             match.save()
-    context = {
-        'skills':skillsToList(job.skills),
-        'job': job,
-        'user_':prof,
-        'newcv': state
-    }
+            return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':True} )
+
+            
     return render(request,'applicant/job_details.html', context)
 
 def home(request):   
@@ -118,7 +125,7 @@ def update (request):
 
 @login_required(login_url='login')
 def list_applicant(request):
-    update_status()
+    #update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
 

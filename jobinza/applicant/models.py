@@ -27,7 +27,7 @@ class contacts(models.Model):
     message 		= models.CharField(max_length=200, null=False, blank=True)
 
 class Resume_Parsed(models.Model):
-    usrname       = models.CharField('username', max_length=255, null=True, blank=True)
+    usrname       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name          = models.CharField('Name', max_length=255, null=True, blank=True)
     email         = models.CharField('Email', max_length=255, null=True, blank=True)
     mobile_number = models.CharField('Mobile Number',  max_length=255, null=True, blank=True)
