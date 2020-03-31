@@ -50,7 +50,7 @@ def job_details(request , job_id):
             fs.save(uploaded_file.name,uploaded_file)
             
             try:
-                prof =Profile.objects.get(author = user)
+                prof =Profile.objects.get(author = user.id)
                 prof.resume = uploaded_file
                 prof.save()
             except:
@@ -60,7 +60,8 @@ def job_details(request , job_id):
                 prof.save()
             parser_r(uploaded_file,uploaded_file.name,user)
             fs.delete(uploaded_file.name)
-            return render(request,'applicant/job_details.html',context )
+            isNewUser=False
+            return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':isApplied,'newuser': isNewUser,'applynow':True} )
         except:
             prof = Profile.objects.get(author = user) # profile details
             pars_obj = Resume_Parsed.objects.get(usrname = user)
