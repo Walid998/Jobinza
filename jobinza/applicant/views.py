@@ -31,7 +31,8 @@ def job_details(request , job_id):
         isNewUser = True
 
     try:
-        if Match_Results.objects.get(author = user.id,job_id=job_id):
+        res = Match_Results.objects.get(author = user.id,job_id=job_id)
+        if res.status == 'pending':
             isApplied = True
     except:
         print('not apply yet',user.id)
@@ -65,21 +66,24 @@ def job_details(request , job_id):
         except:
             prof = Profile.objects.get(author = user) # profile details
             pars_obj = Resume_Parsed.objects.get(usrname = user)
-            match = Match_Results()
-            match.resume = prof.resume
-            match.author = user
-            match.job_id = job.id
-            reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
-            match.skills_rslt = reslt
-            match.status = 'pending'
-            match.save()
-            return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':True} )
-
+            if isApplied == False:
+                match = Match_Results()
+                match.resume = prof.resume
+                match.author = user
+                match.job_id = job.id
+                reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
+                match.skills_rslt = reslt
+                match.status = 'pending'
+                match.save()
+                return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':True} )
+            else:
+                return render(request,'applicant/job_details.html', context)
+            
             
     return render(request,'applicant/job_details.html', context)
 
 def home(request):   
-    #update_status()
+    update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     paginator = Paginator(listpost,2)
@@ -126,10 +130,12 @@ def update (request):
 
 @login_required(login_url='login')
 def list_applicant(request):
-    #update_status()
+    update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-
+    paginator = Paginator(listpost,5)
+    page = request.GET.get('page')
+    listpost = paginator.get_page(page)
     return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
 
 #####################################
@@ -166,7 +172,7 @@ def parser_r(resume,resume_name,user):
 def search(request):
     if request.method=='POST':
         srch = request.POST['srh']
-
+        print('>>>>>>>>>>>>>>>>>>>>> ', srch)
         if srch:
             match = CreatePost.objects.filter(
                 Q(jobtitle__icontains=srch)|Q(city__icontains=srch)

@@ -32,7 +32,7 @@ class CreatePost(models.Model):
     #skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
     image 				= models.ImageField(upload_to=upload_location, null=False, blank=True)
     skills 			= models.CharField(max_length=500, null=False, blank=True)
-    deadline 		= models.DateTimeField(null=False, blank=True ) 
+    deadline 		= models.DateField(null=False, blank=True ) 
     status          = models.CharField(max_length=10 , default="Publishing" )
     date_published 		= models.DateTimeField(auto_now_add=True, verbose_name="date published")
     date_updated 		= models.DateTimeField(auto_now=True, verbose_name="date updated")

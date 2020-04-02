@@ -12,13 +12,9 @@ class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Password','type':'password'}))
     password2 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Confirm Password','type':'password'}))
     
-    
     class Meta:
         model = User
         fields = ('first_name','last_name','username','email','password1','password2',)
-        
-    
-        
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -32,6 +28,38 @@ class UserCreationForm(forms.ModelForm):
             raise forms.ValidationError('this email already registered before')
         return cd['email']
     
+    
+class UserCreationForm2(forms.ModelForm):
+    first_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'First Name'}))
+    last_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
+    username =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Company Name'}))
+    email =forms.EmailField(label='',widget=forms.TextInput(attrs={'placeholder':'Business Email'}))
+    password1 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Password','type':'password'}))
+    password2 = forms.CharField(label='',min_length=8,widget=forms.TextInput(attrs={'placeholder':'Confirm Password','type':'password'}))
+    
+    class Meta:
+        model = User
+        fields = ('first_name','last_name','username','email','password1','password2',) 
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password1'] != cd['password2']:
+            raise forms.ValidationError('passwords not matches')
+        return cd['password2']
+
+    def clean_email(self):
+        cd=self.cleaned_data
+        if User.objects.filter(email=cd['email']).exists():
+            raise forms.ValidationError('this email already registered before')
+        return cd['email']
+
+    def clean_username(self):
+        cd=self.cleaned_data
+        if User.objects.filter(username=cd['username']).exists():
+            raise forms.ValidationError('this company name already registered before')
+        return cd['username']
+
+
 class LoginForm(forms.ModelForm):
     email = forms.EmailField(label='',widget=forms.TextInput(attrs={'placeholder':'Username'}))
     password = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder':'Password','type':'password'}))

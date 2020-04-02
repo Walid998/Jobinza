@@ -2,7 +2,6 @@
 {%block content%}
   
 
-<div style="height: 113px;"></div>
       <div class="site-section bg-light">
         <div class="container">
           {% if messages %}
@@ -14,7 +13,7 @@
           {% endif %}
           <div class="row">
             <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <label class="mb-5 h2" >Recent Jobs</label>
+              <label class="mb-5 h2" >Results : </label>
              
                 
                 
@@ -24,9 +23,9 @@
                 {% for post in sr %} 
                 {% if forloop.counter < 5 %}
 
-                <a href="{% url 'login' %}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+                <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                   <div class="company-logo blank-logo text-center text-md-left pl-3">
-                    <img src="{{post.image.url}}" alt="Image" class="img-fluid mx-auto">
+                    {% comment %} <img src="{{post.image.url}}" alt="Image" class="img-fluid mx-auto"> {% endcomment %}
                   </div>
                   <div class="job-details h-100">
                     <div class="p-3 align-self-center">
@@ -100,5 +99,5 @@
                 <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
               </div>
             </div>
-
+          </div></div></div>
 {%endblock%}
