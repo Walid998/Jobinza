@@ -78,6 +78,12 @@ a .material-icons {
     right: 0;
 }
 
+
+.input-group{
+    color: #28a745;
+    padding: 0px;
+}
+
 .profile-page .page-header {
     height: 380px;
     background-position:center;
@@ -443,8 +449,14 @@ footer p a:hover {
 
  .unupdate{
      color: #fff;
-     font-weight: bold;
-     margin-top: 0;
+     background: none;
+     padding: 0px;
+     border: none;   
+ }
+
+ .unupdate p {
+    font-weight: bold;
+     margin-top: -20px;
      font-size: 20px;
  }
 
@@ -476,23 +488,24 @@ footer p a:hover {
                                 
                               <h3 class="title-name">{{result.first_name}} {{result.last_name}} <span class="user">(@{{result.username}})</span></h3> 
                               
-                              <div class="input-group mb-3" style="padding-left: 37%">
+                              <div class="input-group pt-3" style="padding-left: 42%">
                                   <div style="display: block;"><i class="fa fa-envelope"></i></div>
                                   <h4 style="padding-left: 10px;">{{result.email}}</h4>
-                              
                                 </div>
                               {% if info is not None %}
 
                               {% if info.address %}
-                              <!-- <div><i class="fa fa-envelope"></i></div>
-                                <h4 style="padding-left: 10px;">{{info.address}}</h4> -->
-                               <h4>{{info.address}}</h4>
+                              <div class="input-group" style="padding-left: 42%">
+                                <div style="display: block;"><i class="fa fa-address-card"></i></div>
+                                <h4 style="padding-left: 10px;">{{info.address}}</h4>
+                              </div>
                               {% endif %}
 
                               {% if info.phonenumber %}
-                              <!-- <div><i class="fa fa-envelope"></i></div>
-                                <h4 style="padding-left: 10px;">{{info.phonenumber}}</h4> -->
-                               <h4>{{info.phonenumber}}</h4>
+                              <div class="input-group" style="padding-left: 42%">
+                                <div style="display: block;"><i class="fa fa-phone"></i></div>
+                                <h4 style="padding-left: 10px;">{{info.phonenumber}}</h4>
+                              </div>
                               {% endif %}
 
                               {% endif %}
@@ -599,12 +612,16 @@ footer p a:hover {
     <div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <form method="POST">
+            <form action="{% url 'applicant:edit-profile' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="popup-avatar">
-                        <img id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
-                        <p class="unupdate">@{{result.username}}</p>
+                        <img name="image" id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                        <!-- <div class="unupdate">
+                            <p>@{{result.username}}</p>
+                            <p>{{result.first_name}} {{result.last_name}}</p>
+                            <p>{{result.email}}</p>
+                        </div> -->
                         <input type="file" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
                         <a href="" onclick="document.getElementById('upload').click(); return false"><i class="fa fa-camera" style="color: black;"></i></a>
                         <script>
@@ -623,20 +640,20 @@ footer p a:hover {
                     </div>
                     <div class="form-inputs">
                         <input type="text"  name="first" placeholder="First Name.." class="input-form" value="{{result.first_name}}" readonly>
-                        <input type="text" placeholder="last Name.." class="input-form" value="{{result.last_name}}" readonly>
+                        <input type="text" name="last" placeholder="last Name.." class="input-form" value="{{result.last_name}}" readonly>
                     </div>
                     <div class="form-inputs">
-                        <input type="text" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
-                        <input type="text" placeholder="Address.." class="input-form" value="{{info.address}}">
+                        <input type="text" name="email" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
+                        <input type="text" name="address" placeholder="Address.." class="input-form" value="{{info.address}}">
                     </div>
-                    <div class="form-inputs">
-                        <input type="text" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}">
-                        <input type="text" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
+                     <div class="form-inputs">
+                        <input type="text" name="phonenumber" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
+                        <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}">
                     </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
           </div>
