@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block content%}
-<div class="site-section bg-light">
+<style>
+  .owl-dots{
+    display:none
+  }
+</style>
+<div class="site-section bg-light" style="margin-top: -50px;">
   <div class="container">
     {% if messages %}
       {% for message in messages %}
@@ -14,7 +19,7 @@
     <div class="row">
       <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
         <h2 class="mb-5 h3">Recent Jobs</h2>
-       
+          
         <div class="rounded border jobs-wrap">
           {% for post in posts %} 
           <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
@@ -49,14 +54,14 @@
                     
                   </div>
 
-                  <div><span class="">, </span>
+                  <div><i class="fas fa-clock mr-1"></i>
                     {% if post.jobtype %}
                     {{post.jobtype}}
                   {% else %}
                     {{post.jobtype}}
                   {% endif %}
                   </div>
-                   <div class="mr-3" style="margin-left:5px"><span class="icon-room mr-1" "></span>
+                   <div class="mr-3" style="margin-left:5px"><i class="fas fa-map-marker-alt"></i>
                     {% if post.joblocation %}
                       {{post.joblocation}}
                     {% else %}
@@ -86,10 +91,36 @@
   
           {% endfor %}
         </div>
-        
+<!--         
         <div class="col-md-12 text-center mt-5">
           <a href="#" id="btn" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
-        </div>
+        </div> -->
+        <nav aria-label="Page navigation example">
+
+          <ul class="pagination justify-content-end">
+            <li class="page-item">
+              {% if posts.has_previous %}
+              <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
+              <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
+              {% endif %}
+            </li>
+            {% for num in posts.paginator.page_range %}
+              {% if posts.number == num %}
+              <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+              {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
+            <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+            {% elif posts.has_next != True%}
+              {% endif %}
+            {% endfor %}
+  
+            <li class="page-item">
+              {% if posts.has_next %}
+              <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
+              <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
+              {%endif%}
+            </li>
+          </ul>
+        </nav>
       </div>
     <div class="col-md-4 block-16" data-aos="fade-up" data-aos-delay="150">
       <div class="d-flex mb-0">
@@ -97,7 +128,7 @@
         <div class="ml-auto mt-1"><a href="#" class="owl-custom-prev">Prev</a> / <a href="#" class="owl-custom-next">Next</a></div>
       </div>
 
-      <div class="nonloop-block-16 owl-carousel">
+      <div class="nonloop-block-16 owl-carousel" >
           {% for post in posts %}
         <div class="border rounded p-4 bg-white">
           <h2 class="h5">{{post.jobtitle}} </h2> 
@@ -113,56 +144,19 @@
           </p>
           <p class="mb-0">We are hiring a {{post.job_description}} with : <br> - {{post.year_of_experience}} years Experience
           <br> - {{post.skills_id}} skills </p>
-          </div>
- 
+          <a href="/applicant/details/{{post.id}}" class="text-danger" style="text-decoration: underline; padding-top: 15px;"><small>More details</small></a>
 
-
-          
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5>Please upload your cv</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form method="post" enctype="multipart/form-data">
-                   {% csrf_token %}
-                    <div class="modal-body">
-                      <div class="container p-5" style="width: 100%;text-align: center;">
-
-                            <label class="upload"><img src="../../../static/jobinza/images/upload.png" alt="" width="220" height="180" class="d-block mx-auto mb-4 rounded-pill">
-                              <input id="fileUpload" name="cv" type="file" required style="display: none;" >
-                              <h6 id="select">Click to Browse</h6>
-                            </label> <br>
-                            <label for="file_default">No File Choosen </label>
-                            <label for="file_name"><b></b></label>
-               
-                      </div>
-                    </div>
-                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
-                    </div>
-              </form>
-
-            </div>
-          </div>
         </div>
         {% endfor %}
       </div>
-
-
-
     </div>
   </div>
+</div>
 </div>
 <script>
   $(function(){
     $('#mess').delay(4000).fadeOut('fast')
   })
-  
   
 </script>
 

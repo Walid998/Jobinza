@@ -21,6 +21,14 @@
   cursor: pointer;
 }
 </style>
+{% if applynow == True %}
+  <script>
+    $(document).ready(function(){
+      $('#exampleModal').modal('show');
+    });
+  </script>
+{% endif %}
+
 <div class="site-section bg-light">
       <div class="container">
         {% if messages %}
@@ -29,6 +37,19 @@
                 {{message}}
             </div>
           {% endfor %}
+        {% endif %}
+        {% if isapplied == True %}
+          <div class="alert alert-info" style="text-align:center" id="mess">
+            <small>you just sent apply request for this job,
+             be patient until you get a response !!</small>
+          </div>
+          <script>
+            $(document).ready(function(){
+              $('#applyStatusButton').prop('class', 'btn btn-secondary');
+              $('#applyStatusButton').prop('disabled', true);
+              $('#applyStatusButton').html("Request is Pending");
+            });
+          </script>
         {% endif %}
         {% if job is not None %}
         <div class="row">
@@ -47,16 +68,20 @@
                  <div><span class="fl-bigmug-line-big104"></span> <span>{{job.city}} , {{job.Area}}</span></div>
                </div>
               </div>
-              <p>{{job.job_description}}</p>
+              <p style="word-wrap: break-word;">{{job.job_description}}</p>
               <p><strong>Career level:</strong> {{job.careerlevel}}</p>
               <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
               <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
               <p><strong>Years Of Experience:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
               <p><strong>Number of Vacancies::</strong> {{job.num_vacancies}}</p>
               <p><strong>Job Type:</strong> {{job.jobtype}}</p>
-              <p><strong>Job Role:</strong> {{job.rolejob_id}}</p>
-              <p><strong>Job Industry:</strong> {{job.related_industry_id}}</p>
-              <p><strong>Skills:</strong> {{job.skills_id}}</p>
+              <p style="width: fit-content;width: -moz-fit-content;word-wrap: break-word;"><strong>Skills:</strong>
+                {% if job.skills is not None %}
+                  {% for skill in skills %}
+                  <span style="background-color: rgb(0, 70, 70);color: white;margin-right: 5px;padding: 3px 9px;border-radius: 5px;">{{skill}}</span>
+                  {% endfor %}
+                {% endif %}
+              </p>
               <p style="color:red"><strong>Deadline:</strong> {{job.deadline}}</p>
               <!-- <p class="mt-5"><a href="#" class="btn btn-primary  py-2 px-4">Apply Job</a></p> -->
             </div>
@@ -85,15 +110,15 @@
                  
             <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white">    
               {% if job.status == "Publishing" %}
-              <button type="button" class="btn btn-info" style="width: 90%;font-size: 20px;" data-toggle="modal" data-target="#exampleModal">
+              <button id="applyStatusButton" type="button" class="btn btn-info" style="width: 90%;font-size: 20px;" data-toggle="modal" data-target="#exampleModal">
                 Apply For Job
               </button>
               <!-- <a href="#" style="width: 90%;font-size: 20px;"
                class="btn btn-info  py-2 px-3">Apply For Job</a> -->
-               {% else %}
-               <a  style="width: 90%;font-size: 20px;text-align: center;"
-               class="border border-danger rounded py-2 px-3 text-danger" >Closed</a>
-                {% endif %}
+              {% else %}
+              <a  style="width: 90%;font-size: 20px;text-align: center;"
+              class="border border-danger rounded py-2 px-3 text-danger" >Closed</a>
+              {% endif %}
           </div>
           </div>
 
@@ -103,6 +128,20 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
+              {% if newuser == False %}
+                <div class="modal-header">
+                <h5>Confirm Apply Request</h5>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                   {% csrf_token %}
+                     <div class="modal-footer">
+                     <button type="reset" id="closemodal" class="btn btn-light" style="width: 40%;">Cancel</button>
+                     <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
+                    </div>
+              </form>
+              <script>$('#closemodal').on('click',function(){$('#exampleModal').modal('toggle');}) ;</script>
+              {% else %}
+              
               <div class="modal-header">
                 <h5>Please upload your cv</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -127,7 +166,7 @@
                       <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
                     </div>
               </form>
-
+              {% endif %}
             </div>
           </div>
         </div>

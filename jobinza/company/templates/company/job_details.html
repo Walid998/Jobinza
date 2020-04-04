@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%load static%}
 {% block content %}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+{% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"> {% endcomment %}
 <style>
   .col-md-12 , .p-4
   {
@@ -30,21 +30,21 @@
     border-radius: 1rem;
     background-color: #28a745;
   }
-  .nav-item{
+  .nav-itemx{
     margin: 10px;
     margin-top: 25px;
     margin-left: 3px;
   }
-  .nav-item a {
+  .nav-itemx a {
     padding-bottom: 15px;
     color:black;
 
   }
-  .nav-item a:hover {
+  .nav-itemx a:hover {
     color: #28a745;
   }
   
-  .nav-item a.active{
+  .nav-itemx a.active{
     color: #28a745;
   }
   .link {
@@ -160,7 +160,7 @@
              <div class="row" style="margin-left: 150px;">
                         <div class="profile-tabs" style="text-align: center;">
                           <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
-                            <li class="nav-item">
+                            <li class="nav-itemx">
                                 <a  class="active" href="#studio" role="tab" data-toggle="tab" >
                                   <i class="fa fa-align-justify fa-lg" ></i> <br>
                                   ALL
@@ -168,7 +168,7 @@
                             </li>
 
                            
-                            <li class="nav-item">
+                            <li class="nav-itemx">
                               <a  href="#works" role="tab" data-toggle="tab">
                                 <i class="fa fa-check fa-lg"></i>
                                 <br>  
@@ -190,7 +190,7 @@
                           </a>
                          </li> -->
 
-                         <li class="nav-item">
+                         <li class="nav-itemx">
                                 <a  href="#favorite" role="tab" data-toggle="tab">
                                   <i class="fa fa-times fa-lg"></i>
                                   <br>
@@ -373,6 +373,16 @@
     </div>
   </div>
 
+<!--   {%if job.status != 'closed'%}
+  <script>
+    alert(' this post will close at {{ job.deadline }}').setAttribute('color' , 'red')
+  </script>
+  {%else%}<div></div>
+  {% endif %}
+ -->
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -384,28 +394,63 @@
         </button>
       </div>
       <div class="modal-body" id="contentmessage">
-        ...
+          ...
       </div>
       <div class="modal-footer">
         <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">Yes</a>
+        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
+        
       </div>
     </div>
   </div>
 </div>
 
 
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+{% comment %} <script src='https://kit.fontawesome.com/a076d05399.js'></script> {% endcomment %}
 
 <script>
   $(document).on("click","#state",function(){
     $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
     if($('#state').text() == 'Close'){
-      $('#contentmessage').text('Are you sure to Close this job ?');
+      $('#contentmessage').text('Are you sure to Close this job ? ');
+      $('#action').attr('href','/company/status/{{job.id}}');
+
     }else{
-      $('#contentmessage').text('Are you sure to Publish this job ?');
-    }
-    $('#action').attr('href','/company/status/{{job.id}}')
+      $('#contentmessage').text('Please select the deadline to close this post ');
+ /*      var form =$('<form>{% csrf_token %}</form>');
+      form.attr("method", "post");
+      form.attr("id", "form") */
+      var x = document.createElement("INPUT");
+      x.setAttribute("id" , "deadline");
+      x.setAttribute("name" , "deadline");
+      x.setAttribute("type", "date");
+     // x.setAttribute("value" , "YYYY-MM-DD")
+      //x.inputdateObject.value = "YYYY-MM-DD"
+      //form.append(x)
+
+   /*    var btn = document.createElement("INPUT");
+      btn.setAttribute("type", "button");
+      btn.setAttribute("value" , "submit")
+      btn.setAttribute("id" , "btn")
+      form.append(btn) */
+      $('#contentmessage').append(x);
+      const domObj = document.getElementsByName("deadline")[0].value; // An ID might be better. Here `input[type=text]` just for example.
+      const today = new Date(domObj.value);
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+      if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        } 
+
+      var newDate = yyyy+'-'+mm+'-'+dd;
+     // var new = new Date.prototype.toLocaleDateString(document.getElementsByName(deadline).value);
+      $('#action').attr('href','/company/status_open/{{job.id}}/$document.getElementsByName("deadline").value ');
+    
+    } 
   });
   $(document).on("click","#delete",function(){
     $('#exampleModalLabel').css('color','red').text('Delete \"{{job.jobtitle}}\" Job !!');
@@ -416,15 +461,6 @@
     $('#mess').delay(4000).fadeOut('fast')
   })
   
-  //progress bar
-   $(document).ready(function() {
-      $('.progress .progress-bar').css("width",
-                function() {
-                    return $(this).attr("aria-valuenow") + "%";
-                }
-        )
-    });
-
   $(function() {
   /* Rounded Dark */
   $("#content-2").mCustomScrollbar({
@@ -457,6 +493,15 @@ timerId = setInterval(function() {
 }, 200);
 });
  */
+
+  //progress bar
+  $(document).ready(function() {
+      $('.progress .progress-bar').css("width",
+                function() {
+                    return $(this).attr("aria-valuenow") + "%";
+                }
+        )
+    });
 </script>
 
 {% endblock content %}

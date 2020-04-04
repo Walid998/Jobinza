@@ -11,6 +11,7 @@ from company.views import (
 	list_job_view ,
 	job_delete,
 	job_state_closed,
+	job_state_open,
 	job_edit,
 	job_details,
 	list_job_close_view,
@@ -26,7 +27,7 @@ urlpatterns = [
 	path('details/<int:job_id>/', job_details, name='detials'),
 	path('edit/<int:job_id>/', job_edit, name='edit'),
 	path('status/<int:job_id>/',job_state_closed),
-	
+	path('status_open/<int:job_id>/<deadline>',job_state_open),
 	path('list_close/' , list_job_close_view , name="list"),
 	path('list_publish/' , list_job_publish_view , name="list"),
 	#path('<slug>/', detail_post_view, name="detail"),

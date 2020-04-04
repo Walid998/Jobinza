@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserCreationForm,LoginForm
+from .forms import UserCreationForm, UserCreationForm2, LoginForm 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -24,19 +24,17 @@ def registration_view(request):
             return redirect('login')
     else:  
         form = UserCreationForm()
-    return render(request, 'account/register.html', {
-        'title': 'Sign Up',
-        'form': form,
-    })
+    return render(request, 'account/register.html', {'title': 'Sign Up','form': form,})
 
 @unauthenticated_user
 def registration_view_hr(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm2(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password1'])
             username = form.cleaned_data.get('username')
+            user = form.save()
             group = Group.objects.get(name='employeer')
             user = form.save()
             user.groups.add(group)
@@ -44,12 +42,8 @@ def registration_view_hr(request):
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
     else:  
-        form_hr = UserCreationForm()
-    return render(request, 'account/register_hr.html', {
-        'title': 'Sign Up',
-        'form': form_hr,
-    })
-
+        form = UserCreationForm2()
+    return render(request, 'account/register_hr.html', {'title': 'Sign Up','form': form,})
 
 @unauthenticated_user
 def login_view(request):
@@ -63,7 +57,6 @@ def login_view(request):
         else:
             messages.warning(
                 request, 'your username or password isn\'t correct !! ')
-
     return render(request, 'account/login.html', {
         'title': 'Sign in',
     })
@@ -71,14 +64,4 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-
-#@login_required(login_url='login')
-#def home(request):
-    #listpost=CreatePost.objects.all()
-    #context={
-   #     'title':'home',
-  #      'posts':listpost
- #   }
-#    return render(request,'account/home.html',context)
-
 

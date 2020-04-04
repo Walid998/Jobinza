@@ -6,7 +6,8 @@ from company.models import CreatePost
 
 
 class Profile(models.Model):
-    image = models.ImageField(upload_to='media/profile-pic/', null=False, blank=True)
+    resume        = models.FileField('Upload Resumes', upload_to='resumes/')
+    image = models.ImageField(default="{% static 'jobinza/images/profile-applicant.jpg' %}", upload_to="{% static 'jobinza/images/profile-pics/ %}")
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     phonenumber = models.CharField(max_length=50, null=False, blank=True)
     address = models.CharField(max_length=50, null=False, blank=True)
@@ -26,8 +27,7 @@ class contacts(models.Model):
     message 		= models.CharField(max_length=200, null=False, blank=True)
 
 class Resume_Parsed(models.Model):
-    usrname       = models.CharField('username', max_length=255, null=True, blank=True)
-    resume        = models.FileField('Upload Resumes', upload_to='resumes/')
+    usrname       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name          = models.CharField('Name', max_length=255, null=True, blank=True)
     email         = models.CharField('Email', max_length=255, null=True, blank=True)
     mobile_number = models.CharField('Mobile Number',  max_length=255, null=True, blank=True)
