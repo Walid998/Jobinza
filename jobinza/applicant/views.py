@@ -8,11 +8,14 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm ,contactform
 from applicant.models import contacts,Resume_Parsed
+from applicant.forms import contactform
+from applicant.forms import editprofileForm
 from applicant.utils import Comparison 
 from django.conf import settings
 from pyresparser import ResumeParser
 from django.contrib import messages
 import os
+import sys
 from django.db.models import Q
 from django.core.paginator import Paginator
 # Create your views here.
@@ -112,23 +115,39 @@ def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
     try:
-        profile_info = Profile.objects.get(author = pk)
-       # context['title']='profile',
-        return render(request,'applicant/profile.html', {'result': user_info , 'info':profile_info } )
+        p_info = Profile.objects.get(author = pk)
+        return render(request,'applicant/profile.html', {'result': user_info , 'info':p_info } )
     except:
         return render(request,'applicant/profile.html', {'result': user_info , 'info':'' })
 
-def update (request):
-    user = request.user
+
+@login_required(login_url='login')
+def editProfile (request):    
     if request.method == 'POST':
-        """ author = User.objects.filter(username=user.username).first()
-        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ',author) """
-        job = Profile()
-        job.phonenumber = request.POST.get('phone')
-        job.address = request.POST.get('address')
-        job.author = author
-        job.save()
-    return profile_info()
+        uname = request.user
+        auth = User.objects.get(username=uname)
+        pk = User.objects.get(username=uname).pk
+        try:
+            pinfo = Profile.objects.get(author = pk)
+            print("***********<<<<<<< pinfo has data >>>>>>>***********")
+            form = editprofileForm(request.POST ,instance = pinfo)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.save()
+                #messages.success(request,f'Job has been updated successfully !!')
+                return redirect(f'/applicant/profile/{request.user}')
+        except:
+            form = editprofileForm(request.POST , request.FILES)
+            if form.is_valid():
+                print("<<< pinfo has no data >>>")
+                inst = Profile()
+                inst.image = form.cleaned_data.get('image')
+                print ('**************************',inst.image)
+                inst.phonenumber = form.cleaned_data.get('phonenumber')
+                inst.address = form.cleaned_data.get('address')
+                inst.author = auth
+                inst.save()
+                return redirect(f'/applicant/profile/{request.user}')
 
 @login_required(login_url='login')
 def list_applicant(request):

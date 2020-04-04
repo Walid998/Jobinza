@@ -29,6 +29,7 @@ class CreatePostForm(forms.ModelForm):
 
 ]
 
+
 class DateForm(forms.Form):
     date = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M'],
