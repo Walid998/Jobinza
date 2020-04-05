@@ -23,6 +23,7 @@ from django.core.paginator import Paginator
 @login_required(login_url='login')
 def job_details(request , job_id):
     user = request.user
+    print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
     isNewUser = False
     prof = ''
@@ -33,7 +34,7 @@ def job_details(request , job_id):
         isNewUser = True
 
     try:
-        res = Match_Results.objects.get(author = user.id,job_id=job_id)
+        res = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
         if res.status == 'pending':
             isApplied = True
     except:
@@ -71,7 +72,8 @@ def job_details(request , job_id):
             if isApplied == False:
                 match = Match_Results()
                 match.resume = prof.resume
-                match.author = user
+                match.aplcnt = user
+                match.app_email = user.email
                 match.job_id = job.id
                 reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
                 match.skills_rslt = reslt

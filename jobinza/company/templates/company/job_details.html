@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%load static%}
 {% block content %}
-{% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"> {% endcomment %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 <style>
   .col-md-12 , .p-4
   {
@@ -9,9 +9,7 @@
   }
   .custom-scrollbar-css {
     background-color: #FFF;
-    margin-left: 12%;
     height: 650px;
-    width:80%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow-y: auto;
     overflow-x: hidden;
@@ -49,337 +47,184 @@
   }
   .link {
       text-align:left;
-      margin-left: 10% ;
+      margin-left: 20px;
       color:black;
       font-size: 18px;
       min-width: 250px !important;
       overflow: hidden;
   }
 
-  .progress-bar h5{
+  /* .progress-bar h5{
     padding-left: 420px;
     padding-top: 5px;
     font-size:13px;
     color:black
-    }
+    } */
   .progress{
-      width :600%;
-      height:15px;
+      width :100%;
+      height:10px;
     }
   .progress-bar{
     height:15px;
 
   }
-  
+  .app_prop{
+    float: left;
+    margin-left: 15px;
+  }
+  .app_prop small{
+    margin: 0px 10px;
+  }
   
 </style>
 
-    <div class="site-section bg-light">
-      <div class="container">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-{{message.tags}}" style="text-align:center" id="mess">
-                {{message}}
-            </div>
-          {% endfor %}
-        {% endif %}
-        {% if job is not None %}
-        <div class="row">
-          <div class="col-md-12 col-lg-8 mb-5">
-            <div class="p-5 bg-white">
-
-              <div class="mb-4 mb-md-5 mr-5">
-               <div class="job-post-item-header d-flex align-items-center">
-                 <h2 class="mr-3 text-black h4">{{job.jobtitle}}</h2>
-                 <div class="badge-wrap">
-                  <span class="border border-warning text-warning py-1 px-3 rounded">{{job.jobtype}}</span>
-                 </div>
-               </div>
-               <div class="job-post-item-body d-block d-md-flex">
-                 <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span>{{job.joblocation}}</div>
-                 <div><span class="fl-bigmug-line-big104"></span> <span>{{job.city}} , {{job.Area}}</span></div>
-               </div>
-              </div>
-              <p style="word-wrap: break-word;">{{job.job_description}}</p>
-              <p><strong>Career level:</strong> {{job.careerlevel}}</p>
-              <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
-              <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
-              <p><strong>Years Of Experience:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
-              <p><strong>Number of Vacancies::</strong> {{job.num_vacancies}}</p>
-              <p><strong>Job Type:</strong> {{job.jobtype}}</p>
-            
-              <p style="width: fit-content;width: -moz-fit-content;word-wrap: break-word;"><strong>Skills:</strong>
-                {% if job.skills is not None %}
-                  {%for skill in skills%}
-                  <span style="background-color: rgb(0, 70, 70);color: white;margin-right: 5px;padding: 3px 9px;border-radius: 5px;">{{skill}}</span>
-                  {% endfor %}
-                {%endif%}
-              </p>
-              <p style="color:red"><strong>Deadline:</strong> {{job.deadline}}</p>
-              <!-- <p class="mt-5"><a href="#" class="btn btn-primary  py-2 px-4">Apply Job</a></p> -->
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            
-            
-            <div class="p-4 mb-3 bg-white">
-              <h3 class="h5 text-black mb-3">Control</h3>
-              <p>Be careful while control any job !</p>
-              <p>
-              
-                {%if job.status != 'closed'%}
-                  <a href="/company/status/{{job.id}}" class="btn btn-dark  py-1 px-3"
-                   id="state" data-toggle="modal" data-target="#exampleModal">Close</a>
-                {%else%}
-                  <a href="/company/status/{{job.id}}" class="btn btn-warning  py-1 px-3"
-                   style="color: white" id="state" data-toggle="modal" data-target="#exampleModal">
-                  Open</a>
-                {%endif%}
-                <a href="/company/edit/{{job.id}}" class="btn btn-info  py-1 px-3">Edit</a>
-                <a href="/company/delete/{{job.id}}" class="btn btn-danger  py-1 px-3"
-                data-toggle="modal" data-target="#exampleModal" id="delete">Delete</a>
-              </p>
-              
-            </div>
-          </div>
+<div class="site-section bg-light">
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" style="text-align:center" id="mess">
+            {{message}}
         </div>
-        {%endif%}
+      {% endfor %}
+    {% endif %}
+    {% if job is not None %}
+    <div class="row">
+      <div class="col-md-12 col-lg-8 mb-5">
+        <div class="p-5 bg-white">
+
+          <div class="mb-4 mb-md-5 mr-5">
+            <div class="job-post-item-header d-flex align-items-center">
+              <h2 class="mr-3 text-black h4">{{job.jobtitle}}</h2>
+              <div class="badge-wrap">
+              <span class="border border-warning text-warning py-1 px-3 rounded">{{job.jobtype}}</span>
+              </div>
+            </div>
+            <div class="job-post-item-body d-block d-md-flex">
+              <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span>{{job.joblocation}}</div>
+              <div><span class="fl-bigmug-line-big104"></span> <span>{{job.city}} , {{job.Area}}</span></div>
+            </div>
+          </div>
+          <p style="word-wrap: break-word;">{{job.job_description}}</p>
+          <p><strong>Career level:</strong> {{job.careerlevel}}</p>
+          <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
+          <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
+          <p><strong>Years Of Experience:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
+          <p><strong>Number of Vacancies::</strong> {{job.num_vacancies}}</p>
+          <p><strong>Job Type:</strong> {{job.jobtype}}</p>
+          <p style="width: fit-content;width: -moz-fit-content;word-wrap: break-word;"><strong>Skills:</strong>
+            {% if job.skills is not None %}
+              {%for skill in skills%}
+              <span style="background-color: rgb(0, 70, 70);color: white;margin-right: 5px;padding: 3px 9px;border-radius: 5px;">{{skill}}</span>
+              {% endfor %}
+            {%endif%}
+          </p>
+          <p style="color:red"><strong>Deadline:</strong> {{job.deadline}}</p>
+          <!-- <p class="mt-5"><a href="#" class="btn btn-primary  py-2 px-4">Apply Job</a></p> -->
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="p-4 mb-3 bg-white">
+          <h3 class="h5 text-black mb-3">Control</h3>
+          <p>Be careful while control any job !</p>
+          <p>
+          
+            {%if job.status != 'closed'%}
+              <a href="/company/status/{{job.id}}" class="btn btn-dark  py-1 px-3"
+                id="state" data-toggle="modal" data-target="#exampleModal">Close</a>
+            {%else%}
+              <a href="/company/status/{{job.id}}" class="btn btn-warning  py-1 px-3"
+                style="color: white" id="state" data-toggle="modal" data-target="#exampleModal">
+              Open</a>
+            {%endif%}
+            <a href="/company/edit/{{job.id}}" class="btn btn-info  py-1 px-3">Edit</a>
+            <a href="/company/delete/{{job.id}}" class="btn btn-danger  py-1 px-3"
+            data-toggle="modal" data-target="#exampleModal" id="delete">Delete</a>
+          </p>
+        </div>
       </div>
     </div>
+    {%endif%}
+  </div>
+</div>
 
-   
+<!-------------________RESULTS________------------->
 
-
-    <div class="site-section bg-light"  >
-      <div class="container">
-
-        <div  class="custom-scrollbar-css p-2">
-        <div class="row justify-content-center text-center mb-5">
-          <div class="col-md-6" data-aos="fade" >
-             <div class="row" style="margin-left: 150px;">
-                        <div class="profile-tabs" style="text-align: center;">
-                          <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
-                            <li class="nav-itemx">
-                                <a  class="active" href="#studio" role="tab" data-toggle="tab" >
-                                  <i class="fa fa-align-justify fa-lg" ></i> <br>
-                                  ALL
-                                </a>
-                            </li>
-
-                           
-                            <li class="nav-itemx">
-                              <a  href="#works" role="tab" data-toggle="tab">
-                                <i class="fa fa-check fa-lg"></i>
-                                <br>  
-                                Accepted
-                              </a>
-                          </li>
-<!-- 
-                          <li class="nav-item">
-                            <a class="nav-link" href="#works" role="tab" data-toggle="tab">
-                              <i class="material-icons">palette</i>
-                                Work
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                          <a class="nav-link" href="#works" role="tab" data-toggle="tab">
-                            <i class="material-icons">palette</i>
-                              Work
-                          </a>
-                         </li> -->
-
-                         <li class="nav-itemx">
-                                <a  href="#favorite" role="tab" data-toggle="tab">
-                                  <i class="fa fa-times fa-lg"></i>
-                                  <br>
-                                  Rejected
-                                </a>
-                          </li>
-
-                          
-                       <!--   <li class="nav-item">
-                          <a  href="#" role="tab" data-toggle="tab">
-                            <i class="fas fa-arrow-up"></i>
-                            <br>
-                            Top <input name="num" type="text" min="1" style="width:40px;height:20px;">
-                          </a>
-                        </li>
- -->
-                        </ul>
-                      </div>
-    	    	</div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center text-center mb-5">
-          <div class="col-md-6" data-aos="fade" >
-        
-        <div class="tab-content tab-space" >
-
-          <div class="tab-pane active text-center gallery" id="studio">
-            <div class="col-md-3 ml-auto" style="float: left;">
-                {% for post in posts %}
-              <div class="row" >
-                <a  class="link" href="#">{{post.jobtitle}}</a> 
-              </div>
-              <div class="progress"  >
-                <div class="progress-bar"  role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"><h5>{{post.num_vacancies}}%</h5> </div><br>
-              </div>
-              <br>
-              {% endfor %}
-<!-- 
-              <div class="row" >
-                <a  class="link" href="#">Cv2 </a> <h5 >20%</h5>
-              </div>
-              <div class="progress" >
-                  <div class="progress-bar "role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> <br>
-              </div>
-
-              <br>
-              <div class="row" >
-                <a  class="link" href="#">Cv3 </a> <h5 >50%</h5>
-              </div>
-              <div class="progress" >
-                  <div class="progress-bar "  role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div> <br>
-              </div>
- -->
+<div class="site-section bg-light">
+  <div class="container">
+    <div  class="custom-scrollbar-css p-2">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-md-6" data-aos="fade" >
+          <div class="row justify-content-center">
+            <div class="profile-tabs justify-content-center">
+              <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
+                <li class="nav-itemx">
+                    <a  class="active" href="#studio" role="tab" data-toggle="tab" >
+                      <i class="fa fa-align-justify fa-lg" ></i>
+                    <br>ALL</a>
+                </li>
+                <li class="nav-itemx">
+                  <a  href="#works" role="tab" data-toggle="tab">
+                    <i class="fa fa-check fa-lg"></i>
+                  <br> Accepted</a>
+                </li>
+                <li class="nav-itemx">
+                  <a  href="#favorite" role="tab" data-toggle="tab">
+                    <i class="fa fa-times fa-lg"></i>
+                  <br>Rejected</a>
+                </li>
+              </ul>
             </div>
           </div>
-
-          <div class="tab-pane text-center gallery" id="works">
-            <div class="col-md-3 ml-auto"  style="float: left;">
-              
-            {% for post in posts%}
-              {% if forloop.counter < 3 %}
-              <div class="row">
-                <a class="link" href="#">{{post.jobtitle}}</a> 
+        </div>
+      </div>
+      <!-- _____________CONTENT OF ALL tab _________________-->
+      <div class="row justify-content-center">
+        <div style="width: 80%;" data-aos="fade" >
+          <div class="tab-content tab-space" >
+            <div class="tab-pane active text-center gallery" id="studio">
+              {% for appl in applicants %}
+              <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
+                <div class="row" >
+                  <a class="link" href="#">{{appl.aplcnt}}</a> 
+                </div>
+                
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="{{appl.skills_rslt}}" aria-valuemin="0" aria-valuemax="100">
+                  </div>              
+                </div>
+                <div class="app_prop">
+                  <small><a href="../../../media/{{appl.resume}}">Download Resume <i class="fas fa-file-download"></i></a></small>
+                  |                  
+                  <small><a href="#">Accept <i class="fas fa-check-circle"></i></a></small>
+                  |                  
+                  <small class="rej"><a href="#">Reject <i class="fas fa-times-circle"></i></a></small>
+                  |                  
+                  <small class="rej"><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
+                  <script>document.write(x=x+1)</script>
+                </div>
+                <small style="margin: 0px 10px;float: right;">{{appl.skills_rslt}}%</small>
+              </div>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <div style="text-align: left;">
+                    Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
+                    Anlysis: this resumes seems good for this job Anim pariatur cliche reprehenderit
+                  </div>
+                </div>
               </div>
               
-              <div class="progress"  >
-                <div class="progress-bar"  role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"> <h5>{{post.num_vacancies}}%</h5> </div><br>
-              </div>
-              {%else%}
-                <div></div>
-              {%endif %}
               <br>
               {% endfor %}
             </div>
           </div>
-
-          <div class="tab-pane text-center gallery" id="favorite">
-            <div class="col-md-3 ml-auto" style="float: left; ">
-              {% for post in posts%}
-              {% if forloop.counter < 5  %}
-             <!--  <div> 
-              <img src=" {% static 'jobinza/images/company_logo_blank.png' %}" alt="Image" class="img-fluid mx-auto">
-              </div> -->        
-              <div class="row">
-                <a class="link"  href="#">{{post.jobtitle}} </a> 
-              </div>
-
-              <div class="progress" >
-                <div class="progress-bar "role="progressbar" aria-valuenow="{{post.num_vacancies}}" aria-valuemin="0" aria-valuemax="100"> <h5>{{post.num_vacancies}}%</h5> </div> <br>
-              </div>
-              {% else %}
-                <div></div>
-               {% endif %} 
-              <br>
-              {% endfor %}
-           </div> 
-         </div>
-
-
-      
-          <!-- <div class="tab-pane text-center gallery" id="works">
-          <div class="row">
-            <div class="col-md-3 ml-auto">
-              <div class="progress-bar bg-success" style="width:20%"></div> <br>
-            <div class="col-md-3 mr-auto">
-                             </div>
-          </div>
-      </div>
- -->
-  <!--         <div class="tab-pane text-center gallery" id="favorite">
-          <div class="row">
-            <div class="col-md-3 ml-auto">
-              <img src="https://images.unsplash.com/photo-1504346466600-714572c4b726?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6754ded479383b7e3144de310fa88277&auto=format&fit=crop&w=750&q=80" class="rounded">
-                    <img src="https://images.unsplash.com/photo-1494028698538-2cd52a400b17?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83bf0e71786922a80c420c17b664a1f5&auto=format&fit=crop&w=334&q=80" class="rounded">
-            </div>
-            <div class="col-md-3 mr-auto">
-              <img src="https://images.unsplash.com/photo-1505784045224-1247b2b29cf3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ec2bdc92a9687b6af5089b335691830e&auto=format&fit=crop&w=750&q=80" class="rounded">  					
-              <img src="https://images.unsplash.com/photo-1524498250077-390f9e378fc0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=83079913579babb9d2c94a5941b2e69d&auto=format&fit=crop&w=751&q=80" class="rounded">
-            <img src="https://images.unsplash.com/photo-1506667527953-22eca67dd919?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6326214b7ce18d74dde5e88db4a12dd5&auto=format&fit=crop&w=750&q=80" class="rounded">
-              </div>
-          </div>
         </div>
-        </div>
- -->
-        <!-- <div class="row justify-content-center" data-aos="fade" data-aos-delay="100">
-          <div class="col-md-8">
-            <div class="accordion unit-8" id="accordion">
-            <div class="accordion-item">
-              <h3 class="mb-0 heading">
-                <a class="btn-block" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">What is the name of your company<span class="icon"></span></a>
-              </h3>
-              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="body-text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quae cumque perspiciatis aperiam accusantium facilis provident aspernatur nisi optio debitis dolorum, est eum eligendi vero aut ad necessitatibus nulla sit labore doloremque magnam! Ex molestiae, dolor tempora, ad fuga minima enim mollitia consequuntur, necessitatibus praesentium eligendi officia recusandae culpa tempore eaque quasi ullam magnam modi quidem in amet. Quod debitis error placeat, tempore quasi aliquid eaque vel facilis culpa voluptate.</p>
-                </div>
-              </div>
-            </div> --> <!-- .accordion-item -->
-            
-            <!-- <div class="accordion-item">
-              <h3 class="mb-0 heading">
-                <a class="btn-block" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">How much pay for 3  months?<span class="icon"></span></a>
-              </h3>
-              <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="body-text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-                </div>
-              </div>
-            </div> --> <!-- .accordion-item -->
-
-           <!--  <div class="accordion-item">
-              <h3 class="mb-0 heading">
-                <a class="btn-block" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">Do I need to register?  <span class="icon"></span></a>
-              </h3>
-              <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="body-text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-                </div>
-              </div>
-            </div> --> <!-- .accordion-item -->
-
-            <!-- <div class="accordion-item">
-              <h3 class="mb-0 heading">
-                <a class="btn-block" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseFour">Who should I contact in case of support.<span class="icon"></span></a>
-              </h3>
-              <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="body-text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-                </div>
-              </div>
-            </div> --> <!-- .accordion-item -->
-
-          </div>
-         </div>
-      </div> <!--review-->
- <!--       </div>
-       </div> -->
       </div>
-      
+
     </div>
   </div>
+</div>
 
-<!--   {%if job.status != 'closed'%}
-  <script>
-    alert(' this post will close at {{ job.deadline }}').setAttribute('color' , 'red')
-  </script>
-  {%else%}<div></div>
-  {% endif %}
- -->
 
 
 
@@ -399,14 +244,13 @@
       <div class="modal-footer">
         <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
-        
       </div>
     </div>
   </div>
 </div>
 
 
-{% comment %} <script src='https://kit.fontawesome.com/a076d05399.js'></script> {% endcomment %}
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 <script>
   $(document).on("click","#state",function(){
@@ -417,22 +261,12 @@
 
     }else{
       $('#contentmessage').text('Please select the deadline to close this post ');
- /*      var form =$('<form>{% csrf_token %}</form>');
-      form.attr("method", "post");
-      form.attr("id", "form") */
+
       var x = document.createElement("INPUT");
       x.setAttribute("id" , "deadline");
       x.setAttribute("name" , "deadline");
       x.setAttribute("type", "date");
-     // x.setAttribute("value" , "YYYY-MM-DD")
-      //x.inputdateObject.value = "YYYY-MM-DD"
-      //form.append(x)
-
-   /*    var btn = document.createElement("INPUT");
-      btn.setAttribute("type", "button");
-      btn.setAttribute("value" , "submit")
-      btn.setAttribute("id" , "btn")
-      form.append(btn) */
+     
       $('#contentmessage').append(x);
       const domObj = document.getElementsByName("deadline")[0].value; // An ID might be better. Here `input[type=text]` just for example.
       const today = new Date(domObj.value);
@@ -449,7 +283,6 @@
       var newDate = yyyy+'-'+mm+'-'+dd;
      // var new = new Date.prototype.toLocaleDateString(document.getElementsByName(deadline).value);
       $('#action').attr('href','/company/status_open/{{job.id}}/$document.getElementsByName("deadline").value ');
-    
     } 
   });
   $(document).on("click","#delete",function(){
@@ -459,47 +292,21 @@
   });
   $(function(){
     $('#mess').delay(4000).fadeOut('fast')
-  })
+  });
   
   $(function() {
-  /* Rounded Dark */
-  $("#content-2").mCustomScrollbar({
-    theme: "rounded-dark"
+    /* Rounded Dark */
+    $("#content-2").mCustomScrollbar({
+      theme: "rounded-dark"
+    });
   });
-});
-/* $('#pay').click(function() {
-
-var timerId, percent;
-
-// reset progress bar
-percent = 0;
-$('#pay').attr('disabled', true);
-$('#load').css('width', '0px');
-$('#load').addClass('progress-bar active');
-
-timerId = setInterval(function() {
-
-  // increment progress bar
-  percent += 5;
-  $('#load').css('width', percent + '%');
-  $('#load').html(percent + '%');
-
-
-  if (percent >= 100) {
-    clearInterval(timerId);
-    $('#pay').attr('disabled', false);
-    $('#load').removeClass('progress-bar active');
-  }
-}, 200);
-});
- */
 
   //progress bar
   $(document).ready(function() {
       $('.progress .progress-bar').css("width",
-                function() {
-                    return $(this).attr("aria-valuenow") + "%";
-                }
+          function() {
+              return $(this).attr("aria-valuenow") + "%";
+          }
         )
     });
 </script>

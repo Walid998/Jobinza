@@ -9,6 +9,7 @@ def Percent(number,List):
     return percent
 
 def Comparison(hrSkills,AppSkills):
+    #match = list() #m[0]=> matched skills, #m[1]=> not matched skills ,#m[2]=> result
     found= 0
     for i in hrSkills:
         if i in AppSkills:

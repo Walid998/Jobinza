@@ -8,7 +8,7 @@ import time
 import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
-from company.models import CreatePost
+from company.models import CreatePost, Match_Results
 from company.forms import CreatePostForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
@@ -109,11 +109,6 @@ def update_status():
 def list_job_view(request):
 	update_status()
 	listpost = CreatePost.objects.all().filter(author= request.user.id)
-	lst = list()
-	for i in listpost:
-		lst.append(i.jobtitle)
-	print('>>>>>>>>>' ,listpost, '   >>>> ', type(listpost) , '>>> ',listpost[0],' MMM ',lst)
-	
 	x = len(listpost)
 	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	y =len(close)
@@ -134,11 +129,11 @@ def list_job_view(request):
 def job_details(request , job_id):
 	id_num = int(job_id)
 	job_list = CreatePost.objects.get(id=id_num)
-	listjob = CreatePost.objects.all()
+	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	context = {
 		'skills':skillsToList(job_list.skills),
 		'job': job_list ,
-		'posts':listjob
+		'applicants':list_applicants
 		}
 	return render(request,'company/job_details.html', context)
 
