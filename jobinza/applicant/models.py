@@ -7,7 +7,7 @@ from company.models import CreatePost
 
 class Profile(models.Model):
     resume        = models.FileField('Upload Resumes', upload_to='resumes/')
-    image = models.ImageField(default="{% static 'jobinza/images/profile-applicant.jpg' %}", upload_to="{% static 'jobinza/images/profile-pics/ %}")
+    image = models.ImageField(upload_to="jobinza/images/profile-pics/")
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     phonenumber = models.CharField(max_length=50, null=False, blank=True)
     address = models.CharField(max_length=50, null=False, blank=True)

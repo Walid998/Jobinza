@@ -124,6 +124,7 @@ def profile_info(request,user_name):
 @login_required(login_url='login')
 def editProfile (request):    
     if request.method == 'POST':
+        print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
         uname = request.user
         auth = User.objects.get(username=uname)
         pk = User.objects.get(username=uname).pk
@@ -141,7 +142,7 @@ def editProfile (request):
             if form.is_valid():
                 print("<<< pinfo has no data >>>")
                 inst = Profile()
-                inst.image = form.cleaned_data.get('image')
+                inst.image = request.FILES['image']
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
