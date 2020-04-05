@@ -475,7 +475,12 @@ footer p a:hover {
 	                <div class="col-md-6 ml-auto mr-auto">
         	           <div class="profile">
 	                        <div class="avatar">
-	                            <img src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                                {% if info.image %}
+                                <img src="{{info.image.url}}" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                                {% else %}
+                                <img src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                                {% endif %}
+
                             </div>
                             <!-- <div class="view zoom">
                                 <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/6-col/img%20(131).jpg" class="img-fluid img-raised rounded-circle img-thumbnail" alt="smaple image">
@@ -616,13 +621,17 @@ footer p a:hover {
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="popup-avatar">
-                        <img name="image" id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                        {% if info.image %}
+                        <img id="profilepic" src="{{info.image.url}}" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                        {% else %}
+                        <img id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                        {% endif %}
                         <!-- <div class="unupdate">
                             <p>@{{result.username}}</p>
                             <p>{{result.first_name}} {{result.last_name}}</p>
                             <p>{{result.email}}</p>
                         </div> -->
-                        <input type="file" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
+                        <input type="file" name="image" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
                         <a href="" onclick="document.getElementById('upload').click(); return false"><i class="fa fa-camera" style="color: black;"></i></a>
                         <script>
                             function uploadImage(input){
@@ -648,7 +657,7 @@ footer p a:hover {
                     </div>
                      <div class="form-inputs">
                         <input type="text" name="phonenumber" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
-                        <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}">
+                        <!-- <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}"> -->
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -8,22 +8,15 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm ,contactform
 from applicant.models import contacts,Resume_Parsed
-<<<<<<< HEAD
 from applicant.forms import contactform
 from applicant.forms import editprofileForm
-=======
 from applicant.utils import Comparison 
->>>>>>> def80024541f2bfe469e71677376c240e5199560
 from django.conf import settings
 from pyresparser import ResumeParser
 from django.contrib import messages
 import os
-<<<<<<< HEAD
-import sys
-=======
 from django.db.models import Q
 from django.core.paginator import Paginator
->>>>>>> def80024541f2bfe469e71677376c240e5199560
 # Create your views here.
 
 
@@ -134,7 +127,7 @@ def editProfile (request):
         try:
             pinfo = Profile.objects.get(author = pk)
             print("***********<<<<<<< pinfo has data >>>>>>>***********")
-            form = editprofileForm(request.POST ,instance = pinfo)
+            form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.save()
@@ -145,7 +138,7 @@ def editProfile (request):
             if form.is_valid():
                 print("<<< pinfo has no data >>>")
                 inst = Profile()
-                inst.image = form.cleaned_data.get('image')
+                inst.image = request.FILES.get('image')
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
