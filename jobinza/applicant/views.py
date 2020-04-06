@@ -15,7 +15,6 @@ from django.conf import settings
 from pyresparser import ResumeParser
 from django.contrib import messages
 import os
-import sys
 from django.db.models import Q
 from django.core.paginator import Paginator
 # Create your views here.
@@ -131,7 +130,7 @@ def editProfile (request):
         try:
             pinfo = Profile.objects.get(author = pk)
             print("***********<<<<<<< pinfo has data >>>>>>>***********")
-            form = editprofileForm(request.POST ,instance = pinfo)
+            form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.save()
@@ -142,7 +141,7 @@ def editProfile (request):
             if form.is_valid():
                 print("<<< pinfo has no data >>>")
                 inst = Profile()
-                inst.image = request.FILES['image']
+                inst.image = request.FILES.get('image')
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')

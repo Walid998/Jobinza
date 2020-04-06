@@ -238,53 +238,52 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      {%if job.status == 'closed'%}
+      <form method="POST" action="/company/status_open/{{job.id}}">
+        {% csrf_token %}
       <div class="modal-body" id="contentmessage">
-          ...
+          <label>Please select the date to close this post </label>
+          <input type="date" name="deadline" id="deadline">
       </div>
       <div class="modal-footer">
         <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="#" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
+        <button type="submit" class="btn btn-primary" id="action" style="color: white;">OK</button>
       </div>
+     </form>
+
+      {% else %}
+      <div class="modal-body" id="contentmessage">
+        <label> Are you sure to close this post ?</label>
+      </div>
+      <div class="modal-footer">
+        <button id="Soo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a href="/company/status/{{job.id}}" id="action" type="button" class="btn btn-primary" style="color: white;">OK</a>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
 
 
+
+
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 <script>
-  $(document).on("click","#state",function(){
-    $('#exampleModalLabel').css('color','black').text('Control \"{{job.jobtitle}}\" Job Status')
-    if($('#state').text() == 'Close'){
-      $('#contentmessage').text('Are you sure to Close this job ? ');
-      $('#action').attr('href','/company/status/{{job.id}}');
+  var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10){
+			dd='0'+dd
+		} 
+		if(mm<10){
+			mm='0'+mm
+		} 
 
-    }else{
-      $('#contentmessage').text('Please select the deadline to close this post ');
+	today = yyyy+'-'+mm+'-'+dd;
+	document.getElementById("deadline").setAttribute("min", today);
 
-      var x = document.createElement("INPUT");
-      x.setAttribute("id" , "deadline");
-      x.setAttribute("name" , "deadline");
-      x.setAttribute("type", "date");
-     
-      $('#contentmessage').append(x);
-      const domObj = document.getElementsByName("deadline")[0].value; // An ID might be better. Here `input[type=text]` just for example.
-      const today = new Date(domObj.value);
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
-      if(dd<10){
-          dd='0'+dd
-        } 
-        if(mm<10){
-          mm='0'+mm
-        } 
-
-      var newDate = yyyy+'-'+mm+'-'+dd;
-     // var new = new Date.prototype.toLocaleDateString(document.getElementsByName(deadline).value);
-      $('#action').attr('href','/company/status_open/{{job.id}}/$document.getElementsByName("deadline").value ');
-    } 
-  });
   $(document).on("click","#delete",function(){
     $('#exampleModalLabel').css('color','red').text('Delete \"{{job.jobtitle}}\" Job !!');
     $('#contentmessage').text('Are you sure to Delete this job ?');
