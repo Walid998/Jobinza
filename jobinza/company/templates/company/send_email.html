@@ -1,0 +1,53 @@
+{% extends 'base.html'%}
+{%block content%}
+
+<div class="unit-5 overlay" style="background-image: url(../../../static/jobinza/images/hero_1.jpg);">
+    <div class="container text-center">
+      <h2 class="mb-0">Emails</h2>
+      <p class="mb-0 unit-6"><a href="/">company</a> <span class="sep">></span> <span>Send Emails</span></p>
+    </div>
+  </div>
+
+  
+  <div class="site-section bg-light">
+    <div class="container">
+      <div class="row">
+     
+        <div class="col-md-12 col-lg-8 mb-5">
+        
+          
+        
+          <form action=""  method= "POST"class="p-5 bg-white" >
+            {% csrf_token %}
+
+            <div class="row form-group">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="font-weight-bold" for="aplcnt"> Name </label>
+                <input type="text" name="username" id="aplcnt" class="form-control" placeholder="name">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label class="font-weight-bold"  for="app_email">Email</label>
+                <input type="app_email" name="email" id="app_email" class="form-control" placeholder="Email Address">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label class="font-weight-bold" for="message">Content</label> 
+                <textarea name="content" id="content" cols="30" rows="5" class="form-control" placeholder="details of message"></textarea>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <button class="btn btn-primary pill px-4 py-2" type="submit">Send Email</button>
+              </div>
+            </div>
+            
+
+          </form>
+        </div>
+
+        {%endblock content%}

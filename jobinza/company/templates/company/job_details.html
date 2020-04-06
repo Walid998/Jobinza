@@ -164,7 +164,7 @@
                     <br>ALL</a>
                 </li>
                 <li class="nav-itemx">
-                  <a  href="#works" role="tab" data-toggle="tab">
+                  <a  href="" role="tab" data-toggle="tab"  value ='run function' onclick="runScript()">
                     <i class="fa fa-check fa-lg"></i>
                   <br> Accepted</a>
                 </li>
@@ -196,7 +196,7 @@
                 <div class="app_prop">
                   <small><a href="../../../media/{{appl.resume}}">Download Resume <i class="fas fa-file-download"></i></a></small>
                   |                  
-                  <small><a href="#">Accept <i class="fas fa-check-circle"></i></a></small>
+                  <small><a href="/company/send_email/{{applicant}}">Accept <i class="fas fa-check-circle"></i></a></small>
                   |                  
                   <small class="rej"><a href="#">Reject <i class="fas fa-times-circle"></i></a></small>
                   |                  
@@ -309,5 +309,15 @@
         )
     });
 </script>
+<script>
+  function runScript() {
+    $.ajax({
+        url: 'send_email', //The URL you defined in urls.py
+        success: function(data) {
+          
+        }
 
+    });
+}
+</script>
 {% endblock content %}

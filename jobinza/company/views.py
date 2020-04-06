@@ -9,13 +9,15 @@ import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
 from company.models import CreatePost, Match_Results
-from company.forms import CreatePostForm
+from company.forms import CreatePostForm , SendEmailForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib import messages
 from django.utils.dateparse import parse_date
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
 
 def skillsToList(txt):
 	lst = list()
@@ -213,3 +215,32 @@ def list_job_close_view(request):
 		}
 
 	return render(request,"company/list_job_closed.html", context)
+
+def send_email(request):
+	Send_Form = SendEmailForm
+	if request.method == 'POST':
+		form = Send_Form(data=request.POST)
+        
+		if form.is_valid():
+			username = request.POST.get('username')
+			emails = request.POST.get('email')
+			content = request.POST.get('content')
+
+			template = get_template('company/send_form.txt')
+			context = {
+					'username' : username,
+					'email' : emails,
+					'content' : content,
+			}
+					
+			content = template.render(context)
+
+			email = EmailMessage(
+					"New contact form email",
+					content,
+					"jobinza web" + '',
+					[emails],
+					headers = { 'Reply To': emails }
+			)
+			email.send()
+	return render(request,'company/send_email.html',{'form':Send_Form})

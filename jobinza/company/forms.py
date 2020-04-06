@@ -1,6 +1,6 @@
 from django import forms
 
-from company.models import CreatePost
+from company.models import CreatePost,Match_Results,Send_Email
 from datetime import datetime
 
 
@@ -29,7 +29,14 @@ class CreatePostForm(forms.ModelForm):
 
 ]
 
-
+class SendEmailForm(forms.Form):
+    class Meta:
+        model : Send_Email
+        fields = [
+            'username',
+            'email',
+            'content',
+        ]
 class DateForm(forms.Form):
     date = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M'],

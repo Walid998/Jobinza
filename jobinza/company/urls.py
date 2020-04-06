@@ -15,7 +15,8 @@ from company.views import (
 	job_edit,
 	job_details,
 	list_job_close_view,
-	list_job_publish_view)
+	list_job_publish_view,
+	send_email)
 
 
 app_name = 'company'
@@ -30,6 +31,7 @@ urlpatterns = [
 	path('status_open/<int:job_id>',job_state_open),
 	path('list_close/' , list_job_close_view , name="list"),
 	path('list_publish/' , list_job_publish_view , name="list"),
+	path('send_email/' ,send_email,name="send_email"),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 ]

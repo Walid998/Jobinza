@@ -90,7 +90,7 @@ def home(request):
     update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-    paginator = Paginator(listpost,2)
+    paginator = Paginator(listpost,5)
     page = request.GET.get('page')
     listpost = paginator.get_page(page)
     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
