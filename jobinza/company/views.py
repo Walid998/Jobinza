@@ -18,6 +18,7 @@ from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
+from notify.signals import notify
 
 def skillsToList(txt):
 	lst = list()
@@ -81,7 +82,9 @@ def create_post_view(request):
 			author = User.objects.filter(email=user.email).first()
 			obj.author = author
 			obj.skills = obj.skills.lower()
-			obj.save()
+			obj.save()			
+			notify.send( User.objects.get(pk=1) , recipient=request.user, actor=User.objects.get(pk=1) ,
+                verb=obj.jobtitle , description = " This post is created" )
 
 	form = CreatePostForm()
 	context['form'] = form
@@ -100,7 +103,7 @@ def update_status():
 	now = datetime.date.today()
 	form = CreatePost.objects.all()
 	for doc in form :
-		if doc.deadline < now or doc.deadline == now:
+		if doc.deadline < now or doc.deadline == now :
 			doc.status = 'closed'
 		else :
 			doc.status = 'Publishing'
@@ -244,3 +247,19 @@ def send_email(request):
 			)
 			email.send()
 	return render(request,'company/send_email.html',{'form':Send_Form})
+
+
+def send_noti(request):
+	user = User.objects.get(pk=2)
+	n = notify.objects.all().filter(recipient=user)
+	#notify.send(request.user, recipient=user, actor=request.user ,
+     #           verb='followed you.', nf_type='followed_by_one_user')
+	return render(request , 'company/notification.html' , {'noti' :n})	
+
+@login_required
+def notifications(request):
+    notification_list = request.user.notifications.active().prefetch()
+    return render(request, 'company/notification.html',
+                  {'notifications': notification_list})	
+
+

@@ -273,6 +273,9 @@ input::-webkit-input-placeholder {
                             </ul>
                           </li>
                         </li>
+
+                        <a href="/company/notification"><i class="fa fa-bell" style="font-size:18px; color:black; margin-left:10px"></i> </a>
+
                       {% else %}
                       <li><a href="{% url 'contact'%}">Contact</a></li> 
                       
@@ -312,7 +315,8 @@ input::-webkit-input-placeholder {
   <script src="{% static 'jobinza/js/mediaelement-and-player.min.js'%}"></script>
 
   <script src="{% static 'jobinza/js/main.js'%}"></script>
-    
+  <script src="{% static 'notify/notifyX.js' %}"></script>
+
 
   <script>
       document.addEventListener('DOMContentLoaded', function() {
