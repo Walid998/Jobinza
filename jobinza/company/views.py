@@ -256,10 +256,5 @@ def send_noti(request):
      #           verb='followed you.', nf_type='followed_by_one_user')
 	return render(request , 'company/notification.html' , {'noti' :n})	
 
-@login_required
-def notifications(request):
-    notification_list = request.user.notifications.active().prefetch()
-    return render(request, 'company/notification.html',
-                  {'notifications': notification_list})	
 
 

@@ -164,6 +164,24 @@ input::-webkit-input-placeholder {
   color: #ffffff; 
 }
 /************____ End of Search ____**********/
+
+
+/* Notification */
+#dropdownMenuLink .p1[data-count]:after{
+  position:absolute;
+  right:1%;
+  top:12%;
+  content: attr(data-count);
+  font-size:40%;
+  padding:.2em;
+  line-height:1em;
+  color: white;
+  background:rgba(255,0,0,.85);
+  text-align:right;
+  min-width: 1em;
+}
+
+
 </style>
  
  
@@ -274,8 +292,27 @@ input::-webkit-input-placeholder {
                           </li>
                         </li>
 
-                        <a href="/company/notification"><i class="fa fa-bell" style="font-size:18px; color:black; margin-left:10px"></i> </a>
-
+                        <!--               Notification                -->
+                        <li >
+                          <div class="dropdown" >
+                            <a class=" dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;">
+                              {% if count > 0 %}
+                              <span class="p1 fa-stack fa-2x has-badge" data-count={{count}}>
+                              <i class="fa fa-bell" style="font-size:25px; color:black;"></i>
+                              {% else%}  
+                                <!--<i class="p2 fa fa-circle fa-stack-2x"></i>-->
+                                <i class="fa fa-bell" style="font-size:25px; color:black;"></i>
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 500px;">
+                              {% for noti in notifications %}
+                                {{noti.verb}}  {% if noti.description %} {{noti.description}} {% else %} <p></p> {% endif %} <br>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </li>
+                        <!-- End of notification -->
+                        
                       {% else %}
                       <li><a href="{% url 'contact'%}">Contact</a></li> 
                       

@@ -18,7 +18,7 @@ from company.views import (
 	list_job_publish_view,
 	send_email,
 	send_noti,
-	notifications, )
+ )
 
 
 app_name = 'company'
@@ -36,7 +36,7 @@ urlpatterns = [
 	path('send_email/' ,send_email,name="send_email"),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
+	#path('notification/' , notifications , name="notification"),
 	path('noti/' , send_noti , name="send"),
-	path('notification/' , notifications , name="notification"),
 
 ]
