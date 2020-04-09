@@ -8,8 +8,8 @@ import time
 import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
-from company.models import CreatePost, Match_Results
-from company.forms import CreatePostForm , SendEmailForm
+from company.models import CreatePost, Match_Results , Notification
+from company.forms import CreatePostForm , SendEmailForm 
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
 from django.views.generic import UpdateView,DeleteView 
@@ -70,20 +70,14 @@ def create_post_view(request):
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
 		form.image = request.FILES.get('image')
-		print(form.deadline)
-		#form.deadline = datetime.datetime.strptime(deadline , 'YYYY-mm-ddTHH:MM:ssZ')
-		#date_processing = deadline.replace('T', '-').replace(':', '-').split('-')
-		#date_processing = [int(v) for v in date_processing]
-		#form.deadline = datetime.datetime(*date_processing)
-		#form.deadline = datetime.datetime(*[int(v) for v in deadline.replace('T', '-').replace(':', '-').split('-')])
 		if form.is_valid():
 			obj = form.save(commit=False)
 			author = User.objects.filter(email=user.email).first()
 			obj.author = author
 			obj.skills = obj.skills.lower()
-			obj.save()			
-			notify.send( User.objects.get(pk=1) , recipient=request.user, actor=User.objects.get(pk=1) ,
-                verb=obj.jobtitle , description = " This post is created" )
+			obj.save()		
+			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = " This post is created" )	
+
 
 	form = CreatePostForm()
 	context['form'] = form
@@ -248,5 +242,10 @@ def send_email(request):
 	return render(request,'company/send_email.html',{'form':Send_Form})
 
 
-
-
+def read_notification(request):
+    Notifications = Notification.objects.all().filter(receiver = request.user.id)
+    for n in Notifications :
+        if n.read == False:
+            n.read = True
+            n.save()
+    return  render (request ,'company/notification.html', { 'notification' : Notifications })

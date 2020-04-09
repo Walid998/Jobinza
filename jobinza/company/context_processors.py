@@ -1,4 +1,4 @@
-from company.models import CreatePost
+from company.models import CreatePost , Notification
 
 # this file for search field and need alot to be accurate
 def add_variable_to_context(request):
@@ -11,3 +11,12 @@ def add_variable_to_context(request):
         'jobs': 'walid'
     }
 
+def list_Notification(request):
+    count = 0
+    Notification_list = Notification.objects.all().filter(receiver= request.user.id)
+    for n in Notification_list :
+        if n.read == False :
+            count = count +1
+    return {'count' : count }        
+
+   
