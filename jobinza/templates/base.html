@@ -297,7 +297,7 @@ input::-webkit-input-placeholder {
                           <div class="dropdown" >
                             <a class=" dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;">
                               {% if count > 0 %}
-                              <span class="p1 fa-stack fa-2x has-badge" data-count={{count}}>
+                              <span class="p1 fa-stack fa-2x has-badge" data-count="4">
                               <i class="fa fa-bell" style="font-size:25px; color:black;"></i>
                               {% else%}  
                                 <!--<i class="p2 fa fa-circle fa-stack-2x"></i>-->
@@ -305,9 +305,7 @@ input::-webkit-input-placeholder {
                                 {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 500px;">
-                              {% for noti in notifications %}
-                                {{noti.verb}}  {% if noti.description %} {{noti.description}} {% else %} <p></p> {% endif %} <br>
-                              {% endfor %}
+                              <p>Welcome </p>
                             </div>
                           </div>
                         </li>

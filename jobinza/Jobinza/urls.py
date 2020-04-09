@@ -46,7 +46,6 @@ urlpatterns = [
     url(r'^search/$',search,name="search"),
 
     path('applicant/', include('applicant.urls')), 
-    url(r'^notifications/', include('notify.urls', 'notifications')),
 
 ]
 

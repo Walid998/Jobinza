@@ -18,7 +18,6 @@ from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
-from notify.signals import notify
 
 def skillsToList(txt):
 	lst = list()
@@ -248,13 +247,6 @@ def send_email(request):
 			email.send()
 	return render(request,'company/send_email.html',{'form':Send_Form})
 
-
-def send_noti(request):
-	user = User.objects.get(pk=2)
-	n = notify.objects.all().filter(recipient=user)
-	#notify.send(request.user, recipient=user, actor=request.user ,
-     #           verb='followed you.', nf_type='followed_by_one_user')
-	return render(request , 'company/notification.html' , {'noti' :n})	
 
 
 

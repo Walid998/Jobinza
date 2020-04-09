@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'applicant.apps.ApplicantConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'notify',
 ]
 
 
@@ -94,7 +93,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'company.context_processors.add_variable_to_context',
-                'company.context_processors.notifications',
             ],
         },
     },
