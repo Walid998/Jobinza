@@ -18,6 +18,8 @@ from company.views import (
 	list_job_publish_view,
 	send_email,
 	read_notification,
+	profile_info,
+	editProfile,
 	
  )
 
@@ -35,6 +37,8 @@ urlpatterns = [
 	path('list_close/' , list_job_close_view , name="list"),
 	path('list_publish/' , list_job_publish_view , name="list"),
 	path('send_email/' ,send_email,name="send_email"),
+	path('profile/<str:user_name>/', profile_info, name='profile'),
+	path('',editProfile, name='edit-profile'),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 	path('notification/' , read_notification , name="notification"),

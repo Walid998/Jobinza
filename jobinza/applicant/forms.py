@@ -1,7 +1,7 @@
 from django import forms
 from applicant.models import upload
 from applicant.models import contacts
-from applicant.models import Profile
+from account.models import Profile
 class uploadForm(forms.ModelForm):
     class Meta:
         model = upload

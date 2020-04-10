@@ -276,7 +276,14 @@ input::-webkit-input-placeholder {
 
                           
                           <li class="has-children" >
+                            {% if user.groups.all.0.name == 'applicant' %}
                             <a href="/applicant/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
+                            {% elif user.groups.all.0.name == 'employeer' %}
+                            <a href="/company/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
+                            {% elif user.is_superuser %}
+                            <a href="" style="padding-right: 17px;">{{user.username }}</a>
+                            {% endif %}
+                            
                             <ul class="dropdown arrow-top" >
                               <li><a href="{% url 'password_change' %}">Change password</a></li>
                               <li><a href="{% url 'logout' %}">Log out</a></li>
