@@ -1,7 +1,26 @@
 from django import forms
 
 from company.models import CreatePost,Match_Results,Send_Email
+from account.models import Profile
 from datetime import datetime
+
+
+
+class editprofileForm(forms.ModelForm):
+    image = forms.ImageField(required=False)
+    phonenumber = forms.CharField(required=False)
+    address = forms.CharField(required=False)
+    class Meta:
+        model = Profile
+        fields = [
+	
+        'image',
+        'phonenumber',
+        'address', 			
+
+]
+
+
 
 
 class CreatePostForm(forms.ModelForm):

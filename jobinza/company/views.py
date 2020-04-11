@@ -12,6 +12,8 @@ from company.models import CreatePost, Match_Results , Notification
 from company.forms import CreatePostForm , SendEmailForm 
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
+from account.models import Profile
+from company.forms import editprofileForm
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib import messages
@@ -212,6 +214,55 @@ def list_job_close_view(request):
 		}
 
 	return render(request,"company/list_job_closed.html", context)
+
+
+
+
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def profile_info(request,user_name):
+    user_info = User.objects.get(username=user_name)
+    pk = User.objects.get(username=user_name).pk
+    try:
+        p_info = Profile.objects.get(author = pk)
+        return render(request,'company/profile.html', {'result': user_info , 'info':p_info } )
+    except:
+        return render(request,'company/profile.html', {'result': user_info , 'info':'' })
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def editProfile (request):    
+    if request.method == 'POST':
+        uname = request.user
+        auth = User.objects.get(username=uname)
+        pk = User.objects.get(username=uname).pk
+        try:
+            pinfo = Profile.objects.get(author = pk)
+            print("***********<<<<<<< pinfo has data >>>>>>>***********")
+            form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.save()
+                #messages.success(request,f'Job has been updated successfully !!')
+                return redirect(f'/company/profile/{request.user}')
+        except:
+            form = editprofileForm(request.POST , request.FILES)
+            if form.is_valid():
+                print("<<< pinfo has no data >>>")
+                inst = Profile()
+                inst.image = request.FILES.get('image')
+                print ('**************************',inst.image)
+                inst.phonenumber = form.cleaned_data.get('phonenumber')
+                inst.address = form.cleaned_data.get('address')
+                inst.author = auth
+                inst.save()
+                return redirect(f'/company/profile/{request.user}')
+
+
+
 
 def send_email(request):
 	Send_Form = SendEmailForm

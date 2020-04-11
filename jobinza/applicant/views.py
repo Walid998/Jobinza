@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from company.models import CreatePost, Match_Results
-from applicant.models import Profile
+from account.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from company.views import skillsToList , update_status
