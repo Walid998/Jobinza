@@ -7,7 +7,6 @@ from datetime import datetime , date
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-
 def upload_location(instance, filename, **kwargs):
 	file_path = 'company/{author_id}/{jobtitle}-{filename}'.format(
 			author_id=str(instance.author), jobtitle=str(instance.jobtitle), filename=filename
@@ -87,3 +86,5 @@ class Notification(models.Model):
     verb = models.CharField(max_length=100 , null= False)
     description = models.TextField()
     read = models.BooleanField(default=False)
+    post = models.IntegerField()
+    applicant = models.IntegerField()

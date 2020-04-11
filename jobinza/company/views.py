@@ -76,7 +76,7 @@ def create_post_view(request):
 			obj.author = author
 			obj.skills = obj.skills.lower()
 			obj.save()		
-			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = " This post is created" )	
+			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
 
 
 	form = CreatePostForm()
@@ -125,6 +125,7 @@ def list_job_view(request):
 
 #jod details
 def job_details(request , job_id):
+	read_notification(request)
 	id_num = int(job_id)
 	job_list = CreatePost.objects.get(id=id_num)
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
@@ -243,9 +244,8 @@ def send_email(request):
 
 
 def read_notification(request):
-    Notifications = Notification.objects.all().filter(receiver = request.user.id)
-    for n in Notifications :
-        if n.read == False:
-            n.read = True
-            n.save()
-    return  render (request ,'company/notification.html', { 'notification' : Notifications })
+	Notifications = Notification.objects.all().filter(receiver = request.user.id)
+	for n in Notifications :
+		if n.read == False:
+			n.read = True
+			n.save()

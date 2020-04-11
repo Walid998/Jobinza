@@ -163,27 +163,67 @@ input::-webkit-input-placeholder {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
+
+
 /************____ End of Search ____**********/
 
 
 /* Notification */
 
+.box {
+    position:absolute;
+    left:40%;
+    top:13%;
 
-#ex4 .p1[data-count]:after{
-  position:absolute;
-  right:1%;
-  top:11%;
-  content: attr(data-count);
-  font-size:40%;
-  padding:.2em;
-  line-height:1em;
-  color: white;
-  background:rgba(255,0,0,.85);
-  text-align:center;
-  min-width: 1em;
+}
+.box:hover{
+  cursor: pointer;
+}
+.notifications {
+    width:50px;
+    height:50px;
+    background:#fff;
+    border-radius:30px;
+    box-sizing:border-box;
+    text-align:center;
+    box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+.notifications .fa {
+    color:black;
+    line-height:50px;
+    font-size:20px;
+}
+.notifications .num {
+    position:absolute;
+    top:0;
+    right:-7px;
+    width:22px;
+    height:25px;
+    border-radius:50%;
+    background:#ff2c74;
+    color:#fff;
+    line-height:25px;
+    font-family:sans-serif;
+    text-align:center;
 }
 
-</style>
+.dropdown-menu{
+  width: 500px;
+  overflow-x: hidden;
+}
+.col-md-6{
+  padding-top: 20px;
+  padding-left: 23px;
+  color:#26a84a;
+}
+.drop-content{
+  height:400px;
+  overflow-y: scroll;
+}
+
+/* End of notification icon */
+ 
+ </style>
  
  
 
@@ -295,21 +335,65 @@ input::-webkit-input-placeholder {
 
                         <!-- Notification -->
 
-                              <a href="/company/notification">
-                                {% if count > 0 %}
-                                <div id="ex4">
-                                  <span class="p1 fa-stack fa-2x has-badge" data-count={{count}}>
-                                    <!--<i class="p2 fa fa-circle fa-stack-2x"></i>-->
-                                    <i class="fa fa-bell"  style="color:black; font-size:25px"></i>
-                                  </span>
+                            <li class="dropdown">
+                            <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b>2</b>)</a> -->
+                              <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
+                                <div class="box">
+                                <div class="notifications">
+                                   {% if count > 0 %}
+ 
+                                 <i class="fa fa-bell"></i>
+                                 <span class="num" id="num" >{{count}}</span>
+ 
+                                   {% else%}  
+                                 <i class="fa fa-bell"></i>
+                                   {% endif %}
                                 </div>
-                              {% else%}  
-                                <!--<i class="p2 fa fa-circle fa-stack-2x"></i>-->
-                                <i class="fa fa-bell"  style="color:black; font-size:25px"></i>
-                                {% endif %}
-                            </a>
+                                </div>
+                               </a>
+                             
+                             
+                              <ul class="dropdown-menu notify-drop">
+                                <div class="notify-drop-title">
+                                  <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6" style="height: auto;">Notifications  {% if count > 0 %} (<b>{{count}} NEW </b>) {% else %}<p></p> {% endif %}</div>
+                                  </div>
+                                </div>
+                                <hr>
+                                <!-- end notify title -->
+                                <!-- notify content -->
+                                <div class="drop-content" >
 
+                                  {% for n in notifications %}
+                                  <a href="/company/details/{{n.post}}" style="width: 100%; height:auto;">
+                                    <li>      
+                                      <li class="icon" style="color: black; margin-left: 10px;">
+                                       <span class="icon"><i class="fa fa-info-circle"></i></span>
+                                       <span class="text" style="padding-left: 5px;">  {{n.verb}} {{n.description}}</span>
+                                       <p class="time" style="float: right; margin-right: 20px;">1 second ago</p>
 
+                                   </li>
+                                </a>
+                                  <hr>
+                                  {% empty %}
+                                   No notification to show
+                                  {% endfor %}
+                                </div>
+                                <div class="notify-drop-footer text-center">
+                                  <a href=""><i class="fa fa-eye"></i> Mark all as read </a>
+                                </div>
+                              </ul>
+                            </li>
+                            <script>
+                                function update() {
+                                  $('.num').remove();
+                                  $.ajax({
+                                      url: 'company/read_notification', //The URL you defined in urls.py
+                                      type : "POST",
+                                      success : function(result) {}
+                                  });
+                                }
+                            </script>
                         <!-- End of notification -->
                         
                       {% else %}
@@ -351,7 +435,6 @@ input::-webkit-input-placeholder {
   <script src="{% static 'jobinza/js/mediaelement-and-player.min.js'%}"></script>
 
   <script src="{% static 'jobinza/js/main.js'%}"></script>
-  <script src="{% static 'notify/notifyX.js' %}"></script>
 
 
   <script>
@@ -442,7 +525,9 @@ input::-webkit-input-placeholder {
         }
       }
 
-
+      $(function () {
+  $('[data-tooltip="tooltip"]').tooltip()
+	});
     </script>
  
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&libraries=places&callback=initAutocomplete"
