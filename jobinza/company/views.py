@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse , HttpResponseRedirect
 from django.utils import timezone
 import datetime
 from dateutil.parser import parse
@@ -92,24 +92,17 @@ def create_post_view(request):
 	context['form'] = form
 	return render(request, "company/create_post.html" , context)
 
-#def update_status():
-#	now = datetime.date.today()
-#	form = CreatePost.objects.all()
-#	for doc in form :
-#		if doc.deadline < now or doc.deadline == now:
-#			doc.status = 'closed'
-#		doc.save()
- 
-
 def update_status():
 	now = datetime.date.today()
 	form = CreatePost.objects.all()
 	for doc in form :
-		if doc.deadline < now or doc.deadline == now :
-			doc.status = 'closed'
-		else :
-			doc.status = 'Publishing'
-		doc.save()
+		if doc.status != 'closed':
+			if  doc.deadline < now or doc.deadline == now  :
+				doc.status = 'closed'
+				Notification.objects.create(receiver=doc.author , verb= doc.jobtitle ,  description = "Post is Closed " , post=doc.id )	
+			else :
+				doc.status = 'Publishing'
+			doc.save()
 
 
 @login_required(login_url='login')
@@ -310,3 +303,4 @@ def read_notification(request):
 		if n.read == False:
 			n.read = True
 			n.save()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
