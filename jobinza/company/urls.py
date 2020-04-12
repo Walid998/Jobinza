@@ -36,7 +36,7 @@ urlpatterns = [
 	path('status_open/<int:job_id>',job_state_open),
 	path('list_close/' , list_job_close_view , name="list"),
 	path('list_publish/' , list_job_publish_view , name="list"),
-	path('send_email/' ,send_email,name="send_email"),
+	path('send_email/<str:user_name>/',send_email,name="send_email"),
 	path('profile/<str:user_name>/', profile_info, name='profile'),
 	path('',editProfile, name='edit-profile'),
 	#path('<slug>/', detail_post_view, name="detail"),

@@ -20,6 +20,7 @@ from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
+import os
 
 def skillsToList(txt):
 	lst = list()
@@ -71,15 +72,21 @@ def create_post_view(request):
 		form.num_vacancies = request.POST.get('num_vacancies')
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
-		form.image = request.FILES.get('image')
+		pic = ''
+		try:
+			com = Profile.objects.get(author = user.id)
+			pic = com.image
+		except:
+			print('>>>company has no photo')
+		#form.image = request.FILES.get('image')
 		if form.is_valid():
 			obj = form.save(commit=False)
+			obj.image= pic
 			author = User.objects.filter(email=user.email).first()
 			obj.author = author
 			obj.skills = obj.skills.lower()
 			obj.save()		
 			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
-
 
 	form = CreatePostForm()
 	context['form'] = form
@@ -264,8 +271,10 @@ def editProfile (request):
 
 
 
-def send_email(request):
+def send_email(request,user_name):
 	Send_Form = SendEmailForm
+	applicant = User.objects.get(username = user_name)
+	print("<<<>>>>>>>>>>>>>  ",applicant.email)
 	if request.method == 'POST':
 		form = Send_Form(data=request.POST)
         
@@ -291,7 +300,8 @@ def send_email(request):
 					headers = { 'Reply To': emails }
 			)
 			email.send()
-	return render(request,'company/send_email.html',{'form':Send_Form})
+
+	return render(request,'company/send_email.html',{'applicant':applicant})
 
 
 def read_notification(request):

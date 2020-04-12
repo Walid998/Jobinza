@@ -12,7 +12,7 @@ from applicant.forms import contactform
 from applicant.forms import editprofileForm
 from applicant.utils import Comparison 
 from django.conf import settings
-from pyresparser import ResumeParser
+from pyresparserx import ResumeParser
 from django.contrib import messages
 import os
 from django.db.models import Q
@@ -30,6 +30,10 @@ def job_details(request , job_id):
     isApplied = False
     try:
         prof =Profile.objects.get(author = user.id)
+        if prof.resume == None:
+            isNewUser = True
+        else:
+            isNewUser = False
     except:
         isNewUser = True
 
