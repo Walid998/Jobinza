@@ -29,14 +29,16 @@
             <div class="row form-group">
               <div class="col-md-12">
                 <label class="font-weight-bold"  for="app_email">Email</label>
-                <input type="app_email" name="email" id="app_email" class="form-control" placeholder="Email Address">
+                <input type="email" value="{{applicant.email}}" name="email" id="app_email" class="form-control" placeholder="Email Address">
               </div>
             </div>
 
             <div class="row form-group">
               <div class="col-md-12">
                 <label class="font-weight-bold" for="message">Content</label> 
-                <textarea name="content" id="content" cols="30" rows="5" class="form-control" placeholder="details of message"></textarea>
+                <textarea name="content" id="content" cols="30" rows="5" class="form-control" placeholder="details of message">
+                  This is static message, you can change it ..
+                </textarea>
               </div>
             </div>
 
@@ -49,5 +51,8 @@
 
           </form>
         </div>
+      </div>
+    </div>
+  </div>
 
         {%endblock content%}
