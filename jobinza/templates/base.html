@@ -361,60 +361,65 @@ input::-webkit-input-placeholder {
                           </li>
                         </li>
 
-                        <!-- Notification -->
+                        <!--------------------------- Notification--------------------------->
 
-                            <li class="dropdown">
-                            <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b>2</b>)</a> -->
-                              <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
-                                <div class="box">
-                                <div class="notifications">
-                                   {% if count > 0 %}
+                        <li class="dropdown">
+
+                          <!-- Notification Icon -->
+                          <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
+                            <div class="box">
+                            <div class="notifications">
+                              {% if count > 0 %}
  
-                                 <i class="fa fa-bell"></i>
-                                 <span class="num" id="num" >{{count}}</span>
+                              <i class="fa fa-bell"></i>
+                              <span class="num" id="num" >{{count}}</span>
  
-                                   {% else%}  
-                                 <i class="fa fa-bell"></i>
-                                   {% endif %}
-                                </div>
-                                </div>
-                               </a>
+                              {% else%}  
+                              <i class="fa fa-bell"></i>
+                              {% endif %}
+                            </div>
+                            </div>
+                          </a>
                              
-                                 
-                              <ul class="dropdown-menu notify-drop">
-                                <div class="notify-drop-title">
-                                    <div class="col-md-6 col-sm-6 col-xs-6" style="height: 30px;">Notifications  {% if count > 0 %} (<b>{{count}} NEW </b>) {% else %}<p></p> {% endif %}</div>
-                                </div>
-                                <hr>
+                         <!-- Notification Dropdown Menu --> 
+                          <ul class="dropdown-menu notify-drop">
+                            <div class="notify-drop-title">
+                              <div class="col-md-6 col-sm-6 col-xs-6" style="height: 30px;">Notifications  {% if count > 0 %} (<b>{{count}} NEW </b>) {% else %}<p></p> {% endif %}</div>
+                            </div>
+                            <hr>
 
-                                <div class="drop-content" id="style-3" >
-                                  {% for n in notifications %}
-                                  <a href="/company/details/{{n.post}}" style="width: 100%; height:auto;">
-                                      <li class="icon" style="color: black; margin-left: 30px;">
-                                       <span class="text" > {{n.verb}} {{n.description}}</span>
-                                       {% if n.read == False %}
-                                       <p class="btn btn-danger" style="float: right; margin-right: 20px; height: 25px; width:50px; font-size: 13px; padding-bottom: 20px;">New</p>
-                                        {% else %} <p></p>
-                                        {% endif %}
-                                      </li> 
-                                  </a>
-                                  <hr>
-                                
-                                  {% empty %}
-                                   <p style="padding-left: 10px;">No notification to show</p>
-                                  {% endfor %}
-                                </div>
-                                <div class="notify-drop-footer text-center">
-                                  <a href="/company/read_notification"><i class="fa fa-eye"></i> Mark all as read </a>
-                                </div>
-                              </ul>
-                            </li>
+                            <div class="drop-content" id="style-3" >
+                              {% for n in notifications %}
+                              <a href="/company/details/{{n.post}}" style="width: 100%; height:auto;">
+                                <li class="icon" style="color: black; margin-left: 30px;">
+                                  <span class="text" > {{n.verb}} {{n.description}}</span>
+                                  {% if n.read == False %}
+                                    <p class="btn btn-danger" style="float: right; margin-right: 20px; height: 25px; width:50px; font-size: 13px; padding-bottom: 20px;">New</p>                                  {% else %} <p></p>
+                                  {% endif %}
+                                </li> 
+                              </a>
+                              <hr>
+                                                              
+                              {% empty %}
+                                <p style="padding-left: 10px;"> There is No Notification to show</p>
+                              {% endfor %}
+                            </div>
 
-                            <script>
-                                function update() {
-                                  $('.num').remove(); }
-                            </script>
-                        <!-- End of notification -->
+                            {% if notifications  %}
+                              <div class="notify-drop-footer text-center">
+                                <a href="/company/read_notification"><i class="fa fa-eye"></i> Mark all as read </a>
+                              </div>
+                            {% else %} <p></p>
+                            {% endif %}
+                          </ul>
+                      </li>
+
+                       <!-- <script>
+                        function update() {
+                        $('.num').remove(); }
+                       </script> -->
+
+                        <!---------------------------- End of notification ---------------------------->
                         
                       {% else %}
                       <li><a href="{% url 'contact'%}">Contact</a></li> 

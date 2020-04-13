@@ -17,7 +17,7 @@ from company.views import (
 	list_job_close_view,
 	list_job_publish_view,
 	send_email,
-	read_notification,
+	readall_notification,
 	profile_info,
 	editProfile,
 	
@@ -41,6 +41,6 @@ urlpatterns = [
 	path('',editProfile, name='edit-profile'),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
-	path('read_notification/' , read_notification , name="notification"),
+	path('read_notification/' , readall_notification , name="notification"),
 
 ]

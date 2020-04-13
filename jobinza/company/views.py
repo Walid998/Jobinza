@@ -127,7 +127,7 @@ def list_job_view(request):
 
 #jod details
 def job_details(request , job_id):
-	read_notification(request)
+	readone_notification(job_id)
 	id_num = int(job_id)
 	job_list = CreatePost.objects.get(id=id_num)
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
@@ -297,10 +297,16 @@ def send_email(request,user_name):
 	return render(request,'company/send_email.html',{'applicant':applicant})
 
 
-def read_notification(request):
+def readall_notification(request):
 	Notifications = Notification.objects.all().filter(receiver = request.user.id)
 	for n in Notifications :
 		if n.read == False:
 			n.read = True
 			n.save()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def readone_notification (job_id):
+	Noti = Notification.objects.get(post = job_id)
+	if Noti.read == False:
+		Noti.read = True
+		Noti.save()
