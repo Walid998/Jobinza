@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from company.models import CreatePost, Match_Results
+from company.models import CreatePost, Match_Results 
 from account.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -173,7 +173,7 @@ def parser_r(resume,resume_name,user):
     pars.resume = resume
     pars.name = data.get('name')
     pars.email              = data.get('email')
-    pars.mobile_number      = data.get('mobile_number')
+    pars.mobile_numberF      = data.get('mobile_number')
     if data.get('degree') is not None:
         pars.education      = ', '.join(data.get('degree'))
     else:
@@ -209,3 +209,21 @@ def search(request):
         else:
             return HttpResponseRedirect('/search/')
     return render(request,'applicant/search.html')
+
+def applied_jobs(request):
+    posts = []
+    result = Match_Results.objects.all().filter(aplcnt = request.user.id)
+    for r in result:
+        post = CreatePost.objects.get(id = r.job_id)
+        posts.append(post)
+        print(r.job_id)
+    print("-------------------------")
+    for post in posts:
+        print(post.id)
+
+    paginator = Paginator(posts,4)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    users = User.objects.all()
+
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )    

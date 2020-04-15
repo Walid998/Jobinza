@@ -288,11 +288,12 @@ input::-webkit-input-placeholder {
                    {% comment %} <input class="form-control" name="srh" type="text" placeholder="Search" aria-label="Search">
                    <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit">Search</button> {% endcomment %}
                   </form> -->
+
                   <li>
                     <form autocomplete="off" action="/search/" method = "post">
                       {%csrf_token%}
                       <div class="autocomplete">
-                        <input id="myInput" class="search" name="srh" type="text" placeholder="Search ..." /> 
+                        <input id="myInput" class="search" name="srh" type="text" required placeholder="Search ..." /> 
                         <!--<input class="search" type="text" placeholder="Search ..." />-->
                         <div class="icon-wrap">
                           <button class="SearchIconBtn" type="submit">
@@ -304,6 +305,34 @@ input::-webkit-input-placeholder {
                       </div>
                     </form>
                   </li>
+
+                  
+                  {% if user.groups.all.0.name == 'applicant' %}
+                        <li>
+                          <a href="#">Home </a>
+                        </li>
+
+                        <li class="has-children">
+                          <a href="#">Jobs</a>
+                          <ul class="dropdown arrow-top">
+                            <li><a href="/applicant/listapp">Browse For Job </a></li>
+                            <li><a href="/applicant/applied_jobs">Applied Jobs</a></li>
+                          </ul>
+                        </li>
+
+                        <li class="has-children" >
+                          <a href="/applicant/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
+                          
+                          <ul class="dropdown arrow-top" >
+                            <li><a href="{% url 'password_change' %}">Change password</a></li>
+                            <li><a href="{% url 'logout' %}">Log out</a></li>
+                          </ul>
+                        </li>
+                      </li>
+
+
+                {% elif user.groups.all.0.name == 'employeer' %} 
+
                       <li class="has-children">
 
                         <a href="#">Jobs</a>
@@ -322,7 +351,6 @@ input::-webkit-input-placeholder {
                         </ul>
                       </li>
                       
-                      
                      <!-- <li><a href="/company/create"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>-->
                       <li class="nav-item dropdown">
 
@@ -337,9 +365,7 @@ input::-webkit-input-placeholder {
 
                           
                           <li class="has-children" >
-                            {% if user.groups.all.0.name == 'applicant' %}
-                            <a href="/applicant/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
-                            {% elif user.groups.all.0.name == 'employeer' %}
+                            {% if user.groups.all.0.name == 'employeer' %}
                             <a href="/company/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
                             {% elif user.is_superuser %}
                             <a href="" style="padding-right: 17px;">{{user.username }}</a>
@@ -348,17 +374,9 @@ input::-webkit-input-placeholder {
                             <ul class="dropdown arrow-top" >
                               <li><a href="{% url 'password_change' %}">Change password</a></li>
                               <li><a href="{% url 'logout' %}">Log out</a></li>
-                              <!--<li class="has-children">
-                                <a href="#">More Links</a>
-                                <ul class="dropdown">
-                                  <li><a href="#">Browse Candidates</a></li>
-                                  <li><a href="#">Post a Job</a></li>
-                                  <li><a href="#">Employeer Profile</a></li>
-                                </ul>
-                              </li>-->
-    
                             </ul>
                           </li>
+
                         </li>
 
                         <!--------------------------- Notification--------------------------->
@@ -418,6 +436,8 @@ input::-webkit-input-placeholder {
                         function update() {
                         $('.num').remove(); }
                        </script> -->
+
+                       {% endif %}                      
 
                         <!---------------------------- End of notification ---------------------------->
                         
@@ -567,7 +587,7 @@ input::-webkit-input-placeholder {
     
     {% endblock content %}
 
-    {% if request.path != '/company/create/' and user.is_authenticated %}
+    {% if request.path != '/company/create/' and user.is_authenticated and user.groups.all.0.name == 'employeer' %}
     <div class="add-button">
       <a class="add-btn" href="/company/create"><i class="fa fa-plus" style="color: #28a745;"></i></a>
     </div>

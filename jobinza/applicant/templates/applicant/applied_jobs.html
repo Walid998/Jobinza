@@ -1,0 +1,124 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content%}
+<style>
+    .owl-dots{
+      display:none
+    }
+
+    .rounded {
+        margin: 20px;
+        width: 800px;
+        margin-left: 10%;
+    }
+    .job-item {
+        width: 800px;
+    }
+    .mb-5 {
+      padding-left: 70px;
+    }
+  </style>
+
+<div class="site-section bg-light" style="margin-top: -50px;">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+          <h2 class="mb-5 h3" >Applied Jobs</h2>
+            
+          <div class="rounded border jobs-wrap">
+            {% for post in posts %} 
+            <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+              <div class="company-logo blank-logo text-center text-md-left pl-3">
+                <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+              </div>
+              <div class="job-details h-100">
+                <div class="p-3 align-self-center">
+  
+                  <div class="row">
+                  <h3 style="padding-top: 4px;">
+                   {{post.jobtitle}}
+                  </h3>
+                   {% for user in users%}
+                    {% if post.author_id == user.id %}
+                    <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+                    {%else%} <div></div>
+                    {%endif%}
+                  {% endfor %} 
+                </div>
+                  <div class="d-block d-lg-flex">
+                    <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                      {{post.careerlevel}} 
+                </div>
+  
+                    <div><i class="fas fa-clock mr-1"></i>
+                      {{post.jobtype}}
+                    </div>
+                     <div class="mr-3" style="margin-left:5px"><i class="fas fa-map-marker-alt"></i>
+                        {{post.joblocation}}
+                    </div> 
+                    
+                  </div>
+                </div>
+              </div>
+                <div class="job-category align-self-center">
+                    <div class="p-3">
+                      {% for r in result %}
+                        {% if r.job_id == post.id %}
+                        <p class="btn btn-outline-info " >{{r.status}}</p>
+                        {% elif r.status == 'Accepted' %}
+                        <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;" >{{r.status}}</p>
+                        {% endif %}
+                       {% endfor %}
+                    </div>
+                </div>   
+            </a>
+       
+  
+            {% empty %}
+                  <li class="list-group-item ">no jobs added</li>
+    
+            {% endfor %}
+          </div>
+ 
+          <br>
+          <nav class='d-flex justify-content-center' aria-label="Page navigation example">
+  
+            <ul class="pagination justify-content-end">
+              <li class="page-item">
+                {% if posts.has_previous %}
+                <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
+                <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
+                {% endif %}
+              </li>
+              {% for num in posts.paginator.page_range %}
+                {% if posts.number == num %}
+                <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+                {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
+              <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+              {% elif posts.has_next != True%}
+                {% endif %}
+              {% endfor %}
+    
+              <li class="page-item">
+                {% if posts.has_next %}
+                <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
+                <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
+                {%endif%}
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+    </div>
+  </div>
+  </div>
+  <script>
+    $(function(){
+      $('#mess').delay(4000).fadeOut('fast')
+    })
+    
+  </script>
+  
+  {% endblock%}
