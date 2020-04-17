@@ -50,7 +50,7 @@ class Match_Results(models.Model):
     resume = models.CharField('resume', max_length=100, null=True, blank=True)
     aplcnt = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     app_email = models.CharField('email',max_length=50, null=False, blank=True)
-    job_id = models.CharField('the job', max_length=100, null=True, blank=True)
+    job_id = models.IntegerField('the job', null=True, blank=True)
     skills_rslt = models.CharField('match result', max_length=1000, null=True, blank=True)
     status = models.CharField('status', max_length=100, null=True, blank=True)
     content = models.CharField(max_length=300,null=True,blank=True)
