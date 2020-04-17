@@ -22,6 +22,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 import os
 from django.core.paginator import Paginator
+from Jobinza.utils import PaginatorX
 
 def skillsToList(txt):
 	lst = list()
@@ -121,7 +122,7 @@ def list_job_view(request):
 	y =len(close)
 	open = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	z =len(open)
-	
+	listpost = PaginatorX(request,listpost,5)
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
@@ -344,7 +345,7 @@ def readall_notification(request):
 
 def readone_notification (job_id):
 	Noti = Notification.objects.get(post = job_id)
-	if Noti != None:
-		if Noti.read == False:
-			Noti.read = True
-			Noti.save()
+	if Noti.read == False:
+		Noti.read = True
+		Noti.save()
+
