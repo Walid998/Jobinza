@@ -34,6 +34,7 @@ class CreatePost(models.Model):
     skills 			= models.CharField(max_length=500, null=False, blank=True)
     deadline 		= models.DateField(null=False, blank=True ) 
     status          = models.CharField(max_length=10 , default="Publishing" )
+    category        = models.ForeignKey('category' , on_delete = models.CASCADE)
     date_published 		= models.DateTimeField(auto_now_add=True, verbose_name="date published")
     date_updated 		= models.DateTimeField(auto_now=True, verbose_name="date updated")
     author 			= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -88,3 +89,6 @@ class Notification(models.Model):
     read = models.BooleanField(default=False)
     post = models.IntegerField()
     applicant = models.IntegerField()
+
+class category(models.Model):
+    name = models.CharField( max_length=100 ,primary_key=True)

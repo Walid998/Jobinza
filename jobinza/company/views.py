@@ -8,7 +8,7 @@ import time
 import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
-from company.models import CreatePost, Match_Results , Notification
+from company.models import CreatePost, Match_Results , Notification , category
 from company.forms import CreatePostForm , SendEmailForm 
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
@@ -21,6 +21,7 @@ from django.utils.dateparse import parse_date
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 import os
+from django.core.paginator import Paginator
 
 def skillsToList(txt):
 	lst = list()
@@ -35,7 +36,7 @@ def skillsToList(txt):
 	return lst
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant' , 'employeer'])
+@allowed_users(allowed_roles=['employeer'])
 #def create_post_view(request):
 #	context = {}
 #	user = request.user
@@ -53,9 +54,9 @@ def skillsToList(txt):
 
 #	context['form'] = form
 #	return render(request, "company/create_post.html" , context)
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def create_post_view(request):
-	context = {}
 	user = request.user
 	#form = CreatePostForm(request.POST or None, request.FILES or None)
 	if request.method =='POST':
@@ -72,6 +73,7 @@ def create_post_view(request):
 		form.num_vacancies = request.POST.get('num_vacancies')
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
+		form.category = request.POST.get('category')
 		pic = ''
 		try:
 			com = Profile.objects.get(author = user.id)
@@ -89,8 +91,7 @@ def create_post_view(request):
 			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
 
 	form = CreatePostForm()
-	context['form'] = form
-	return render(request, "company/create_post.html" , context)
+	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
 
 def update_status():
 	now = datetime.date.today()
@@ -109,6 +110,12 @@ def update_status():
 def list_job_view(request):
 	update_status()
 	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	categories = []
+	for post in listpost:
+		category = post.category_id
+		categories.append(category)
+	categories = list(dict.fromkeys(categories))
+
 	x = len(listpost)
 	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	y =len(close)
@@ -121,9 +128,42 @@ def list_job_view(request):
 		'contact' : x,
 		'clo' : y,
 		'ope' : z,
+		'categories':categories
 	}
 	
 	return render(request,"company/list_job.html", context)
+
+
+#list posts with specific category 
+def category_posts(request , category_name):
+	categories = []
+	list_posts = CreatePost.objects.all().filter(author= request.user.id)
+	posts = list_posts.filter( category_id = category_name)
+	x = len(posts)
+	close = posts.filter(author= request.user.id,status='closed')
+	y =len(close)
+	open = posts.filter(author= request.user.id,status='Publishing')
+	z =len(open)
+
+	for post in list_posts:
+		category = post.category_id
+		categories.append(category)
+	categories = list(dict.fromkeys(categories))
+
+	paginator = Paginator(posts , 4)
+	page = request.GET.get('page')
+	posts = paginator.get_page(page)
+
+	context = {
+		'posts': posts,
+		'contact' : x,
+		'clo' : y,
+		'ope' : z,
+		'category_name' : category_name,
+		'categories' :categories
+	}
+	return render(request,"company/list_categoryPosts.html", context)
+
 
 #jod details
 def job_details(request , job_id):
@@ -217,9 +257,6 @@ def list_job_close_view(request):
 
 
 
-
-
-
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
 def profile_info(request,user_name):
@@ -307,6 +344,7 @@ def readall_notification(request):
 
 def readone_notification (job_id):
 	Noti = Notification.objects.get(post = job_id)
-	if Noti.read == False:
-		Noti.read = True
-		Noti.save()
+	if Noti != None:
+		if Noti.read == False:
+			Noti.read = True
+			Noti.save()

@@ -20,7 +20,7 @@ from company.views import (
 	readall_notification,
 	profile_info,
 	editProfile,
-	
+	category_posts,
  )
 
 
@@ -42,5 +42,7 @@ urlpatterns = [
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 	path('read_notification/' , readall_notification , name="notification"),
+	path('catgeory_posts/<str:category_name>' , category_posts , name="categoryPosts"),
+
 
 ]
