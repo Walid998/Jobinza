@@ -21,6 +21,7 @@ from django.utils.dateparse import parse_date
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 import os
+from Jobinza.utils import PaginatorX
 
 def skillsToList(txt):
 	lst = list()
@@ -114,7 +115,7 @@ def list_job_view(request):
 	y =len(close)
 	open = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	z =len(open)
-	
+	listpost = PaginatorX(request,listpost,5)
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
@@ -310,3 +311,4 @@ def readone_notification (job_id):
 	if Noti.read == False:
 		Noti.read = True
 		Noti.save()
+

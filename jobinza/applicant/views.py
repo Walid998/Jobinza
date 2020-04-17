@@ -17,6 +17,7 @@ from django.contrib import messages
 import os
 from django.db.models import Q
 from django.core.paginator import Paginator
+from Jobinza.utils import PaginatorX
 # Create your views here.
 
 
@@ -158,9 +159,7 @@ def list_applicant(request):
     update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-    paginator = Paginator(listpost,5)
-    page = request.GET.get('page')
-    listpost = paginator.get_page(page)
+    listpost = PaginatorX(request,listpost,5)
     return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
 
 #####################################

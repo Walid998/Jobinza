@@ -1,9 +1,0 @@
-{% extends 'base.html'%}
-{%block content%}
- 
-<form method="POST">
-    {% csrf_token %}
-    <input type ="text" name="skills" placeholder="Enter a skill to add">
-    <button>Submit </button>
-</form>
-{%endblock content%}
