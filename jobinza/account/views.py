@@ -6,6 +6,8 @@ from django.contrib import messages
 from .decorators import unauthenticated_user
 from django.contrib.auth.models import Group
 from company.models import CreatePost
+import random
+from django.contrib.auth.models import User
 
 @unauthenticated_user
 def registration_view(request):
@@ -65,3 +67,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+def guestPage(request):
+    jobs = CreatePost.objects.all()
+    users = User.objects.all()
+    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users})

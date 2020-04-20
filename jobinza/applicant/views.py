@@ -91,14 +91,14 @@ def job_details(request , job_id):
             
     return render(request,'applicant/job_details.html', context)
 
-def home(request):   
-    update_status()
-    listusers = User.objects.all()
-    listpost=CreatePost.objects.all()
-    paginator = Paginator(listpost,5)
-    page = request.GET.get('page')
-    listpost = paginator.get_page(page)
-    return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
+# def home(request):   
+#     update_status()
+#     listusers = User.objects.all()
+#     listpost=CreatePost.objects.all()
+#     paginator = Paginator(listpost,5)
+#     page = request.GET.get('page')
+#     listpost = paginator.get_page(page)
+#     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
 
 def contact(request):
     if request.method =='POST':
