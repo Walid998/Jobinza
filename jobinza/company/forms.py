@@ -45,7 +45,7 @@ class CreatePostForm(forms.ModelForm):
         'skills', 				
         'deadline',
         'image',
-
+        'category',
 ]
 
 class SendEmailForm(forms.Form):
