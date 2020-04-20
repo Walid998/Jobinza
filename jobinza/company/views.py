@@ -24,6 +24,7 @@ import os
 from django.core.paginator import Paginator
 from Jobinza.utils import PaginatorX
 
+
 def skillsToList(txt):
 	lst = list()
 	t=''
@@ -36,8 +37,7 @@ def skillsToList(txt):
 			t=''
 	return lst
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
+
 #def create_post_view(request):
 #	context = {}
 #	user = request.user
@@ -59,6 +59,7 @@ def skillsToList(txt):
 @allowed_users(allowed_roles=['employeer'])
 def create_post_view(request):
 	user = request.user
+	categories = category.objects.all()
 	#form = CreatePostForm(request.POST or None, request.FILES or None)
 	if request.method =='POST':
 		form = CreatePostForm(request.POST or None, request.FILES or None)
@@ -94,7 +95,9 @@ def create_post_view(request):
 	form = CreatePostForm()
 	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
 
-def update_status():
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer' , 'applicant'])
+def update_status(request):
 	now = datetime.date.today()
 	form = CreatePost.objects.all()
 	for doc in form :
@@ -106,10 +109,10 @@ def update_status():
 				doc.status = 'Publishing'
 			doc.save()
 
-
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def list_job_view(request):
-	update_status()
+	update_status(request)
 	listpost = CreatePost.objects.all().filter(author= request.user.id)
 	categories = []
 	for post in listpost:
@@ -136,6 +139,8 @@ def list_job_view(request):
 
 
 #list posts with specific category 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def category_posts(request , category_name):
 	categories = []
 	list_posts = CreatePost.objects.all().filter(author= request.user.id)
@@ -167,9 +172,10 @@ def category_posts(request , category_name):
 
 
 #jod details
+
 def job_details(request , job_id):
-	readone_notification(job_id)
 	id_num = int(job_id)
+	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	context = {
@@ -179,6 +185,8 @@ def job_details(request , job_id):
 		}
 	return render(request,'company/job_details.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_edit(request, job_id):
 	id_num = int(job_id)
 	jobpost = CreatePost.objects.get(id = id_num)
@@ -192,11 +200,13 @@ def job_edit(request, job_id):
 		obj.skills=  obj.skills.lower()
 		obj.save()
 		messages.success(request,f'Job \"{jobpost.jobtitle}\" has been updated successfully !!')
-		update_status()
+		update_status(request)
 		return redirect(f'/company/details/{jobpost.id}')
 
 	return render(request,'company/edit_post.html',context)
-	
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])	
 def job_state_closed(request , job_id):
 	id_num = int(job_id)
 	job = CreatePost.objects.get(id=id_num)
@@ -207,7 +217,8 @@ def job_state_closed(request , job_id):
 		job.save()
 	return redirect(f'/company/details/{job.id}')
 
-	
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_state_open(request , job_id ):
 	id_num = int(job_id)
 	job = CreatePost.objects.get(id=id_num)
@@ -219,7 +230,8 @@ def job_state_open(request , job_id ):
 	return redirect(f'/company/details/{job.id}')
 
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_delete(request, job_id):
 	job_id = int(job_id)
 	try:
@@ -233,8 +245,9 @@ def job_delete(request, job_id):
 
 #publish job
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def list_job_publish_view(request):
-	update_status()
+	update_status(request)
 	listpost = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	context = {
 		'title' : 'list jobs',
@@ -246,8 +259,9 @@ def list_job_publish_view(request):
 
 #close job
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def list_job_close_view(request):
-	update_status()
+	update_status(request)
 	listpost = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	context = {
 		'title' : 'list jobs',
@@ -299,9 +313,8 @@ def editProfile (request):
                 inst.save()
                 return redirect(f'/company/profile/{request.user}')
 
-
-
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def send_email(request,user_name):
 	Send_Form = SendEmailForm
 	applicant = User.objects.get(username = user_name)
@@ -334,7 +347,8 @@ def send_email(request,user_name):
 
 	return render(request,'company/send_email.html',{'applicant':applicant})
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def readall_notification(request):
 	Notifications = Notification.objects.all().filter(receiver = request.user.id)
 	for n in Notifications :
@@ -343,7 +357,8 @@ def readall_notification(request):
 			n.save()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def readone_notification (job_id):
+
+def readone_notification(job_id):
 	Noti = Notification.objects.get(post = job_id)
 	if Noti.read == False:
 		Noti.read = True

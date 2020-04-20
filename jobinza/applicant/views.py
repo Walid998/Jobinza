@@ -18,10 +18,12 @@ import os
 from django.db.models import Q
 from django.core.paginator import Paginator
 from Jobinza.utils import PaginatorX
+from account.decorators import allowed_users , unauthenticated_user
 # Create your views here.
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
     print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
@@ -92,7 +94,6 @@ def job_details(request , job_id):
     return render(request,'applicant/job_details.html', context)
 
 def home(request):   
-    update_status()
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     paginator = Paginator(listpost,5)
@@ -100,6 +101,7 @@ def home(request):
     listpost = paginator.get_page(page)
     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
 
+@unauthenticated_user
 def contact(request):
     if request.method =='POST':
             post=contacts()
@@ -113,8 +115,8 @@ def contact(request):
     return render(request,'applicant/contact.html')
 
 
-
 @login_required(login_url='login')
+@allowed_users(allowed_roles=[ 'applicant'])
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
@@ -126,6 +128,7 @@ def profile_info(request,user_name):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def editProfile (request):    
     if request.method == 'POST':
         print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
@@ -155,8 +158,9 @@ def editProfile (request):
                 return redirect(f'/applicant/profile/{request.user}')
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def list_applicant(request):
-    update_status()
+    update_status(request)
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
@@ -164,6 +168,8 @@ def list_applicant(request):
 
 #####################################
 ########____UPLOAD RESUME____########
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def parser_r(resume,resume_name,user):
     pars=Resume_Parsed()
     parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, resume_name))
@@ -192,7 +198,8 @@ def parser_r(resume,resume_name,user):
     pars.save()
 
 ###################search################################
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=[ 'employeer' , 'applicant'])
 def search(request):
     if request.method=='POST':
         srch = request.POST['srh']
@@ -209,6 +216,8 @@ def search(request):
             return HttpResponseRedirect('/search/')
     return render(request,'applicant/search.html')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def applied_jobs(request):
     posts = []
     result = Match_Results.objects.all().filter(aplcnt = request.user.id)

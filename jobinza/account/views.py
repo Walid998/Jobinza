@@ -53,7 +53,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/company/list')
+            if user.groups.filter(name="employeer").exists():
+                return redirect('/company/list')
+            elif user.groups.filter(name="applicant").exists():
+                return redirect('/applicant/listapp')
         else:
             messages.warning(
                 request, 'your username or password isn\'t correct !! ')
