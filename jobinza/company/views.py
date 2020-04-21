@@ -361,8 +361,9 @@ def readall_notification(request):
 
 
 def readone_notification(job_id):
-	Noti = Notification.objects.get(post = job_id)
-	if Noti.read == False:
-		Noti.read = True
-		Noti.save()
+	Noti = Notification.objects.all().filter(post = job_id)
+	for n in Noti :
+		if n.read == False:
+			n.read = True
+			n.save()
 

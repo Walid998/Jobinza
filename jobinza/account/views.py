@@ -8,6 +8,9 @@ from django.contrib.auth.models import Group
 from company.models import CreatePost
 import random
 from django.contrib.auth.models import User
+from account.models import Profile
+from django.core.paginator import Paginator
+
 
 @unauthenticated_user
 def registration_view(request):
@@ -70,7 +73,22 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@unauthenticated_user
 def guestPage(request):
+    result = []
+    companies = []
+    profiles = Profile.objects.all()
     jobs = CreatePost.objects.all()
     users = User.objects.all()
-    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users})
+    for user in users :
+        if user.groups.filter(name="employeer").exists():
+            companies.append(user)
+    for company in companies :
+        for profile in profiles :
+            if company.id == profile.author_id:
+                result.append(profile)
+
+    paginator = Paginator(jobs,5)
+    page = request.GET.get('page')
+    jobs = paginator.get_page(page)
+    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result})

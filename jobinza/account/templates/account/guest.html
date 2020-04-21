@@ -105,10 +105,10 @@
 
 <div class="site-section bg-light">
     <div class="container">
-      <div class="row">
+      <div class="row" id="jobs">
         <div class="col-md-8 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="100">
           <h2 class="mb-5 h3">Recent Jobs</h2>
-          <div class="rounded border jobs-wrap">
+          <div class="rounded border jobs-wrap" >
             {% for post in jobs %} 
             <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
               <div class="company-logo blank-logo text-center text-md-left pl-3">
@@ -161,48 +161,69 @@
                   <li class="list-group-item ">no jobs added</li>
             {% endfor %}
           </div>
-          {% if joblength > 8 %}
+            <br>
+            <nav class='d-flex justify-content-center' aria-label="Page navigation example">
+              <ul class="pagination justify-content-end">
+                <li class="page-item">
+                  {% if jobs.has_previous %}
+                  <a class= "page-link" href ="?page={{ jobs.previous_page_number }}#jobs">Previous</a>
+                  <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
+                  {% endif %}
+                </li>
+                {% for num in jobs.paginator.page_range %}
+                  {% if jobs.number == num %}
+                  <a class="page-link" href="?page={{ num }}#jobs" > {{num}} </a>
+                  {% elif num > jobs.number|add:'-3' and num < jobs.number|add:'3'%}
+                <a class="page-link" href="?page={{ num }}#jobs" > {{num}} </a>
+                {% elif jobs.has_next != True%}
+                  {% endif %}
+                {% endfor %}
+      
+                <li class="page-item">
+                  {% if jobs.has_next %}
+                  <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
+                  <a class="page-link" href="?page={{ jobs.paginator.num_pages }}#jobs">Next</a>
+                  {%endif%}
+                </li>
+              </ul>
+            </nav>
+
+          </div>
+          
+          <!-- {% if joblength > 8 %}
           <div class="col-md-12 text-center mt-5">
             <a href="#" class="btn btn-primary rounded py-2 px-4"><span class="icon-plus-circle"></span> Show More Jobs</a>
           </div>
           {% endif %}
-        </div>
+ -->
         <div class="col-md-4 block-16" data-aos="fade-up" data-aos-delay="200">
           <div class="d-flex mb-0">
             <h2 class="mb-5 h3 mb-0">Featured Jobs</h2>
             <div class="ml-auto mt-1"><a href="#" class="owl-custom-prev">Prev</a> / <a href="#" class="owl-custom-next">Next</a></div>
           </div>
 
-          <div class="nonloop-block-16 owl-carousel">
-
-            <div class="border rounded p-4 bg-white">
-            {% for post in jobs %} 
-                <h2 class="h5" style="display: inline;">
-                {% if post.jobtitle %}
-                {{post.jobtitle}}
-                {% endif %}
-                </h2>
-                <p style="display: inline-block;">
-                    {% for user in users%}
-                    {% if post.author_id == user.id%}
-                    <span class="border border-warning rounded p-1 px-2 text-warning">
-                        @ {{user.username}}
-                    </span>
-                    {% endif %}
-                    {% endfor %}
-                </p>
-                <p>
-            <span class="d-block"><span class="icon-room"></span>  {{post.joblocation}} , {{post.city}} , {{post.Area}}</span>
-            <span class="d-block"><span class="icon-money mr-1"></span> {{post.salary_range1}} &mdash; {{post.salary_range2}}</span>
-          </p>
-          <p class="mb-0" style="word-wrap: break-word;">Job Description:  {{post.job_description}} with : <br> - {{post.year_of_experience}} years Experience <br>
-          <a href="/applicant/details/{{post.id}}" class="text-danger" style="text-decoration: underline; padding-top: 15px;"><small>More details</small></a>
-
-            {% empty %}
-              <div class="d-flex justify-content-center">no jobs added</div>
+          <div class="nonloop-block-16 owl-carousel" >
+            {% for post in jobs %}
+          <div class="border rounded p-4 bg-white">
+            <h2 class="h5">{{post.jobtitle}} </h2> 
+            {% for user in users%}
+                {% if post.author_id == user.id %}
+              <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+               {% else %} <div></div>
+               {% endif %}
             {% endfor %}
-            </div>
+            <p>
+              <span class="d-block"><span class="icon-room"></span>  {{post.joblocation}} , {{post.city}} , {{post.Area}}</span>
+              <span class="d-block"><span class="icon-money mr-1"></span> {{post.salary_range1}} &mdash; {{post.salary_range2}}</span>
+            </p>
+            <p class="mb-0">We are hiring a {{post.job_description}} with : <br> - {{post.year_of_experience}} years Experience
+            <br> - {{post.skills_id}} skills </p>
+            <a href="/applicant/details/{{post.id}}" class="text-danger" style="text-decoration: underline; padding-top: 15px;"><small>More details</small></a>
+  
           </div>
+          {% endfor %}
+        </div>
+
         </div>
       </div>
     </div>
@@ -216,38 +237,22 @@
           <h2>Companies Using Jobinza</h2>
         </div>
       </div>
-      <div class="nonloop-block-15 owl-carousel"> 
-        <div class="media-with-text">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="image-play">
-              <img src="../../../static/jobinza/images/img_1.jpg" alt="" class="img-fluid">
-            </a>
+      <div class="nonloop-block-15 owl-carousel" style="width: 750px; margin-left: 16%;"> 
+        {% for profile in profiles %}
+        {% if profile.image %}
+        <div class="media-with-text" style="width:230px; height: 200px;">
+          <div class="img-border-sm" >
+              <a href="#" class="image-play" >
+                <img src="{{profile.image.url}}" alt="" class="img-fluid">
+              </a>
           </div>
         </div>
-        <div class="media-with-text">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="image-play">
-              <img src="../../../static/jobinza/images/img_3.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-        </div>
-        <div class="media-with-text">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="image-play">
-              <img src="../../../static/jobinza/images/img_1.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-        </div>
-        <div class="media-with-text">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="image-play">
-              <img src="../../../static/jobinza/images/img_2.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-        </div>
+               
+        {% endif %}
+        {% endfor %}
       </div>
-      <div class="row">
-        
+
+      <div class="row">      
       </div>
     </div>
   </div>
@@ -308,5 +313,9 @@
       </div>
     </div>
   </div>
+
+
+
+
 
 {% endblock content%}
