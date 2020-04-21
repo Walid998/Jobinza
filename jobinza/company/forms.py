@@ -10,13 +10,18 @@ class editprofileForm(forms.ModelForm):
     image = forms.ImageField(required=False)
     phonenumber = forms.CharField(required=False)
     address = forms.CharField(required=False)
+    location = forms.CharField(required=False)
+    description = forms.CharField(required=False)
+
     class Meta:
         model = Profile
         fields = [
 	
         'image',
         'phonenumber',
-        'address', 			
+        'address',
+        'location', 
+        'description',			
 
 ]
 

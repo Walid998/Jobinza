@@ -16,6 +16,8 @@ class Profile(models.Model):
     image = models.ImageField('image',upload_to= upload_location, null=False, blank=True)    
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     phonenumber = models.CharField(max_length=50, null=False, blank=True)
-    address = models.CharField(max_length=50, null=False, blank=True)
+    address = models.CharField(max_length=100, null=False, blank=True)
+    location = models.CharField(max_length=50, null=False, blank=True)
+    description = models.CharField(max_length=500, null=False, blank=True)
     author 	= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     

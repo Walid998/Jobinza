@@ -234,31 +234,33 @@ def profile_info(request,user_name):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
 def editProfile (request):    
-    if request.method == 'POST':
-        uname = request.user
-        auth = User.objects.get(username=uname)
-        pk = User.objects.get(username=uname).pk
-        try:
-            pinfo = Profile.objects.get(author = pk)
-            print("***********<<<<<<< pinfo has data >>>>>>>***********")
-            form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
-            if form.is_valid():
-                obj = form.save(commit=False)
-                obj.save()
+	if request.method == 'POST':
+		uname = request.user
+		auth = User.objects.get(username=uname)
+		pk = User.objects.get(username=uname).pk
+		try:
+			pinfo = Profile.objects.get(author = pk)
+			print("***********<<<<<<< pinfo has data >>>>>>>***********")
+			form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
+			if form.is_valid():
+				obj = form.save(commit=False)
+				obj.save()
                 #messages.success(request,f'Job has been updated successfully !!')
-                return redirect(f'/company/profile/{request.user}')
-        except:
-            form = editprofileForm(request.POST , request.FILES)
-            if form.is_valid():
-                print("<<< pinfo has no data >>>")
-                inst = Profile()
-                inst.image = request.FILES.get('image')
-                print ('**************************',inst.image)
-                inst.phonenumber = form.cleaned_data.get('phonenumber')
-                inst.address = form.cleaned_data.get('address')
-                inst.author = auth
-                inst.save()
-                return redirect(f'/company/profile/{request.user}')
+				return redirect(f'/company/profile/{request.user}')
+		except:
+			form = editprofileForm(request.POST , request.FILES)
+			if form.is_valid():
+				print("<<< pinfo has no data >>>")
+				inst = Profile()
+				inst.image = request.FILES.get('image')
+				print ('**************************',inst.image)
+				inst.phonenumber = form.cleaned_data.get('phonenumber')
+				inst.address = form.cleaned_data.get('address')
+				inst.location = form.cleaned_data.get('location')
+				inst.description = form.cleaned_data.get('description')
+				inst.author = auth
+				inst.save()
+				return redirect(f'/company/profile/{request.user}')
 
 
 

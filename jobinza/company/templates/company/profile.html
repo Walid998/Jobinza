@@ -10,6 +10,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
     <link rel="stylesgeet" href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css">
+    <link rel="stylesheet" href="//unpkg.com/bootstrap-select-country@4.0.0/dist/css/bootstrap-select-country.min.css" type="text/css" />
+
     <!---------------------------------------------------------------------------->
 
     
@@ -19,7 +21,7 @@
   body{
     /*background-color: #f0f0f0;*/
     /* background-color: #579464; */
-    background-color: #28a745;
+    background-color: #fafafa;
   }
 
   html *{
@@ -47,7 +49,8 @@ h6, h4 {
 }
 
 .edit{
-    text-align: center;
+    display: inline;
+    position: absolute;
 }
 
 .edit-btn{
@@ -58,6 +61,10 @@ h6, h4 {
     background: none;
     font-weight: bold;
     color: #28a745;
+    position: absolute;
+    right: 40px;
+    top: -0.5%;
+
 }
 
 .edit-btn:hover{
@@ -102,7 +109,7 @@ a .material-icons {
 .header-filter:after, .header-filter:before {
     position: absolute;
     width: 100%;
-    height: 81.1%;
+    height: 75%;
     display: block;
     left: 0;
     top: 0;
@@ -110,7 +117,8 @@ a .material-icons {
 }
 
 .header-filter::before {
-    background: rgba(0,0,0,0.2);
+    /*background: rgba(0,0,0,0.2);*/
+   background: linear-gradient(to right, rgba(25,92,47,0.4) 0%, rgba(97,139,37,0.4) 28%, rgba(38,168,74,0.4) 50%, rgba(206,236,151,0.4) 120%);
 }
 
 .main-raised {
@@ -156,21 +164,45 @@ a .material-icons {
 }
 
 .title-name {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 90px;
+    margin: 20px 0 0 20px ;
     min-height: 32px;
     color: #3C4858;
     font-weight: 700;
+    display: inline;
+    position: absolute;
     /*font-family: "Roboto Slab","Times New Roman",serif;*/
 }
 
 .profile-page .description {
-    margin: 1.071rem auto 0;
-    max-width: 600px;
-    color: #999;
+    /* margin: 1.071rem auto 0; */
+    max-width: auto;
+    color: #000;
     font-weight: 300;
+    display:inline;
+    float: left;
+    margin-top: 20px;
 }
+
+.description-info{
+
+    width: 300px;
+    background: none;
+    float: left;
+    display: inline-block;
+    
+}
+
+.d-info{
+    background: none;
+    /* border : solid 2px #28a745; 
+    border-radius: 20px; */
+    margin-right: 200px;
+    padding: 10px 20px;
+    width: 500px;
+}
+
+
+
 
 p {
     font-size: 14px;
@@ -178,7 +210,7 @@ p {
 }
 
 .profile-page .profile-tabs {
-    margin-top: 4.284rem;
+    margin-top: 200px;
 }
 
 .nav-pills, .nav-tabs {
@@ -188,7 +220,7 @@ p {
 }
 
 .nav .nav-item {
-    position: relative;
+    /* position: relative; */
     margin: 0 2px;
 }
 
@@ -239,8 +271,12 @@ p {
     margin-bottom: 2.142rem;
 }
 
-.profile-page .profile .name{
-    margin-top: -80px;
+.profile-page .profile{
+    height: 100px;
+}
+
+.profile-page .profile .info{
+    margin-top: 0px;
 }
 
 img.rounded {
@@ -471,7 +507,7 @@ footer p a:hover {
 		<div class="profile-content">
             <div class="container">
                 <div class="row">
-	                <div class="col-md-6">
+	                <div class="col-md-20">
         	           <div class="profile">
 	                        <div class="avatar">
                                 {% if info.image %}
@@ -479,6 +515,9 @@ footer p a:hover {
                                 {% else %}
                                 <img src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
                                 {% endif %}
+                                <h3 class="title-name">{{result.username}}</h3> 
+                                <!-- <span class="user">(@{{result.username}})</span> -->
+                                <button type="button" class="edit-btn" data-toggle="modal" data-target="#modalAvatar">Edit Profile</button>
 
                             </div>
                             <!-- <div class="view zoom">
@@ -487,75 +526,93 @@ footer p a:hover {
                                     <p class="white-text">Zoom effect</p>
                                 </div>
                             </div> -->
-	                        <div class="name">
+	                        <!-- <div class="info">
                                 
                                 
-                              <h3 class="title-name">{{result.username}} <span class="user">(@{{result.username}})</span></h3> 
+                            </div> -->
                               
-                              <div class="input-group pt-3" style="padding-left: 42%">
-                                  <div style="display: block;"><i class="fa fa-envelope"></i></div>
-                                  <h4 style="padding-left: 10px;">{{result.email}}</h4>
-                                </div>
-                              {% if info is not None %}
-
-                              {% if info.address %}
-                              <div class="input-group" style="padding-left: 42%">
-                                <div style="display: block;"><i class="fa fa-address-card"></i></div>
-                                <h4 style="padding-left: 10px;">{{info.address}}</h4>
-                              </div>
-                              {% endif %}
-
-                              {% if info.phonenumber %}
-                              <div class="input-group" style="padding-left: 42%">
-                                <div style="display: block;"><i class="fa fa-phone"></i></div>
-                                <h4 style="padding-left: 10px;">{{info.phonenumber}}</h4>
-                              </div>
-                              {% endif %}
-
-                              {% endif %}
                             
 								<!-- <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
                                 <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a> -->
-	                        </div>
+                                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a> --> 
+	                        
 	                    </div>
     	            </div>
                 </div>
-                <div class="description text-center">
-                    <p>An artist of considerable range, Chet Faker — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. </p>
+                <div class="container">
+                    <div class="description">
+                        <div class="description-info d-info">
+                            <div class="input-group">
+                                <div style="display: block;"><i class="fa fa-envelope"></i></div>
+                                <h3 style="padding-left: 10px;font-size: 18px;">{{result.email}}</h3>
+                            </div>
+                            {% if info is not None %}
+
+                            {% if info.address %}
+                            <div class="input-group">
+                            <div style="display: block;"><i class="fa fa-address-card"></i></div>
+                            <h3 style="padding-left: 10px;font-size: 18px;">{{info.address}}</h3>
+                            </div>
+                            {% endif %}
+
+                            {% if info.phonenumber %}
+                            <div class="input-group">
+                            <div style="display: block;"><i class="fa fa-phone"></i></div>
+                            <h3 style="padding-left: 10px;font-size: 18px;">{{info.phonenumber}}</h3>
+                            </div>
+                            {% endif %}
+
+                            {% if info.location %}
+                            <div class="input-group">
+                            <div style="display: block;"><i class="fa fa-map-marker"></i></div>
+                            <h3 style="padding-left: 10px;font-size: 18px;">{{info.location}}</h3>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if info.description %}
+                        <div class="description-info">
+                            <p>{{info.description}}</p>
+                        </div>
+                        {% else %}
+                        <div class="description-info">
+                            <p>An artist of considerable range, Chet Faker — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. </p>
+                        </div>
+                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
            
-                <div class="edit">
-                    <button type="button" class="edit-btn" data-toggle="modal" data-target="#modalAvatar">Edit Profile</button>
-                </div>
-
-
-				<div class="row">
-					<div class="col-md-6 ml-auto mr-auto">
-                        <div class="profile-tabs">
-                          <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#studio" role="tab" data-toggle="tab">
-                                  <i class="material-icons">camera</i>
-                                  Studio
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#works" role="tab" data-toggle="tab">
-                                  <i class="material-icons">palette</i>
-                                    Work
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#favorite" role="tab" data-toggle="tab">
-                                  <i class="material-icons">favorite</i>
-                                    Favorite
-                                </a>
-                            </li>
-                          </ul>
-                        </div>
-    	    	</div>
             </div>
+
+
+				<div class="container">
+                    <div class="row-md-auto mr-auto ml-auto">
+                        <div class="col">
+                            <div class="profile-tabs">
+                            <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#studio" role="tab" data-toggle="tab">
+                                    <i class="material-icons">camera</i>
+                                    Studio
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#works" role="tab" data-toggle="tab">
+                                    <i class="material-icons">palette</i>
+                                        Work
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#favorite" role="tab" data-toggle="tab">
+                                    <i class="material-icons">favorite</i>
+                                        Favorite
+                                    </a>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+    	    	    </div>
+                </div>
         
           <div class="tab-content tab-space">
             <div class="tab-pane active text-center gallery" id="studio">
@@ -598,7 +655,7 @@ footer p a:hover {
           </div>
 
         
-            </div>
+            
         </div>
 	</div>
 	
@@ -647,16 +704,29 @@ footer p a:hover {
                         </script>
                     </div>
                     <div class="form-inputs">
-                        <input type="text"  name="first" placeholder="First Name.." class="input-form" value="{{result.first_name}}" readonly>
-                        <input type="text" name="last" placeholder="last Name.." class="input-form" value="{{result.last_name}}" readonly>
+                        <input type="text"  name="first" placeholder="First Name.." class="input-form" value="{{result.username}}" readonly>
                     </div>
+                    <!-- <div class="row">
+                        <div class="col-md-6">
+                            <label for="name" class="control-label">Email:</label>
+                            <input type="text" name="email" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name" class="control-label">Address:</label>
+                            <input type="text" name="address" placeholder="Address.." class="input-form" value="{{info.address}}">
+                        </div>
+                    </div> -->
+                    
                     <div class="form-inputs">
                         <input type="text" name="email" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
                         <input type="text" name="address" placeholder="Address.." class="input-form" value="{{info.address}}">
                     </div>
                      <div class="form-inputs">
                         <input type="text" name="phonenumber" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
-                        <!-- <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}"> -->
+                        <select  name="location" placeholder="Select Country" class="selectpicker countrypicker input-form" data-flag="true" data-width="100%" data-flag="true" style="padding: 3px;" ></select>
+                    </div>
+                    <div  class="form-inputs">
+                        <textarea name="description" placeholder="Description.." class="input-form" rows="4" cols="50">{{info.description}}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -667,6 +737,10 @@ footer p a:hover {
           </div>
         </div>
       </div>
+
+       <script src="//unpkg.com/bootstrap-select-country@4.0.0/dist/js/bootstrap-select-country.min.js"></script>
+       
+
 
 
 </div>
