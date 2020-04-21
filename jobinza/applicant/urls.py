@@ -16,5 +16,6 @@ urlpatterns = [
 	path('profile/<str:user_name>/', views.profile_info, name='profile'),
 	path('',views.editProfile, name='edit-profile'),
 	path('listapp/',views.list_applicant,name='listapp'),
+	path('applied_jobs/',views.applied_jobs,name='listapp'),
 	#path('details/', views.job_details, name='emp_detail'),
 ]

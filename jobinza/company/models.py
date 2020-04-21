@@ -7,7 +7,6 @@ from datetime import datetime , date
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-
 def upload_location(instance, filename, **kwargs):
 	file_path = 'company/{author_id}/{jobtitle}-{filename}'.format(
 			author_id=str(instance.author), jobtitle=str(instance.jobtitle), filename=filename
@@ -35,6 +34,7 @@ class CreatePost(models.Model):
     skills 			= models.CharField(max_length=500, null=False, blank=True)
     deadline 		= models.DateField(null=False, blank=True ) 
     status          = models.CharField(max_length=10 , default="Publishing" )
+    category        = models.ForeignKey('category' , on_delete = models.CASCADE)
     date_published 		= models.DateTimeField(auto_now_add=True, verbose_name="date published")
     date_updated 		= models.DateTimeField(auto_now=True, verbose_name="date updated")
     author 			= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -51,7 +51,7 @@ class Match_Results(models.Model):
     resume = models.CharField('resume', max_length=100, null=True, blank=True)
     aplcnt = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     app_email = models.CharField('email',max_length=50, null=False, blank=True)
-    job_id = models.CharField('the job', max_length=100, null=True, blank=True)
+    job_id = models.IntegerField('the job', null=True, blank=True)
     skills_rslt = models.CharField('match result', max_length=1000, null=True, blank=True)
     status = models.CharField('status', max_length=100, null=True, blank=True)
     content = models.CharField(max_length=300,null=True,blank=True)
@@ -87,3 +87,8 @@ class Notification(models.Model):
     verb = models.CharField(max_length=100 , null= False)
     description = models.TextField()
     read = models.BooleanField(default=False)
+    post = models.IntegerField()
+    applicant = models.IntegerField()
+
+class category(models.Model):
+    name = models.CharField( max_length=100 ,primary_key=True)

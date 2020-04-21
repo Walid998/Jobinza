@@ -13,10 +13,12 @@ def add_variable_to_context(request):
 
 def list_Notification(request):
     count = 0
-    Notification_list = Notification.objects.all().filter(receiver= request.user.id)
+    Notification_list = Notification.objects.all().filter(receiver= request.user.id).order_by('id').reverse()
     for n in Notification_list :
         if n.read == False :
             count = count +1
-    return {'count' : count }        
+
+
+    return {'notifications':Notification_list , 'count' : count }        
 
    

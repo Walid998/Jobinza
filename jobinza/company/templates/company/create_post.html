@@ -87,7 +87,7 @@
 		<!--Career level-->
 		 <h5>Career level:</h5>
 		 <select name="careerlevel" id="sell" class="form-control" required style="font-size: 10px; color: gray;" >
-			 <option nonactive>Select</option>
+			<option value="" selected disabled hidden >Nothing selected</option>
 			 <option>Student</option>
 			 <option>Entry level</option>
 			 <option>Experienced </option>
@@ -105,7 +105,7 @@
 	    <!--Salary Range-->
 		<h5>Salary Range :</h5>
 		<input type ="number" class="form-control" name="salary_range1" id="salary1" min="0" required placeholder=" e.g. 1000 " style="height:35px;"/>
-		up to
+		<h5>up to</h5>
 		<input type="number" class="form-control" name="salary_range2" id="salary2" min ="salary1.value" required placeholder=" e.g. 2000" style="height:35px;"/>
 
 		<!--vacancies-->
@@ -117,18 +117,25 @@
 		
 		<!--Job Type-->
 		<h5>Job Type:</h5>
-
 		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;">
-			<option >Select</option>
+			<option value="" selected disabled hidden >Nothing selected</option>
 			<option>Full Time</option>
 			<option>Part Time</option>
 			<option>Freelance </option>
 			<option>From Home</option>
 			<option>Volunteering</option>
 		 </select>
+
+ 		<!--Job Category-->
+		<h5>Job Category:</h5>
+		<select name="category" id="Role" class="selectpicker" data-width="100%" aria-placeholder="Nothing selected" required data-live-search="true"   style="width:auto; ">
+			<option value="" selected disabled hidden >Nothing selected</option>
+			{% for category in categories%}
+			<option >{{category.name}}</option>
+			{% endfor %}
+		 </select>
 					
 
-	
 		 <!-- skills -->
 		<h5>Skills:</h5>
 		<input name="skills" class="form-control" id="skillname" style="display: inline; width: 370px; height:35px;">
@@ -139,13 +146,13 @@
 		<!--Deadline-->
 		<div class="input-group" style="margin-bottom: 0px;padding-bottom: 0px;"><h5>Deadline</h5> <p style="font-size:13px ; padding-top: 23px; padding-left: 3px;">(select the time to close you post)</p> </div>
 
-         <input name ="deadline" class="form-control" id="date" type="date"  required style="width:100%; height:35px"/>
+        <input name ="deadline" class="form-control" id="date" type="date"  required style="width:100%; height:35px"/>
 
  		<!-- Image -->
-		<div class="form-group">
+		<!-- <div class="form-group">
 			<label for="id_image">Image</label>
 			<input  type="file" name="image" id="id_image" accept="image/*">
-		</div>
+		</div> -->
 		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
 
 		</div><!--End of Card  Body -->

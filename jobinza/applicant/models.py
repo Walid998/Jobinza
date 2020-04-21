@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from company.models import CreatePost
 # Create your models here.
 
 class upload(models.Model):
     author 	= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-  #  job = models.ForeignKey('CreatePost' , on_delete=models.CASCADE ) #job_id
     pdf = models.FileField(upload_to='media/pdfs/')
     status = models.CharField(max_length=30 , default="pending")
   #  cover = models.ImageField(upload_to='media/covers/', null=True, blank=True)

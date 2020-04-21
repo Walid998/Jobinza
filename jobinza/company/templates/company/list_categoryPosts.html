@@ -1,0 +1,196 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content%}
+
+<style>
+  .category a {
+    padding-left: 10px; color: gray;
+  }
+  .category a:hover{
+    color: #26a84a;
+    font-weight: bold;
+  }
+  </style>
+<div class="site-section bg-light">
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" style="text-align:center" id="mess">
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    <div class="row">
+      <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+        <label class="mb-5 h2" >{{category_name}} Category</label>
+       
+          
+<!--           <div class="btn-group mb-3" style="margin-left: 15px;" >
+            
+            <button type="button" class="btn btn-success">Control Jobs List</button>
+            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </button>
+            <div class="dropdown-menu"  style="width: 100px;">
+              <a class="dropdown-item" href="/company/list_categoryPosts/{{category_name}}">All </a>
+
+              <a class="dropdown-item" href="/company/list_publish/">Publishing
+                
+              </a>
+              <a class="dropdown-item" href="/company/list_close/">Closed</a>
+              
+            </div>
+          </div> -->
+        
+
+       
+        <div class="rounded border jobs-wrap">
+          {% for post in posts %} 
+          <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+            <div class="company-logo blank-logo text-center text-md-left pl-3">
+              {% if post.image %}
+              <img src="{{post.image.url}}" alt="Image" class="img-fluid mx-auto">
+              {% else %}
+              <img src="../../../static/jobinza/images/company_logo_blank.png">
+              {%endif%}
+            </div>
+            <div class="job-details h-100">
+              <div class="p-3 align-self-center">
+                <h3>
+                  {% if post.jobtitle %}
+                    {{post.jobtitle}}
+                  {% else %}
+                    {{post.jobtitle}}
+                  {% endif %}
+                </h3>
+                <div class="d-block d-lg-flex">
+                  <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                    {% if post.careerlevel %}
+                      {{post.careerlevel}}
+                    {% else %}
+                      {{post.careerlevel}}
+                    {% endif %}
+                  </div>
+                  <div class="mr-3"><span class="icon-room mr-1"></span>
+                    {% if post.joblocation %}
+                      {{post.joblocation}}
+                    {% else %}
+                      {{post.joblocation}}
+                    {% endif %}
+                  </div>
+                  <div><span class="icon-money mr-1"></span>
+                     $
+                    {% if post.salary_range1 %}
+                        {{post.salary_range1}} 
+                    {% else %}
+                      {{post.salary_range1}}
+                    {% endif %} — 
+                    {% if post.salary_range2 %}
+                      {{post.salary_range2}} 
+                    {% else %}
+                      {{post.salary_rang2}}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="job-category align-self-center">
+              <div class="p-3">
+                {% if post.status == 'Publishing' %}
+                <span class="text-info p-2 rounded border border-info">
+                    {{post.status}}
+                 </span>
+                  {% else %}
+                 <span class="text-danger p-2 rounded border border-danger">
+                    {{post.status}}
+                  </span>
+                  {% endif %}
+              </div>
+            </div> 
+          </a>
+          {% empty %}
+                <li class="list-group-item ">no jobs added</li>
+          {% endfor %}
+        </div>
+
+        <nav class='d-flex justify-content-center' aria-label="Page navigation example" style="margin-top: 50px;" >
+  
+          <ul class="pagination justify-content-end">
+            <li class="page-item">
+              {% if posts.has_previous %}
+              <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
+              <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
+              {% endif %}
+            </li>
+            {% for num in posts.paginator.page_range %}
+              {% if posts.number == num %}
+              <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+              {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
+            <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+            {% elif posts.has_next != True%}
+              {% endif %}
+            {% endfor %}
+  
+            <li class="page-item">
+              {% if posts.has_next %}
+              <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
+              <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
+              {%endif%}
+            </li>
+          </ul>
+        </nav>
+       
+<!--         <div class="col-md-12 text-center mt-5">
+          <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
+        </div> -->
+      </div>
+
+      <div class="col-md-4 block-16 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+        <div class="nonloop-block-16 owl-carousel owl-loaded owl-drag">
+          <div class="owl-stage-outer owl-height" style="margin-top: 87px;">
+              <div class="owl-item cloned" style="width: 349.983px; margin-right: 20px;">
+                <div class="border rounded p-4 bg-white">
+                <h2 class="h5">Summary</h2>
+                <p>
+                  {% if contact is not none %}
+                  <span class="d-block"><span class="icon-suitcase"></span> all jobs : {{contact}}</span>
+                  {% endif %}
+                  {% if clo is not none %}
+                  <span class="d-block"><span class="icon-suitcase"></span> Closed Jobs : {{clo}}</span>
+                  {%endif%}
+                  {% if ope is not none%}
+                  <span class="d-block"><span class="icon-suitcase"></span> Open Jobs : {{ope}}</span>
+                  {%endif%}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% if categories %}
+      <div class="owl-stage-outer owl-height" style=" float: right;">
+        <div class="owl-item cloned" style="width: 349.983px;">
+          <div class="border rounded p-4 bg-white">
+        <h2 class="h5">Categories</h2>
+        {% for category in categories %}
+        <div class="category">
+        <a href="/company/catgeory_posts/{{category}}">{{category}}</a> <br>
+      </div>
+        {% endfor %}
+      </div>
+      </div>
+    </div>
+    {% endif %}
+
+  
+      </div>
+</div>
+  </div>
+</div>
+<script>
+  $(function(){
+    $('#mess').delay(4000).fadeOut('fast')
+  })
+  
+</script>
+
+{% endblock%}

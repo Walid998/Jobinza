@@ -12,36 +12,7 @@
           <div class="row">
             <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
               <label class="mb-5 h2" >Recent Jobs</label>
-             
                 
-              <nav aria-label="Page navigation example">
-
-                <ul class="pagination justify-content-end">
-                  <li class="page-item">
-                    {% if posts.has_previous %}
-                    <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
-                    <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
-                    {% endif %}
-                  </li>
-                  {% for num in posts.paginator.page_range %}
-                    {% if posts.number == num %}
-                    <a class="page-link" href="?page={{ num }}" > {{num}} </a>
-                  {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
-                  <a class="page-link" href="?page={{ num }}" > {{num}} </a>
-                    {% endif %}
-                  {% endfor %}
-        
-                  <li class="page-item">
-                    {% if posts.has_next %}
-                    <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
-                    <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
-                    {%endif%}
-                  </li>
-                </ul>
-              </nav>
-                
-      
-             
               <div class="rounded border jobs-wrap">
                 {% for post in posts %} 
                 {% if forloop.counter < 5 %}
@@ -73,7 +44,7 @@
                       <div class="d-block d-lg-flex">
                         <div class="mr-3"><span class="icon-suitcase mr-1"></span>
                           {% if post.careerlevel %}
-                            {{post.careerlevel}}
+                            {{post.careerlevel}} 
                           {% else %}
                             {{post.careerlevel}}
                           {% endif %}
@@ -119,9 +90,32 @@
                       <li class="list-group-item ">no jobs added</li>
                 {% endfor %}
               </div>
-              <div class="col-md-12 text-center mt-5">
-                <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
-              </div>
+              <br>
+              <nav class='d-flex justify-content-center' aria-label="Page navigation example">
+
+                <ul class="pagination justify-content-end">
+                  <li class="page-item">
+                    {% if posts.has_previous %}
+                    <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
+                    <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
+                    {% endif %}
+                  </li>
+                  {% for num in posts.paginator.page_range %}
+                    {% if posts.number == num %}
+                    <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+                  {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
+                  <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+                    {% endif %}
+                  {% endfor %}
+        
+                  <li class="page-item">
+                    {% if posts.has_next %}
+                    <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
+                    <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
+                    {%endif%}
+                  </li>
+                </ul>
+              </nav>
             </div>
   <!-- 
           <div class="col-md-4 block-16" data-aos="fade-up" data-aos-delay="150">

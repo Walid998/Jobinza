@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from company.models import CreatePost, Match_Results
+from company.models import CreatePost, Match_Results 
 from account.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -12,15 +12,18 @@ from applicant.forms import contactform
 from applicant.forms import editprofileForm
 from applicant.utils import Comparison 
 from django.conf import settings
-from pyresparser import ResumeParser
+from pyresparserx import ResumeParser
 from django.contrib import messages
 import os
 from django.db.models import Q
 from django.core.paginator import Paginator
+from Jobinza.utils import PaginatorX
+from account.decorators import allowed_users , unauthenticated_user
 # Create your views here.
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
     print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
@@ -30,6 +33,10 @@ def job_details(request , job_id):
     isApplied = False
     try:
         prof =Profile.objects.get(author = user.id)
+        if prof.resume == None:
+            isNewUser = True
+        else:
+            isNewUser = False
     except:
         isNewUser = True
 
@@ -86,15 +93,16 @@ def job_details(request , job_id):
             
     return render(request,'applicant/job_details.html', context)
 
-def home(request):   
-    update_status()
-    listusers = User.objects.all()
-    listpost=CreatePost.objects.all()
-    paginator = Paginator(listpost,5)
-    page = request.GET.get('page')
-    listpost = paginator.get_page(page)
-    return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
+# def home(request):   
+#     update_status()
+#     listusers = User.objects.all()
+#     listpost=CreatePost.objects.all()
+#     paginator = Paginator(listpost,5)
+#     page = request.GET.get('page')
+#     listpost = paginator.get_page(page)
+#     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
 
+@unauthenticated_user
 def contact(request):
     if request.method =='POST':
             post=contacts()
@@ -108,8 +116,8 @@ def contact(request):
     return render(request,'applicant/contact.html')
 
 
-
 @login_required(login_url='login')
+@allowed_users(allowed_roles=[ 'applicant'])
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
@@ -121,6 +129,7 @@ def profile_info(request,user_name):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def editProfile (request):    
     if request.method == 'POST':
         print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
@@ -150,17 +159,18 @@ def editProfile (request):
                 return redirect(f'/applicant/profile/{request.user}')
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def list_applicant(request):
-    update_status()
+    update_status(request)
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
-    paginator = Paginator(listpost,5)
-    page = request.GET.get('page')
-    listpost = paginator.get_page(page)
+    listpost = PaginatorX(request,listpost,5)
     return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
 
 #####################################
 ########____UPLOAD RESUME____########
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def parser_r(resume,resume_name,user):
     pars=Resume_Parsed()
     parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, resume_name))
@@ -169,7 +179,7 @@ def parser_r(resume,resume_name,user):
     pars.resume = resume
     pars.name = data.get('name')
     pars.email              = data.get('email')
-    pars.mobile_number      = data.get('mobile_number')
+    pars.mobile_numberF      = data.get('mobile_number')
     if data.get('degree') is not None:
         pars.education      = ', '.join(data.get('degree'))
     else:
@@ -189,7 +199,8 @@ def parser_r(resume,resume_name,user):
     pars.save()
 
 ###################search################################
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=[ 'employeer' , 'applicant'])
 def search(request):
     if request.method=='POST':
         srch = request.POST['srh']
@@ -205,3 +216,23 @@ def search(request):
         else:
             return HttpResponseRedirect('/search/')
     return render(request,'applicant/search.html')
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
+def applied_jobs(request):
+    posts = []
+    result = Match_Results.objects.all().filter(aplcnt = request.user.id)
+    for r in result:
+        post = CreatePost.objects.get(id = r.job_id)
+        posts.append(post)
+        print(r.job_id)
+    print("-------------------------")
+    for post in posts:
+        print(post.id)
+
+    paginator = Paginator(posts,4)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    users = User.objects.all()
+
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )    

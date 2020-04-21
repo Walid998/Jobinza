@@ -66,7 +66,6 @@
     }
   .progress-bar{
     height:15px;
-
   }
   .app_prop{
     float: left;
@@ -96,7 +95,7 @@
             <div class="job-post-item-header d-flex align-items-center">
               <h2 class="mr-3 text-black h4">{{job.jobtitle}}</h2>
               <div class="badge-wrap">
-              <span class="border border-warning text-warning py-1 px-3 rounded">{{job.jobtype}}</span>
+              <span class="border border-warning text-warning py-1 px-3 rounded">{{job.category_id}}</span>
               </div>
             </div>
             <div class="job-post-item-body d-block d-md-flex">
@@ -196,16 +195,17 @@
                 <div class="app_prop">
                   <small><a href="../../../media/{{appl.resume}}">Download Resume <i class="fas fa-file-download"></i></a></small>
                   |                  
-                  <small><a href="/company/send_email/{{applicant}}">Accept <i class="fas fa-check-circle"></i></a></small>
+                  <small><a href="/company/send_email/{{appl.aplcnt}}">Accept <i class="fas fa-check-circle"></i></a></small>
                   |                  
                   <small class="rej"><a href="#">Reject <i class="fas fa-times-circle"></i></a></small>
                   |                  
-                  <small class="rej"><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
-                  <script>document.write(x=x+1)</script>
+                  <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
                 </div>
                 <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
               </div>
-              <div class="collapse" id="collapseExample">
+              
+              <!-- MORE DETAILS MODAL -->
+              <div style="transition: none;" class="collapse" id="collapseExample{{appl.aplcnt}}">
                 <div class="card card-body">
                   <div style="text-align: left;">
                     Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
@@ -213,7 +213,7 @@
                   </div>
                 </div>
               </div>
-              
+              <!-- __________________ -->
               <br>
               {% endfor %}
             </div>
@@ -224,7 +224,6 @@
     </div>
   </div>
 </div>
-
 
 
 

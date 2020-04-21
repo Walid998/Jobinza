@@ -4,13 +4,14 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
-from applicant.views import home ,contact,search
+from applicant.views import contact,search
 
 from account.views import (
     registration_view_hr,    
     registration_view,
     logout_view,
     login_view,
+    guestPage,
     #account_view,
     #must_authenticate_view,
 )
@@ -18,7 +19,7 @@ from account.views import (
 
 urlpatterns = [
     #path('', views.home, name='home'),
-    path('',home,name='home'),
+    path('',guestPage,name='home'),
     path('company/', include('company.urls', 'post')),
     path('admin/', admin.site.urls),
     #path('account/', account_view, name="account"),

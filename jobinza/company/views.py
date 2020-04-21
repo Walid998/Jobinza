@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse , HttpResponseRedirect
 from django.utils import timezone
 import datetime
 from dateutil.parser import parse
@@ -8,7 +8,7 @@ import time
 import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
-from company.models import CreatePost, Match_Results , Notification
+from company.models import CreatePost, Match_Results , Notification , category
 from company.forms import CreatePostForm , SendEmailForm 
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
@@ -20,6 +20,10 @@ from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
+import os
+from django.core.paginator import Paginator
+from Jobinza.utils import PaginatorX
+
 
 def skillsToList(txt):
 	lst = list()
@@ -33,8 +37,7 @@ def skillsToList(txt):
 			t=''
 	return lst
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant' , 'employeer'])
+
 #def create_post_view(request):
 #	context = {}
 #	user = request.user
@@ -52,10 +55,11 @@ def skillsToList(txt):
 
 #	context['form'] = form
 #	return render(request, "company/create_post.html" , context)
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def create_post_view(request):
-	context = {}
 	user = request.user
+	categories = category.objects.all()
 	#form = CreatePostForm(request.POST or None, request.FILES or None)
 	if request.method =='POST':
 		form = CreatePostForm(request.POST or None, request.FILES or None)
@@ -71,63 +75,107 @@ def create_post_view(request):
 		form.num_vacancies = request.POST.get('num_vacancies')
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
-		form.image = request.FILES.get('image')
+		form.category = request.POST.get('category')
+		pic = ''
+		try:
+			com = Profile.objects.get(author = user.id)
+			pic = com.image
+		except:
+			print('>>>company has no photo')
+		#form.image = request.FILES.get('image')
 		if form.is_valid():
 			obj = form.save(commit=False)
+			obj.image= pic
 			author = User.objects.filter(email=user.email).first()
 			obj.author = author
 			obj.skills = obj.skills.lower()
 			obj.save()		
-			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = " This post is created" )	
-
+			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
 
 	form = CreatePostForm()
-	context['form'] = form
-	return render(request, "company/create_post.html" , context)
+	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
 
-#def update_status():
-#	now = datetime.date.today()
-#	form = CreatePost.objects.all()
-#	for doc in form :
-#		if doc.deadline < now or doc.deadline == now:
-#			doc.status = 'closed'
-#		doc.save()
- 
-
-def update_status():
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer' , 'applicant'])
+def update_status(request):
 	now = datetime.date.today()
 	form = CreatePost.objects.all()
 	for doc in form :
-		if doc.deadline < now or doc.deadline == now :
-			doc.status = 'closed'
-		else :
-			doc.status = 'Publishing'
-		doc.save()
-
+		if doc.status != 'closed':
+			if  doc.deadline < now or doc.deadline == now  :
+				doc.status = 'closed'
+				Notification.objects.create(receiver=doc.author , verb= doc.jobtitle ,  description = "Post is Closed " , post=doc.id )	
+			else :
+				doc.status = 'Publishing'
+			doc.save()
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def list_job_view(request):
-	update_status()
+	update_status(request)
 	listpost = CreatePost.objects.all().filter(author= request.user.id)
+	categories = []
+	for post in listpost:
+		category = post.category_id
+		categories.append(category)
+	categories = list(dict.fromkeys(categories))
+
 	x = len(listpost)
 	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	y =len(close)
 	open = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	z =len(open)
-	
+	listpost = PaginatorX(request,listpost,5)
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
 		'contact' : x,
 		'clo' : y,
 		'ope' : z,
+		'categories':categories
 	}
 	
 	return render(request,"company/list_job.html", context)
 
+
+#list posts with specific category 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def category_posts(request , category_name):
+	categories = []
+	list_posts = CreatePost.objects.all().filter(author= request.user.id)
+	posts = list_posts.filter( category_id = category_name)
+	x = len(posts)
+	close = posts.filter(author= request.user.id,status='closed')
+	y =len(close)
+	open = posts.filter(author= request.user.id,status='Publishing')
+	z =len(open)
+
+	for post in list_posts:
+		category = post.category_id
+		categories.append(category)
+	categories = list(dict.fromkeys(categories))
+
+	paginator = Paginator(posts , 4)
+	page = request.GET.get('page')
+	posts = paginator.get_page(page)
+
+	context = {
+		'posts': posts,
+		'contact' : x,
+		'clo' : y,
+		'ope' : z,
+		'category_name' : category_name,
+		'categories' :categories
+	}
+	return render(request,"company/list_categoryPosts.html", context)
+
+
 #jod details
+
 def job_details(request , job_id):
 	id_num = int(job_id)
+	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	context = {
@@ -137,6 +185,8 @@ def job_details(request , job_id):
 		}
 	return render(request,'company/job_details.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_edit(request, job_id):
 	id_num = int(job_id)
 	jobpost = CreatePost.objects.get(id = id_num)
@@ -150,11 +200,13 @@ def job_edit(request, job_id):
 		obj.skills=  obj.skills.lower()
 		obj.save()
 		messages.success(request,f'Job \"{jobpost.jobtitle}\" has been updated successfully !!')
-		update_status()
+		update_status(request)
 		return redirect(f'/company/details/{jobpost.id}')
 
 	return render(request,'company/edit_post.html',context)
-	
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])	
 def job_state_closed(request , job_id):
 	id_num = int(job_id)
 	job = CreatePost.objects.get(id=id_num)
@@ -165,7 +217,8 @@ def job_state_closed(request , job_id):
 		job.save()
 	return redirect(f'/company/details/{job.id}')
 
-	
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_state_open(request , job_id ):
 	id_num = int(job_id)
 	job = CreatePost.objects.get(id=id_num)
@@ -177,7 +230,8 @@ def job_state_open(request , job_id ):
 	return redirect(f'/company/details/{job.id}')
 
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_delete(request, job_id):
 	job_id = int(job_id)
 	try:
@@ -191,8 +245,9 @@ def job_delete(request, job_id):
 
 #publish job
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def list_job_publish_view(request):
-	update_status()
+	update_status(request)
 	listpost = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
 	context = {
 		'title' : 'list jobs',
@@ -204,8 +259,9 @@ def list_job_publish_view(request):
 
 #close job
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def list_job_close_view(request):
-	update_status()
+	update_status(request)
 	listpost = CreatePost.objects.all().filter(author= request.user.id,status='closed')
 	context = {
 		'title' : 'list jobs',
@@ -213,9 +269,6 @@ def list_job_close_view(request):
 		}
 
 	return render(request,"company/list_job_closed.html", context)
-
-
-
 
 
 
@@ -262,11 +315,12 @@ def editProfile (request):
 				inst.save()
 				return redirect(f'/company/profile/{request.user}')
 
-
-
-
-def send_email(request):
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def send_email(request,user_name):
 	Send_Form = SendEmailForm
+	applicant = User.objects.get(username = user_name)
+	print("<<<>>>>>>>>>>>>>  ",applicant.email)
 	if request.method == 'POST':
 		form = Send_Form(data=request.POST)
         
@@ -292,13 +346,23 @@ def send_email(request):
 					headers = { 'Reply To': emails }
 			)
 			email.send()
-	return render(request,'company/send_email.html',{'form':Send_Form})
+
+	return render(request,'company/send_email.html',{'applicant':applicant})
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def readall_notification(request):
+	Notifications = Notification.objects.all().filter(receiver = request.user.id)
+	for n in Notifications :
+		if n.read == False:
+			n.read = True
+			n.save()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def read_notification(request):
-    Notifications = Notification.objects.all().filter(receiver = request.user.id)
-    for n in Notifications :
-        if n.read == False:
-            n.read = True
-            n.save()
-    return  render (request ,'company/notification.html', { 'notification' : Notifications })
+def readone_notification(job_id):
+	Noti = Notification.objects.get(post = job_id)
+	if Noti.read == False:
+		Noti.read = True
+		Noti.save()
+

@@ -6,6 +6,8 @@ from django.contrib import messages
 from .decorators import unauthenticated_user
 from django.contrib.auth.models import Group
 from company.models import CreatePost
+import random
+from django.contrib.auth.models import User
 
 @unauthenticated_user
 def registration_view(request):
@@ -53,7 +55,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/company/list')
+            if user.groups.filter(name="employeer").exists():
+                return redirect('/company/list')
+            elif user.groups.filter(name="applicant").exists():
+                return redirect('/applicant/listapp')
         else:
             messages.warning(
                 request, 'your username or password isn\'t correct !! ')
@@ -65,3 +70,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+def guestPage(request):
+    jobs = CreatePost.objects.all()
+    users = User.objects.all()
+    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users})
