@@ -73,7 +73,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-@unauthenticated_user
+#@unauthenticated_user
 def guestPage(request):
     result = []
     companies = []

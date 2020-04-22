@@ -22,11 +22,11 @@ from account.decorators import allowed_users , unauthenticated_user
 # Create your views here.
 
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant'])
+#@login_required(login_url='login')
+#@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
-    print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
+    #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
     isNewUser = False
     prof = ''
@@ -54,7 +54,7 @@ def job_details(request , job_id):
         'newuser': isNewUser
     }
 
-    if request.method == 'POST':
+    if request.method == 'POST' and user.is_authenticated:
         try:
             uploaded_file = request.FILES['cv']
             fs = FileSystemStorage()
@@ -89,8 +89,8 @@ def job_details(request , job_id):
                 return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':True} )
             else:
                 return render(request,'applicant/job_details.html', context)
-            
-            
+    elif request.method == 'POST' and not user.is_authenticated:
+        return redirect("login")
     return render(request,'applicant/job_details.html', context)
 
 # def home(request):   
