@@ -12,7 +12,7 @@ from applicant.forms import contactform
 from applicant.forms import editprofileForm
 from applicant.utils import Comparison 
 from django.conf import settings
-from pyresparserx import ResumeParser
+from pyresparser import ResumeParser
 from django.contrib import messages
 import os
 from django.db.models import Q
@@ -93,15 +93,6 @@ def job_details(request , job_id):
         return redirect("login")
     return render(request,'applicant/job_details.html', context)
 
-# def home(request):   
-#     update_status()
-#     listusers = User.objects.all()
-#     listpost=CreatePost.objects.all()
-#     paginator = Paginator(listpost,5)
-#     page = request.GET.get('page')
-#     listpost = paginator.get_page(page)
-#     return render(request,'applicant/guest.html' , {'posts':listpost , 'users': listusers})
-
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
@@ -111,8 +102,6 @@ def contact(request):
             post.phone=request.POST.get('phone')
             post.message=request.POST.get('message')
             post.save()
-            
-    
     return render(request,'applicant/contact.html')
 
 

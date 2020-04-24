@@ -267,7 +267,20 @@
 
 
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-
+<script>
+  //progress bar
+  $(document).ready(function() {
+    $('.progress .progress-bar').css("width",
+        function() {
+            return $(this).attr("aria-valuenow") + "%";
+        }
+      )
+  });
+  $(function(){
+    $('#mess').delay(4000).fadeOut('fast')
+  });
+  
+</script>
 <script>
   var today = new Date();
 	var dd = today.getDate();
@@ -288,9 +301,6 @@
     $('#contentmessage').text('Are you sure to Delete this job ?');
     $('#action').attr('href','/company/delete/{{job.id}}');
   });
-  $(function(){
-    $('#mess').delay(4000).fadeOut('fast')
-  });
   
   $(function() {
     /* Rounded Dark */
@@ -299,14 +309,7 @@
     });
   });
 
-  //progress bar
-  $(document).ready(function() {
-      $('.progress .progress-bar').css("width",
-          function() {
-              return $(this).attr("aria-valuenow") + "%";
-          }
-        )
-    });
+  
 </script>
 <script>
   function runScript() {
