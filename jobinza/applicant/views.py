@@ -74,6 +74,7 @@ def job_details(request , job_id):
             isNewUser=False
             return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':isApplied,'newuser': isNewUser,'applynow':True} )
         except:
+            print("GOOG NNNNNNNNNNNNNNNNNNNNNN ")
             prof = Profile.objects.get(author = user) # profile details
             pars_obj = Resume_Parsed.objects.get(usrname = user)
             if isApplied == False:
@@ -158,8 +159,8 @@ def list_applicant(request):
 
 #####################################
 ########____UPLOAD RESUME____########
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant'])
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['applicant'])
 def parser_r(resume,resume_name,user):
     pars=Resume_Parsed()
     parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, resume_name))
