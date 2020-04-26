@@ -91,7 +91,8 @@ def create_post_view(request):
 			obj.skills = obj.skills.lower()
 			obj.save()		
 			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
-
+			return redirect(f'/company/list')
+		
 	form = CreatePostForm()
 	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
 
@@ -190,10 +191,17 @@ def job_details(request , job_id):
 def job_edit(request, job_id):
 	id_num = int(job_id)
 	jobpost = CreatePost.objects.get(id = id_num)
+	list_category = category.objects.all()
+	list_jobtype = ['Full Time', 'Part Time' , 'Freelance' , 'From Home' , 'Volunteering' ]
+	list_CareerLevel = ['Student', 'Entry level' , 'Experienced' , 'Manager' , 'Senior Manager' ]
 	context ={
 		'job':jobpost,
-		'skills':skillsToList(jobpost.skills)
+		'skills':skillsToList(jobpost.skills),
+		'categories':list_category,
+		'jobtype':list_jobtype,
+		'careerlevel':list_CareerLevel
 		}
+
 	job_form = CreatePostForm(request.POST or None, instance = jobpost)
 	if job_form.is_valid():
 		obj = job_form.save(commit=False)
