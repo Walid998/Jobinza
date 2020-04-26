@@ -2,10 +2,15 @@ from django import forms
 from applicant.models import upload
 from applicant.models import contacts
 from account.models import Profile
+from django.forms import ClearableFileInput
+
 class uploadForm(forms.ModelForm):
     class Meta:
         model = upload
-        fields = ( 'pdf', )
+        fields = ['pdf']
+        widgets = {
+            'pdf': ClearableFileInput(attrs={'multiple': True}),
+        }
 
 
 

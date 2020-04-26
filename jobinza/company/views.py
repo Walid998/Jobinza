@@ -367,3 +367,34 @@ def readone_notification(job_id):
 			n.read = True
 			n.save()
 
+
+
+########################################################
+########################################################
+########################################################
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def status_accepted(request ,pk):
+	statu = Match_Results.objects.get(id=pk)
+	statu.status = 'Accepted'
+	messages.info(request,f'applicant has been Accepted !!')	
+	statu.save()
+	context = {'statu':statu}	
+	return redirect('/company/list')
+
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])	
+def status_rejected(request , pk):
+	statu = Match_Results.objects.get(id=pk)
+	statu.status = 'Rejected'
+	messages.warning(request ,f'applicant  has been Rejected !!')
+	statu.save()
+	context = {'statu':statu}
+	return redirect('/company/list')
+
+
+########################################################
+########################################################
+########################################################

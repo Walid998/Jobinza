@@ -21,6 +21,8 @@ from company.views import (
 	profile_info,
 	editProfile,
 	category_posts,
+	status_accepted,
+	status_rejected,
  )
 
 
@@ -34,6 +36,8 @@ urlpatterns = [
 	path('edit/<int:job_id>/', job_edit, name='edit'),
 	path('status/<int:job_id>/',job_state_closed),
 	path('status_open/<int:job_id>',job_state_open),
+	path('status_accepted/<int:pk>/',status_accepted),
+	path('Rejected/<int:pk>/',status_rejected),
 	path('list_close/' , list_job_close_view , name="list"),
 	path('list_publish/' , list_job_publish_view , name="list"),
 	path('send_email/<str:user_name>/',send_email,name="send_email"),

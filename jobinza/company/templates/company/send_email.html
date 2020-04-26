@@ -8,15 +8,33 @@
     </div>
   </div>
 
-  
   <div class="site-section bg-light">
     <div class="container">
       <div class="row">
-     
+        
+        <div class="col-lg-4">
+          <div class="p-4 mb-3 bg-white">
+            
+            <p>Be careful while click any status  !</p>
+            <p>
+            
+              
+                <a href="/company/status_accepted/{{z}}"  class="btn btn-dark  py-1 px-3"
+                  id="state" >Accepted</a>
+                
+                <a href="/company/Rejected/{{z}}"  class="btn btn-warning  py-1 px-3"
+                  style="color: white" id="state">
+                Rejected</a>
+              
+            </p>
+          </div>
+        </div>
+        
+        
         <div class="col-md-12 col-lg-8 mb-5">
         
           
-        
+          
           <form action=""  method= "POST"class="p-5 bg-white" >
             {% csrf_token %}
 
