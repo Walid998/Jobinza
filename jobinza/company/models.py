@@ -55,7 +55,8 @@ class Match_Results(models.Model):
     skills_rslt = models.CharField('match result', max_length=1000, null=True, blank=True)
     status = models.CharField('status', max_length=100, null=True, blank=True)
     content = models.CharField(max_length=300,null=True,blank=True)
-
+    def __str__(self):
+        return self.id
 
 class Send_Email(models.Model):
     username = models.CharField(max_length=50 , null=True , blank = True)

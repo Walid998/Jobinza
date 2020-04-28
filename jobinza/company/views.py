@@ -302,7 +302,7 @@ def editProfile (request):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def send_email(request,user_name):
+def send_email(request,user_name,job_id):
 	Send_Form = SendEmailForm
 	applicant = User.objects.get(username = user_name)
 	print("<<<>>>>>>>>>>>>>  ",applicant.email)
@@ -332,7 +332,7 @@ def send_email(request,user_name):
 			)
 			email.send()
 
-	return render(request,'company/send_email.html',{'applicant':applicant})
+	return render(request,'company/send_email.html',{'applicant':applicant,"stat" : Match_Results.objects.get(id = job_id)})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
@@ -363,7 +363,7 @@ def status_accepted(request ,pk):
 	statu.status = 'Accepted'
 	messages.info(request,f'applicant has been Accepted !!')	
 	statu.save()
-	context = {'statu':statu}	
+	context = {'statu':statu,id:pk}	
 	return redirect('/company/list')
 
 
@@ -375,10 +375,8 @@ def status_rejected(request , pk):
 	statu.status = 'Rejected'
 	messages.warning(request ,f'applicant  has been Rejected !!')
 	statu.save()
-	context = {'statu':statu}
-	return redirect('/company/list')
-
-
+	context = {'statu':statu , id:pk}
+	return redirect('/company/detials')
 ########################################################
 ########################################################
 ########################################################
