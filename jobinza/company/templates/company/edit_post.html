@@ -136,7 +136,7 @@
 		<button id="skilladd" type="button" style="display:inline-block;width:76px;height: 35px;color: green;background-color: white;border: 1px solid green;border-radius: 5px;" onclick="appendskill()">add</button>
 		<div id="workform" style="display: block;">
 			{% for skil in skills %}
-			<script>editskills('{{skil}}')</script>
+			<script>editskills('{{skil}}');</script>
 			{% endfor %}
 		</div>
 		<input type="hidden" name="skills" id="skills" value="">

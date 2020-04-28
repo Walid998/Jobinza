@@ -28,70 +28,20 @@ def job_details(request , job_id):
     user = request.user
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
-    isNewUser = False
-    prof = ''
-    isApplied = False
+    hasResume = False
     try:
-        prof =Profile.objects.get(author = user.id)
-        if prof.resume == None:
-            isNewUser = True
+        user_profile = Profile.objects.get(author = user.id)
+        if user_profile.resume != "":
+            hasResume = True
         else:
-            isNewUser = False
+            hasResume = False
     except:
-        isNewUser = True
-
-    try:
-        res = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
-        if res.status == 'pending':
-            isApplied = True
-    except:
-        print('not apply yet',user.id)
-
+        hasResume = False
+        
     context = {
-        'skills':skillsToList(job.skills),
         'job': job,
-        'isapplied':isApplied,
-        'newuser': isNewUser
+        'has_resume': hasResume
     }
-
-    if request.method == 'POST' and user.is_authenticated:
-        try:
-            uploaded_file = request.FILES['cv']
-            fs = FileSystemStorage()
-            fs.save(uploaded_file.name,uploaded_file)
-            
-            try:
-                prof =Profile.objects.get(author = user.id)
-                prof.resume = uploaded_file
-                prof.save()
-            except:
-                prof = Profile()
-                prof.author = user
-                prof.resume = uploaded_file
-                prof.save()
-            parser_r(uploaded_file,uploaded_file.name,user)
-            fs.delete(uploaded_file.name)
-            isNewUser=False
-            return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':isApplied,'newuser': isNewUser,'applynow':True} )
-        except:
-            print("GOOG NNNNNNNNNNNNNNNNNNNNNN ")
-            prof = Profile.objects.get(author = user) # profile details
-            pars_obj = Resume_Parsed.objects.get(usrname = user)
-            if isApplied == False:
-                match = Match_Results()
-                match.resume = prof.resume
-                match.aplcnt = user
-                match.app_email = user.email
-                match.job_id = job.id
-                reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
-                match.skills_rslt = reslt
-                match.status = 'pending'
-                match.save()
-                return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':True} )
-            else:
-                return render(request,'applicant/job_details.html', context)
-    elif request.method == 'POST' and not user.is_authenticated:
-        return redirect("login")
     return render(request,'applicant/job_details.html', context)
 
 @unauthenticated_user
@@ -159,8 +109,8 @@ def list_applicant(request):
 
 #####################################
 ########____UPLOAD RESUME____########
-# @login_required(login_url='login')
-# @allowed_users(allowed_roles=['applicant'])
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def parser_r(resume,resume_name,user):
     pars=Resume_Parsed()
     parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, resume_name))
@@ -226,3 +176,67 @@ def applied_jobs(request):
     users = User.objects.all()
 
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )    
+
+    # isNewUser = False
+    # prof = ''
+    # isApplied = False
+    # try:
+    #     prof =Profile.objects.get(author = user.id)
+    #     if prof.resume == None:
+    #         isNewUser = True
+    #     else:
+    #         isNewUser = False
+    # except:
+    #     isNewUser = True
+
+    # try:
+    #     res = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
+    #     if res.status == 'pending':
+    #         isApplied = True
+    # except:
+    #     print('not apply yet',user.id)
+
+    # context = {
+    #     'skills':skillsToList(job.skills),
+    #     'job': job,
+    #     'isapplied':isApplied,
+    #     'newuser': isNewUser
+    # }
+
+    # if request.method == 'POST' and user.is_authenticated:
+    #     try:
+    #         uploaded_file = request.FILES['cv']
+    #         fs = FileSystemStorage()
+    #         fs.save(uploaded_file.name,uploaded_file)
+            
+    #         try:
+    #             prof =Profile.objects.get(author = user.id)
+    #             prof.resume = uploaded_file
+    #             prof.save()
+    #         except:
+    #             prof = Profile()
+    #             prof.author = user
+    #             prof.resume = uploaded_file
+    #             prof.save()
+    #         parser_r(uploaded_file,uploaded_file.name,user)
+    #         fs.delete(uploaded_file.name)
+    #         isNewUser=False
+    #         return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':isApplied,'newuser': isNewUser,'applynow':True} )
+    #     except:
+    #         prof = Profile.objects.get(author = user) # profile details
+    #         pars_obj = Resume_Parsed.objects.get(usrname = user)
+    #         if isApplied == False:
+    #             match = Match_Results()
+    #             match.resume = prof.resume
+    #             match.aplcnt = user
+    #             match.app_email = user.email
+    #             match.job_id = job.id
+    #             reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
+    #             match.skills_rslt = reslt
+    #             match.status = 'pending'
+    #             match.save()
+    #             return render(request,'applicant/job_details.html',{'skills':skillsToList(job.skills),'job': job,'isapplied':True} )
+    #         else:
+    #             return render(request,'applicant/job_details.html', context)
+    # elif request.method == 'POST' and not user.is_authenticated:
+    #     return redirect("login")

@@ -20,6 +20,16 @@
 .upload:hover{
   cursor: pointer;
 }
+.uploadRsm{
+  height: 55px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 17px;
+}
+.uploadRsm a{
+  text-decoration: underline;
+
+}
 </style>
 {% if applynow == True %}
   <script>
@@ -51,6 +61,15 @@
             });
           </script>
         {% endif %}
+        {% if has_resume == False %}
+        <script>
+          $(document).ready(function(){
+            $('#applyStatusButton').prop('class', 'btn btn-secondary');
+            $('#applyStatusButton').prop('disabled', true);
+            //$('#applyStatusButton').html("Request is Pending");
+          });
+        </script>
+        {%endif%}
         {% if job is not None %}
         <div class="row">
           <div class="col-md-12 col-lg-8 mb-5">
@@ -120,7 +139,13 @@
               class="border border-info rounded py-2 px-3 text-info" >Apply Now</a>
               {% endif %}
           </div>
+          {% if has_resume == False %}
+          <div class="alert alert-warning uploadRsm" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            You have to upload your resume to apply for any job. <a href="#" data-toggle="modal" data-target="#exampleModal">upload my resume?</a>
           </div>
+          {% endif %}
+        </div>
 
           
         </div>

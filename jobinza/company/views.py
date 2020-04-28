@@ -202,7 +202,8 @@ def job_edit(request, job_id):
 		messages.success(request,f'Job \"{jobpost.jobtitle}\" has been updated successfully !!')
 		update_status(request)
 		return redirect(f'/company/details/{jobpost.id}')
-
+	else:
+		print("FFFFFFFFFFFFFF>>>>>>> form not valid")
 	return render(request,'company/edit_post.html',context)
 
 @login_required(login_url='login')
