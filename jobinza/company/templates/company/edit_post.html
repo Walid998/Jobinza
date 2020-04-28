@@ -89,11 +89,11 @@
 		 <h5>Career level:</h5>
 		 <select name="careerlevel" id="sell" class="form-control" required style="font-size: 10px; color: gray;" >
 			 <option selected>{{job.careerlevel}}</option>
-			 <option>Student</option>
-			 <option>Entry level</option>
-			 <option>Experienced </option>
-			 <option>Manager</option>
-			 <option>Senior Manager</option>
+			 {% for career in careerlevel %}
+			 {% if job.careerlevel != career %}
+				<option> {{ career }}</option>
+			 {% endif %}
+			{% endfor %}
 		 </select>
 			 
 	    <!--Experience-->
@@ -121,14 +121,24 @@
 
 		<select name="jobtype" id="sell2" class="form-control" required style="margin-bottom: 0px;">
 			<option selected>{{job.jobtype}}</option>
-			<option>Full Time</option>
-			<option>Part Time</option>
-			<option>Freelance </option>
-			<option>From Home</option>
-			<option>Volunteering</option>
-		 </select>
+			{% for type in jobtype %}
+			 {% if job.jobtype != type %}
+				<option> {{ type }}</option>
+			 {% endif %}
+			{% endfor %}
+		</select>
 					
-
+		<!--Job Category-->
+		<h5>Job Category:</h5>
+		<select name="category" id="Role" class="selectpicker" data-width="100%" aria-placeholder="Nothing selected" required data-live-search="true"   style="width:auto; ">
+			<option selected >{{job.category_id}}</option>
+			{% for category in categories%}
+			 {% if job.category_id != category.name %}
+				<option >{{category.name}}</option>
+			 {% endif %}
+			{% endfor %}
+		 </select>
+		
 	
 		 <!-- skills -->
 		<h5>Skills:</h5>

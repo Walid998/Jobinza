@@ -2,6 +2,50 @@
 {% load static %}
 
 {% block content%}
+
+<style>
+/* Dropdown Button */
+
+.dropdown-menu .nav-item {
+  width:90%;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top:5%;
+  font-size: 17px;
+
+}
+.dropdown-menu .nav-item a.active{
+  background-color: none;
+}
+
+
+#publish::-webkit-scrollbar-track , #closed::-webkit-scrollbar-track  
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#publish::-webkit-scrollbar , #closed::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#publish::-webkit-scrollbar-thumb , #closed::-webkit-scrollbar-thumb 
+{
+	background-color: #000000;
+}
+.category a {
+  padding-left: 10px; color: gray;
+
+}
+.category a:hover{
+    color: #26a84a;
+    font-weight: bold;
+  }
+</style>
+
+
 <div class="site-section bg-light">
   <div class="container">
     {% if messages %}
@@ -13,118 +57,237 @@
     {% endif %}
     <div class="row">
       <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-        <label class="mb-5 h2" >All Jobs</label>
-        <div class="btn-group mb-3" style="margin-left: 15px;" >
-          <button type="button" class="btn btn-success">Control Jobs List</button>
-          <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </button>
-          <div class="dropdown-menu"  style="width: 100px;">
-            <a class="dropdown-item" href="/company/list">All </a>
-            <a class="dropdown-item" href="/company/list_publish/">Publishing</a>
-            <a class="dropdown-item" href="/company/list_close/">Closed</a>
-          </div>
-        </div>
+                  <div class="profile-tabs">
+                    <label class="mb-5 h2" >All Jobs</label>
+                    <!-------------------------DropDown ------------------------------->
+                    <div class="btn-group mb-3" style="margin-left: 15px; margin-top: 10px;" >
+                      <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Control Jobs List  
+                      </button>
+                       <div class="dropdown-menu"  style="width: 80px; margin-left: 70%;">
+                        <ul class="nav nav-pills " >
+                          <li class="nav-item">
+                              <a class=" active" href="#all" role="tab" data-toggle="tab">All </a>
+                          </li> 
+                          <li class="nav-item">
+                              <a  href="#publish" role="tab" data-toggle="tab">Publishing </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="#closed" role="tab" data-toggle="tab">Closed </a>
+                          </li>
+                      </ul>
+                    </div>
+                  </div>
+              </div>
 
-       
-        <div class="rounded border jobs-wrap">
-          {% for post in posts %} 
-          <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
-            <div class="company-logo blank-logo text-center text-md-left pl-3">
-              {% if post.image %}
-              <img src="{{post.image.url}}" alt="Image" class="img-fluid mx-auto">
-              {% else %}
-              <img src="../../../static/jobinza/images/company_logo_blank.png">
-              {%endif%}
-            </div>
-            <div class="job-details h-100">
-              <div class="p-3 align-self-center">
-                <h3>
-                  {% if post.jobtitle %}
-                    {{post.jobtitle}}
-                  {% else %}
-                    {{post.jobtitle}}
-                  {% endif %}
-                </h3>
-                <div class="d-block d-lg-flex">
-                  <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+
+<!---------------------------------- List content ---------------------------------->
+    <div class="jobs-wrap">
+      <div class="tab-content tab-space">
+
+        <!---------------------------- All jobs ------------------------>
+        <div class="tab-pane active" id="all">
+          {% for post in posts %}
+              <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+                <div class="company-logo blank-logo text-center text-md-left pl-3">
+                <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
+                </div>
+                <div class="job-details h-100">
+                 <div class="p-3 align-self-center">
+                    <h3>
+                    {% if post.jobtitle %}
+                      {{post.jobtitle}}
+                    {% endif %}
+                    </h3>
+                    <div class="d-block d-lg-flex">
+                    <div class="mr-3"><span class="icon-suitcase mr-1"></span>
                     {% if post.careerlevel %}
                       {{post.careerlevel}}
-                    {% else %}
-                      {{post.careerlevel}}
                     {% endif %}
-                  </div>
-                  <div class="mr-3"><span class="icon-room mr-1"></span>
+                    </div>
+                    <div class="mr-3"><span class="icon-room mr-1"></span>
                     {% if post.joblocation %}
                       {{post.joblocation}}
-                    {% else %}
-                      {{post.joblocation}}
                     {% endif %}
-                  </div>
-                  <div><span class="icon-money mr-1"></span>
-                     $
+                    </div>
+                    <div><span class="icon-money mr-1"></span>
+                        $
                     {% if post.salary_range1 %}
-                        {{post.salary_range1}} 
-                    {% else %}
-                      {{post.salary_range1}}
+                      {{post.salary_range1}} 
                     {% endif %} — 
                     {% if post.salary_range2 %}
                       {{post.salary_range2}} 
-                    {% else %}
-                      {{post.salary_rang2}}
+                    {% endif %}
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="job-category align-self-center">
+                <div class="p-3">
+                    {% if post.status == 'Publishing' %}
+                    <p  style="text-align: center;"
+                    class="border border-info rounded p-1 px-2 text-info" >{{post.status}} </p>           
+
+                    {% elif post.status == 'closed' %}
+                    <p  style="text-align: center;"
+                    class="border border-danger rounded p-1 px-2 text-danger" >{{post.status}} </p>                      
+                    {% endif %}
+                </div>
+                </div> 
+            </a>
+            {% empty %}
+            <li class="list-group-item ">No jobs added</li>
+          {% endfor %}
+            <br>
+              <nav class='d-flex justify-content-center' aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                 <li class="page-item">
+                    {% if posts.has_previous %}
+                    <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
+                    {% endif %}
+                  </li>
+                  {% for num in posts.paginator.page_range %}
+                    {% if posts.number == num %}
+                    <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+                    {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
+                    <a class="page-link" href="?page={{ num }}" > {{num}} </a>
+                    {% elif posts.has_next != True%}
+                    {% endif %}
+                  {% endfor %}
+
+                  <li class="page-item">
+                    {% if posts.has_next %}
+                    <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
+                    {%endif%}
+                  </li>
+                </ul>
+              </nav>
+          </div>
+
+       <!---------------------------- Open jobs ------------------------>
+
+        <div class="tab-pane " id="publish" style="height: 430px; overflow-y: scroll;">
+          {% if ope < 5 or ope == 5 %}
+          <script>
+              document.getElementById("publish").style.overflow = 'hidden';
+          </script>
+          {% endif %}
+          {% for post in open %}
+            <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime" >
+              <div class="company-logo blank-logo text-center text-md-left pl-3">
+              <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
+              </div>
+              <div class="job-details h-100">
+              <div class="p-3 align-self-center">
+                  <h3>
+                  {% if post.jobtitle %}
+                      {{post.jobtitle}}
+                  {% endif %}
+                  </h3>
+                  <div class="d-block d-lg-flex">
+                  <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                      {% if post.careerlevel %}
+                      {{post.careerlevel}}
+                      {% endif %}
+                  </div>
+                  <div class="mr-3"><span class="icon-room mr-1"></span>
+                      {% if post.joblocation %}
+                      {{post.joblocation}}
+                      {% endif %}
+                  </div>
+                  <div><span class="icon-money mr-1"></span>
+                    $
+                    {% if post.salary_range1 %}
+                        {{post.salary_range1}} 
+                    {% endif %} — 
+                    {% if post.salary_range2 %}
+                      {{post.salary_range2}}
                     {% endif %}
                   </div>
-                </div>
+                  </div>
               </div>
-            </div>
-            <div class="job-category align-self-center">
+              </div>
+              <div class="job-category align-self-center">
               <div class="p-3">
-                {% if post.status == 'Publishing' %}
-                <span class="text-info p-2 rounded border border-info">
-                    {{post.status}}
-                 </span>
-                  {% else %}
-                 <span class="text-danger p-2 rounded border border-danger">
-                    {{post.status}}
-                  </span>
-                  {% endif %}
-              </div>
-            </div> 
+                {% if post.status %}
+                <p  style="text-align: center;"
+                 class="border border-info rounded p-1 px-2 text-info" >{{post.status}} </p>                         
+               {%endif%}
+                </div>
+              </div> 
           </a>
           {% empty %}
-                <li class="list-group-item ">no jobs added</li>
+          <li class="list-group-item ">No Publishing jobs </li>
           {% endfor %}
-        </div>
+       </div>
 
-        <br>
-        <nav class='d-flex justify-content-center' aria-label="Page navigation example">
-          <ul class="pagination justify-content-end">
-            <li class="page-item">
-              {% if posts.has_previous %}
-              <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
-              {% endif %}
-            </li>
-            {% for num in posts.paginator.page_range %}
-              {% if posts.number == num %}
-              <a class="page-link" href="?page={{ num }}" > {{num}} </a>
-              {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
-            <a class="page-link" href="?page={{ num }}" > {{num}} </a>
-            {% elif posts.has_next != True%}
-              {% endif %}
-            {% endfor %}
-  
-            <li class="page-item">
-              {% if posts.has_next %}
-              <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
-              {%endif%}
-            </li>
-          </ul>
-        </nav>
+       <!---------------------------- Closed jobs ------------------------>
+        <div class="tab-pane" id="closed" style="height: 450px; overflow-y: scroll;">
+          {% if clo < 5  or clo == 5%}
+          <script>
+              document.getElementById("closed").style.overflow = 'hidden';
+          </script>
+          {% endif %}
+
+          {% for post in close %}
+          <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+            <div class="company-logo blank-logo text-center text-md-left pl-3">
+            <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
+            </div>
+            <div class="job-details h-100">
+            <div class="p-3 align-self-center">
+                <h3>
+                {% if post.jobtitle %}
+                    {{post.jobtitle}}
+                {% endif %}
+                </h3>
+                <div class="d-block d-lg-flex">
+                <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                    {% if post.careerlevel %}
+                    {{post.careerlevel}}
+                    {% endif %}
+                </div>
+                <div class="mr-3"><span class="icon-room mr-1"></span>
+                    {% if post.joblocation %}
+                    {{post.joblocation}}
+                    {% endif %}
+                </div>
+                <div><span class="icon-money mr-1"></span>
+                    $
+                    {% if post.salary_range1 %}
+                        {{post.salary_range1}} 
+                    {% endif %} — 
+                    {% if post.salary_range2 %}
+                      {{post.salary_range2}}
+                    {% endif %}
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="job-category align-self-center">
+            <div class="p-3">
+              {% if post.status %}
+              <p  style="text-align: center;"
+              class="border border-danger rounded p-1 px-2 text-danger" >{{post.status}} </p>  
+                {% endif %}
+                </span>
+            </div>
+            </div> 
+        </a>
+        {% empty %}
+        <li class="list-group-item ">No Closed jobs </li>
+        {% endfor %}
       </div>
+    </div>
+  </div>
+ </div>
+
+        <!---------------------------- Summary  ------------------------>
 
       <div class="col-md-4 block-16 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
         <div class="nonloop-block-16 owl-carousel owl-loaded owl-drag">
-          <div class="owl-stage-outer owl-height" style="margin-top: 87px;">
-              <div class="owl-item cloned" style="width: 349.983px; margin-right: 20px;">
+          <div class="owl-stage-outer owl-height" style="margin-top: 93px;">
+              <div class="owl-item cloned" style="width: 300px; margin-right: 20px;">
                 <div class="border rounded p-4 bg-white">
               <h2 class="h5">Summary</h2>
               <p>
@@ -143,15 +306,19 @@
           </div>
         </div>
 
+               <!---------------------------- Categories ------------------------>
+
       {% if categories %}
-      <div class="owl-stage-outer owl-height" style="float: right;">
-        <div class="owl-item cloned" style="width: 349.983px;">
+      <div class="owl-stage-outer owl-height" style="float: left;">
+        <div class="owl-item cloned" style="width: 300px; ">
           <div class="border rounded p-4 bg-white">
-        <h2 class="h5">Categories</h2>
-        {% for category in categories %}
-        <a href="/company/catgeory_posts/{{category}}" style="padding-left: 10px; color: gray;">{{category}}</a> <br>
-        {% endfor %}
-      </div>
+            <h2 class="h5">Categories</h2>
+            {% for category in categories %}
+            <div class="category">
+            <a href="/company/catgeory_posts/{{category}}">{{category}}</a> <br>
+             </div>
+            {% endfor %}
+        </div>
       </div>
     </div>
     {% endif %}
@@ -167,6 +334,25 @@
   $(function(){
     $('#mess').delay(4000).fadeOut('fast')
   })
+
+
+  function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 </script>
 
 {% endblock%}

@@ -91,7 +91,8 @@ def create_post_view(request):
 			obj.skills = obj.skills.lower()
 			obj.save()		
 			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
-
+			return redirect(f'/company/list')
+		
 	form = CreatePostForm()
 	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
 
@@ -121,18 +122,22 @@ def list_job_view(request):
 	categories = list(dict.fromkeys(categories))
 
 	x = len(listpost)
-	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
+	close = listpost.filter(author= request.user.id,status='closed')
 	y =len(close)
-	open = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
+	open = listpost.filter(author= request.user.id,status='Publishing')
 	z =len(open)
 	listpost = PaginatorX(request,listpost,5)
+	#closepost = PaginatorX(request,close,3)
+	#openpost = PaginatorX(request,open,1)
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
 		'contact' : x,
 		'clo' : y,
 		'ope' : z,
-		'categories':categories
+		'categories':categories,
+		'open':open,
+		'close': close
 	}
 	
 	return render(request,"company/list_job.html", context)
@@ -172,7 +177,8 @@ def category_posts(request , category_name):
 
 
 #jod details
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_details(request , job_id):
 	id_num = int(job_id)
 	readone_notification(id_num)
@@ -190,10 +196,17 @@ def job_details(request , job_id):
 def job_edit(request, job_id):
 	id_num = int(job_id)
 	jobpost = CreatePost.objects.get(id = id_num)
+	list_category = category.objects.all()
+	list_jobtype = ['Full Time', 'Part Time' , 'Freelance' , 'From Home' , 'Volunteering' ]
+	list_CareerLevel = ['Student', 'Entry level' , 'Experienced' , 'Manager' , 'Senior Manager' ]
 	context ={
 		'job':jobpost,
-		'skills':skillsToList(jobpost.skills)
+		'skills':skillsToList(jobpost.skills),
+		'categories':list_category,
+		'jobtype':list_jobtype,
+		'careerlevel':list_CareerLevel
 		}
+
 	job_form = CreatePostForm(request.POST or None, instance = jobpost)
 	if job_form.is_valid():
 		obj = job_form.save(commit=False)
@@ -244,34 +257,6 @@ def job_delete(request, job_id):
 	except CreatePost.DoesNotExist:
 		return redirect('/company/list')
 
-#publish job
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
-def list_job_publish_view(request):
-	update_status(request)
-	listpost = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
-	context = {
-		'title' : 'list jobs',
-		'posts' : listpost,
-	}
-	
-	return render(request,"company/list_job_publish.html", context)
-
-
-#close job
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
-def list_job_close_view(request):
-	update_status(request)
-	listpost = CreatePost.objects.all().filter(author= request.user.id,status='closed')
-	context = {
-		'title' : 'list jobs',
-		'posts' : listpost,
-		}
-
-	return render(request,"company/list_job_closed.html", context)
-
-
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
@@ -318,7 +303,7 @@ def editProfile (request):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def send_email(request,user_name):
+def send_email(request,user_name,job_id):
 	Send_Form = SendEmailForm
 	applicant = User.objects.get(username = user_name)
 	print("<<<>>>>>>>>>>>>>  ",applicant.email)
@@ -348,7 +333,7 @@ def send_email(request,user_name):
 			)
 			email.send()
 
-	return render(request,'company/send_email.html',{'applicant':applicant})
+	return render(request,'company/send_email.html',{'applicant':applicant,"stat" : Match_Results.objects.get(id = job_id)})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
@@ -368,3 +353,31 @@ def readone_notification(job_id):
 			n.read = True
 			n.save()
 
+
+########################################################
+########################################################
+########################################################
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def status_accepted(request ,pk):
+	statu = Match_Results.objects.get(id=pk)
+	statu.status = 'Accepted'
+	messages.info(request,f'applicant has been Accepted !!')	
+	statu.save()
+	context = {'statu':statu,id:pk}	
+	return redirect('/company/list')
+
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])	
+def status_rejected(request , pk):
+	statu = Match_Results.objects.get(id=pk)
+	statu.status = 'Rejected'
+	messages.warning(request ,f'applicant  has been Rejected !!')
+	statu.save()
+	context = {'statu':statu , id:pk}
+	return redirect('/company/detials')
+########################################################
+########################################################
+########################################################
