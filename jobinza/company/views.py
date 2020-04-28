@@ -122,18 +122,22 @@ def list_job_view(request):
 	categories = list(dict.fromkeys(categories))
 
 	x = len(listpost)
-	close = CreatePost.objects.all().filter(author= request.user.id,status='closed')
+	close = listpost.filter(author= request.user.id,status='closed')
 	y =len(close)
-	open = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
+	open = listpost.filter(author= request.user.id,status='Publishing')
 	z =len(open)
 	listpost = PaginatorX(request,listpost,5)
+	#closepost = PaginatorX(request,close,3)
+	#openpost = PaginatorX(request,open,1)
 	context = {
 		'title' : 'list jobs',
 		'posts' : listpost,
 		'contact' : x,
 		'clo' : y,
 		'ope' : z,
-		'categories':categories
+		'categories':categories,
+		'open':open,
+		'close': close
 	}
 	
 	return render(request,"company/list_job.html", context)
@@ -173,7 +177,8 @@ def category_posts(request , category_name):
 
 
 #jod details
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
 def job_details(request , job_id):
 	id_num = int(job_id)
 	readone_notification(id_num)
@@ -250,34 +255,6 @@ def job_delete(request, job_id):
 			return redirect('/company/list')
 	except CreatePost.DoesNotExist:
 		return redirect('/company/list')
-
-#publish job
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
-def list_job_publish_view(request):
-	update_status(request)
-	listpost = CreatePost.objects.all().filter(author= request.user.id,status='Publishing')
-	context = {
-		'title' : 'list jobs',
-		'posts' : listpost,
-	}
-	
-	return render(request,"company/list_job_publish.html", context)
-
-
-#close job
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
-def list_job_close_view(request):
-	update_status(request)
-	listpost = CreatePost.objects.all().filter(author= request.user.id,status='closed')
-	context = {
-		'title' : 'list jobs',
-		'posts' : listpost,
-		}
-
-	return render(request,"company/list_job_closed.html", context)
-
 
 
 @login_required(login_url='login')
@@ -374,7 +351,6 @@ def readone_notification(job_id):
 		if n.read == False:
 			n.read = True
 			n.save()
-
 
 
 ########################################################
