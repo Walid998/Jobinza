@@ -306,6 +306,14 @@ def editProfile (request):
 def send_email(request,user_name,job_id):
 	Send_Form = SendEmailForm
 	applicant = User.objects.get(username = user_name)
+	stat = Match_Results.objects.get(id = job_id)
+	if stat.status != 'Accepted':
+		stat.status='Accepted'
+		stat.save()
+	elif stat.status != 'Rejected':
+		stat.status = 'Rejected'
+		stat.save()
+
 	print("<<<>>>>>>>>>>>>>  ",applicant.email)
 	if request.method == 'POST':
 		form = Send_Form(data=request.POST)
@@ -321,7 +329,7 @@ def send_email(request,user_name,job_id):
 					'email' : emails,
 					'content' : content,
 			}
-					
+			
 			content = template.render(context)
 
 			email = EmailMessage(
@@ -333,7 +341,7 @@ def send_email(request,user_name,job_id):
 			)
 			email.send()
 
-	return render(request,'company/send_email.html',{'applicant':applicant,"stat" : Match_Results.objects.get(id = job_id)})
+	return render(request,'company/send_email.html',{'applicant':applicant,"stat" : stat})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])

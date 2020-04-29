@@ -53,7 +53,18 @@
                 </textarea>
               </div>
             </div>
-
+            {% if stat.status != "Accepted" %}
+            <label class="container">Accepted
+              <input type="checkbox" name = "state" value = "Accepted" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+            {%endif%}
+            {% if stat.status != "Rejected" %}
+            <label class="container">Rejected
+              <input type="checkbox" name = "state" value = "Rejected" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+            {%endif%}
             <div class="row form-group">
               <div class="col-md-12">
                 <button class="btn btn-primary pill px-4 py-2" type="submit">Send Email</button>
