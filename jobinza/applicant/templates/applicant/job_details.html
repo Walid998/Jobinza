@@ -90,9 +90,9 @@
               <p style="word-wrap: break-word;">{{job.job_description}}</p>
               <p><strong>Career level:</strong> {{job.careerlevel}}</p>
               <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
-              <p><strong>Salary Range:</strong> {{job.year_of_experience}}</p>
-              <p><strong>Years Of Experience:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
-              <p><strong>Number of Vacancies::</strong> {{job.num_vacancies}}</p>
+              <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
+              <p><strong>Salary Range:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
+              <p><strong>Number of Vacancies:</strong> {{job.num_vacancies}}</p>
               <p><strong>Job Type:</strong> {{job.jobtype}}</p>
               <p style="width: fit-content;width: -moz-fit-content;word-wrap: break-word;"><strong>Skills:</strong>
                 {% if job.skills is not None %}
@@ -163,8 +163,8 @@
                      <button type="reset" id="closemodal" class="btn btn-light" style="width: 40%;">Cancel</button>
                      <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
                     </div>
-              </form>
-              <script>$('#closemodal').on('click',function(){$('#exampleModal').modal('toggle');}) ;</script>
+                </form>
+                <script>$('#closemodal').on('click',function(){$('#exampleModal').modal('toggle');}) ;</script>
               {% else %}
               
               <div class="modal-header">
@@ -173,7 +173,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form method="post" enctype="multipart/form-data">
+              <form method="post" action="{% url 'applicant:uploadResume' job.id %}" enctype="multipart/form-data">
                    {% csrf_token %}
                     <div class="modal-body">
                       <div class="container p-5" style="width: 100%;text-align: center;">

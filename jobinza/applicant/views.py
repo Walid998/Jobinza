@@ -12,7 +12,7 @@ from applicant.forms import contactform
 from applicant.forms import editprofileForm
 from applicant.utils import Comparison 
 from django.conf import settings
-from pyresparser import ResumeParser
+from pyresparserx import ResumeParser
 from django.contrib import messages
 import os
 from django.db.models import Q
@@ -40,19 +40,41 @@ def job_details(request , job_id):
         
     context = {
         'job': job,
+        'skills':skillsToList(job.skills),
         'has_resume': hasResume
     }
     return render(request,'applicant/job_details.html', context)
 
+def uploadResume(request,jbid):
+    user = request.user
+    print("MMMMMMMMMMM>>>>>>>>>>> : ",jbid)
+    if request.method == 'POST':
+        uploaded_file = request.FILES['cv']
+        fs = FileSystemStorage()
+        fs.save(uploaded_file.name,uploaded_file)
+        parser_r(uploaded_file,uploaded_file.name,user)
+        try:
+            prof =Profile.objects.get(author = user.id)
+            prof.resume = uploaded_file
+            prof.save()
+        except:
+            prof = Profile()
+            prof.author = user
+            prof.resume = uploaded_file
+            prof.save()
+        
+        fs.delete(uploaded_file.name)
+        return redirect(f'/applicant/details/{jbid}')
+
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
-            post=contacts()
-            post.fullname=request.POST.get('fullname')
-            post.email=request.POST.get('email')
-            post.phone=request.POST.get('phone')
-            post.message=request.POST.get('message')
-            post.save()
+        post=contacts()
+        post.fullname=request.POST.get('fullname')
+        post.email=request.POST.get('email')
+        post.phone=request.POST.get('phone')
+        post.message=request.POST.get('message')
+        post.save()
     return render(request,'applicant/contact.html')
 
 
@@ -109,14 +131,14 @@ def list_applicant(request):
 
 #####################################
 ########____UPLOAD RESUME____########
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['applicant'])
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['applicant'])
 def parser_r(resume,resume_name,user):
     pars=Resume_Parsed()
     parser = ResumeParser(os.path.join(settings.MEDIA_ROOT, resume_name))
     data = parser.get_extracted_data()
     pars.usrname = user
-    pars.resume = resume
+    # pars.resume = resume
     pars.name = data.get('name')
     pars.email              = data.get('email')
     pars.mobile_numberF      = data.get('mobile_number')
