@@ -18,7 +18,8 @@ class ResumeParser(object):
         custom_regex=None
     ):
         nlp = spacy.load('en_core_web_sm')
-        custom_nlp = spacy.load(os.path.dirname(os.path.abspath(__file__)))
+        custom_nlp = spacy.load(os.path.dirname("E://Work//Study//level 4//Graduation Project//THE PROJECT//Jobinza//jobinza//pyresparserx//Trained_Model"))
+        print("KKKKKKKKKKKkk  ",os.path.dirname(os.path.abspath(__file__)))
         self.__skills_file = skills_file
         self.__custom_regex = custom_regex
         self.__matcher = Matcher(nlp.vocab)
