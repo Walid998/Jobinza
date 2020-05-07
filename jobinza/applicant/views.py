@@ -31,6 +31,7 @@ def job_details(request , job_id):
     user = User.objects.get(id=job.author_id)
     profile = Profile.objects.get(author_id=user.id)
     hasResume = False
+    isApplied = False
     try:
         user_profile = Profile.objects.get(author = user.id)
         if user_profile.resume != "":
@@ -39,19 +40,27 @@ def job_details(request , job_id):
             hasResume = False
     except:
         hasResume = False
+    
+    try:
+        mtch = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
+        if mtch.status == 'pending':
+            isApplied = True
+    except:
+        isApplied = False
         
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
         'has_resume': hasResume ,
         'user':user ,
-        'profile':profile
+        'profile':profile ,
+        'has_resume': hasResume,
+        'isapplied':isApplied
     }
     return render(request,'applicant/job_details.html', context)
 
 def uploadResume(request,jbid):
     user = request.user
-    print("MMMMMMMMMMM>>>>>>>>>>> : ",jbid)
     if request.method == 'POST':
         uploaded_file = request.FILES['cv']
         fs = FileSystemStorage()
@@ -70,6 +79,32 @@ def uploadResume(request,jbid):
         fs.delete(uploaded_file.name)
         return redirect(f'/applicant/details/{jbid}')
 
+def ApplyForJob(request,jbid):
+    user = request.user
+    isApplyed = False
+    try:
+        test_match = Match_Results.objects.get(aplcnt= user.id,job_id=jbid)
+        isApplyed = True
+    except:
+        isApplyed = False
+    if request.method == 'POST' and isApplyed == False:
+        print("alppplied")
+        prof = Profile.objects.get(author = user) # profile details
+        pars_obj = Resume_Parsed.objects.get(usrname = user)
+        print("LLLLLLLLLLLL?>>>>>>>>> ",pars_obj)
+        job = CreatePost.objects.get(id= jbid)
+        match = Match_Results()
+        match.resume = prof.resume
+        match.aplcnt = user
+        match.app_email = user.email
+        match.job_id = job.id
+        reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
+        match.skills_rslt = reslt
+        match.status = 'pending'
+        match.save()
+        return redirect(f'/applicant/details/{jbid}')
+    else:
+        return redirect(f'/applicant/details/{jbid}')
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':

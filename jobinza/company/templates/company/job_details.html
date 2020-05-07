@@ -31,7 +31,7 @@
   .nav-itemx{
     margin: 10px;
     margin-top: 25px;
-    margin-left: 3px;
+    margin-left: 7px;
   }
   .nav-itemx a {
     padding-bottom: 15px;
@@ -160,16 +160,19 @@
                 <li class="nav-itemx">
                     <a  class="active" href="#studio" role="tab" data-toggle="tab" >
                       <i class="fa fa-align-justify fa-lg" ></i>
+                      
                     <br>ALL</a>
                 </li>
                 <li class="nav-itemx">
-                  <a  href="" role="tab" data-toggle="tab"  value ='run function' onclick="runScript()">
+                  <a  href="#accepted" role="tab" data-toggle="tab"  value ='run function'>
                     <i class="fa fa-check fa-lg"></i>
+                    <small style="color: rgb(178, 237, 100);" class="acnum"></small>
                   <br> Accepted</a>
                 </li>
                 <li class="nav-itemx">
-                  <a  href="#favorite" role="tab" data-toggle="tab">
+                  <a  href="#rejected" role="tab" data-toggle="tab">
                     <i class="fa fa-times fa-lg"></i>
+                    <small style="color: rgb(237, 173, 100);" class="rjnum"></small>
                   <br>Rejected</a>
                 </li>
               </ul>
@@ -181,7 +184,8 @@
       <div class="row justify-content-center">
         <div style="width: 80%;" data-aos="fade" >
           <div class="tab-content tab-space" >
-            <div class="tab-pane active text-center gallery" id="studio">
+            <!-- _______  ALL APPLICANTS _______ -->
+            <div class="tab-pane active text-center gallery all" id="studio">
               {% for appl in applicants %}
               <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
                 <div class="row" >
@@ -209,12 +213,90 @@
                 <div class="card card-body">
                   <div style="text-align: left;">
                     Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
-                    Anlysis: this resumes seems good for this job Anim pariatur cliche reprehenderit
+                    Anlysis: this resumes seems good for this job Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit quasi alias eaque provident nisi, cum minus amet perspiciatis minima libero? Est molestias cumque inventore tempora corporis magnam quisquam sequi nisi. Anim pariatur cliche reprehenderit
                   </div>
                 </div>
               </div>
               <!-- __________________ -->
               <br>
+              {% endfor %}
+            </div>
+            <!-- _____ ACCEPTED APPLICANTS _____ -->
+            <div class="tab-pane text-center gallery Accp" id="accepted">
+              {% for appl in applicants %}
+              {% if appl.skills_rslt > 0 %}
+              <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
+                <div class="row" >
+                  <a class="link" href="#">{{appl.aplcnt}}</a> 
+                </div>
+                
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="{{appl.skills_rslt}}" aria-valuemin="0" aria-valuemax="100">
+                  </div>              
+                </div>
+                <div class="app_prop">
+                  <small><a href="../../../media/{{appl.resume}}">Download Resume <i class="fas fa-file-download"></i></a></small>
+                  |                  
+                  <small><a href="/company/send_email/{{appl.aplcnt}}/{{appl.id}}/">Accept <i class="fas fa-check-circle"></i></a></small>
+                  |                  
+                  <small class="rej"><a href="#">Reject <i class="fas fa-times-circle"></i></a></small>
+                  |                  
+                  <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
+                </div>
+                <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
+              </div>
+              
+              <!-- MORE DETAILS MODAL -->
+              <div style="transition: none;" class="collapse" id="collapseExample{{appl.aplcnt}}">
+                <div class="card card-body">
+                  <div style="text-align: left;">
+                    Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
+                    Anlysis: this resumes seems good for this job Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam delectus, totam ullam et maxime harum rerum ratione assumenda! Odio facilis ipsum, rem unde fugiat deleniti in doloribus ea quo magnam. Anim pariatur cliche reprehenderit
+                  </div>
+                </div>
+              </div>
+              <!-- __________________ -->
+              <br>
+              {% endif %}
+              {% endfor %}
+            </div>
+            <!-- _____ REJECTED APPLICANTS _____ -->
+            <div class="tab-pane text-center gallery rejs" id="rejected">
+              {% for appl in applicants %}
+              {% if appl.skills_rslt == 0 %}
+              <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
+                <div class="row" >
+                  <a class="link" href="#">{{appl.aplcnt}}</a> 
+                </div>
+                
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="{{appl.skills_rslt}}" aria-valuemin="0" aria-valuemax="100">
+                  </div>              
+                </div>
+                <div class="app_prop">
+                  <small><a href="../../../media/{{appl.resume}}">Download Resume <i class="fas fa-file-download"></i></a></small>
+                  |                  
+                  <small><a href="/company/send_email/{{appl.aplcnt}}/{{appl.id}}/">Accept <i class="fas fa-check-circle"></i></a></small>
+                  |                  
+                  <small class="rej"><a href="#">Reject <i class="fas fa-times-circle"></i></a></small>
+                  |                  
+                  <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
+                </div>
+                <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
+              </div>
+              
+              <!-- MORE DETAILS MODAL -->
+              <div style="transition: none;" class="collapse" id="collapseExample{{appl.aplcnt}}">
+                <div class="card card-body">
+                  <div style="text-align: left;">
+                    Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
+                    Anlysis: this resumes seems good for this job Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi adipisci architecto reiciendis harum pariatur tenetur aspernatur beatae at neque quam? Adipisci et perspiciatis ratione. Sequi officiis cumque hic a aperiam? Anim pariatur cliche reprehenderit
+                  </div>
+                </div>
+              </div>
+              <!-- __________________ -->
+              <br>
+              {% endif %}
               {% endfor %}
             </div>
           </div>
@@ -275,7 +357,25 @@
             return $(this).attr("aria-valuenow") + "%";
         }
       )
+
+    
+    var al=isdivempty('.all' ,'no one apply to this job')
+    var ac=isdivempty('.Accp','no accepted applicants')
+    var rj=isdivempty('.rejs','no rejected applicants')
+
+    $('.alnum').text(''+al+'')
+    $('.acnum').text(''+ac+'')
+    $('.rjnum').text(''+rj+'')
   });
+
+  function isdivempty(divname,message){
+    var Applicants = $(''+divname+' .collapse');
+    if (Applicants.length == 0 ){
+      nocontent = "<p style='text-align:center'> "+message+" </p>"
+      $(''+divname+'').append(nocontent);
+    }
+    return Applicants.length;
+  }
   $(function(){
     $('#mess').delay(4000).fadeOut('fast')
   });
