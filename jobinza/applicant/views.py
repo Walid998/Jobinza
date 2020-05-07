@@ -28,6 +28,8 @@ def job_details(request , job_id):
     user = request.user
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
+    user = User.objects.get(id=job.author_id)
+    profile = Profile.objects.get(author_id=user.id)
     hasResume = False
     try:
         user_profile = Profile.objects.get(author = user.id)
@@ -41,7 +43,9 @@ def job_details(request , job_id):
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
-        'has_resume': hasResume
+        'has_resume': hasResume ,
+        'user':user ,
+        'profile':profile
     }
     return render(request,'applicant/job_details.html', context)
 

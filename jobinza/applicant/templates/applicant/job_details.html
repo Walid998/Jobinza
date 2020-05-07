@@ -111,20 +111,29 @@
               <small>About this company</small>
               <hr>
               <div class="d-flex flex-row mb-3">
-                <img style="width: 100px;height: 105px;" src="../../../static/jobinza/images/logo_1.png" alt="Image" class="img-fluid mx-auto">
-                <div style="width: 200px;word-wrap: break-word;">
+                {% if profile.image %}
+                <img style="width: 100px;height: 105px;" src="{{profile.image.url}}" alt="Image" class="img-fluid mx-auto">
+                {% else %}
+                <img style="width: 100px;height: 105px;" src="{% static 'jobinza/images/person.png'%}" alt="Image" class="img-fluid mx-auto">
+                {% endif %}
+
+                <div style="width: 200px;word-wrap: break-word; margin-top: 10px;">
                   <div class="pl-3">
-                    <h2 class="h5">Company Name</h2>
+                    <h2 class="h5">{{user.username}}</h2>
                     <p>
-                      <span class="d-block" title="main industry"><span class="icon-industry"></span> Resto Bar</span>
-                      <span class="d-block" title="location"><span class="icon-room"></span> Location</span>
+                      {% if profile.address %}
+                      <span class="d-block" title="main industry"><span class="icon-industry"></span> {{profile.address}}</span>
+                      {% endif %}
+                      {% if profile.location %}
+                      <span class="d-block" title="location"><span class="icon-room"></span> {{profile.location}}</span>
+                      {% endif %}
                     </p>
                   </div>
                 </div>
               </div>
               
               
-              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi neque fugit tempora, numquam voluptate veritatis odit id, iste eum culpa alias, ut officiis omnis itaque ad, rem sunt doloremque molestias.</p>
+              <p class="mb-0">{{profile.description}}</p>
             </div>   
                  
             <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white">    
