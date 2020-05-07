@@ -153,15 +153,15 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              {% if newuser == False %}
+              {% if has_resume == True %}
                 <div class="modal-header">
-                <h5>Confirm Apply Request</h5>
+                <p>You're going to apply for " {{job.jobtitle}} " job</p>
                 </div>
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" action="{% url 'applicant:ApplyForJob' job.id %}" enctype="multipart/form-data">
                    {% csrf_token %}
                      <div class="modal-footer">
-                     <button type="reset" id="closemodal" class="btn btn-light" style="width: 40%;">Cancel</button>
-                     <button type="submit" class="btn btn-light" style="width: 40%;">Apply</button>
+                     <button type="reset" id="closemodal" class="btn btn-light" style="width: 30%;">Cancel</button>
+                     <button type="submit" class="btn btn-light" style="width: 30%;">Apply</button>
                     </div>
                 </form>
                 <script>$('#closemodal').on('click',function(){$('#exampleModal').modal('toggle');}) ;</script>
