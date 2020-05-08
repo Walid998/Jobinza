@@ -28,8 +28,13 @@ def job_details(request , job_id):
     user = request.user
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
-    user = User.objects.get(id=job.author_id)
-    profile = Profile.objects.get(author_id=user.id)
+    com = User.objects.get(id=job.author_id)
+    com_profile = ''
+    try:
+        com_profile = Profile.objects.get(author_id=user.id)
+    except:
+        com_profile = ''
+
     hasResume = False
     isApplied = False
     try:
@@ -52,8 +57,8 @@ def job_details(request , job_id):
         'job': job,
         'skills':skillsToList(job.skills),
         'has_resume': hasResume ,
-        'user':user ,
-        'profile':profile ,
+        'company':user ,
+        'profile':com_profile ,
         'has_resume': hasResume,
         'isapplied':isApplied
     }
