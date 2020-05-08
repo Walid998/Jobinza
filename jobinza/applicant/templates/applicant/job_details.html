@@ -30,6 +30,14 @@
   text-decoration: underline;
 
 }
+.details
+{
+  color: black;
+}
+.details:hover
+{
+  color: gray;
+}
 </style>
 {% if applynow == True %}
   <script>
@@ -106,7 +114,9 @@
             </div>
           </div>
 
+          
           <div class="col-lg-4">  
+            <a href="/company/profile/{{company.username}}"  class="details" title="click to see {{company.username}} profile" >
             <div class="border rounded p-4 bg-white mb-3">
               <small>About this company</small>
               <hr>
@@ -135,7 +145,7 @@
               
               <p class="mb-0">{{profile.description}}</p>
             </div>   
-                 
+          </a>  
             <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white">    
               {% if user.is_authenticated %}
               <button id="applyStatusButton" type="button" class="btn btn-info" style="width: 90%;font-size: 20px;" data-toggle="modal" data-target="#exampleModal">

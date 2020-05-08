@@ -36,7 +36,7 @@ def job_details(request , job_id):
     com = User.objects.get(id=job.author_id)
     com_profile = ''
     try:
-        com_profile = Profile.objects.get(author_id=user.id)
+        com_profile = Profile.objects.get(author_id=com.id)
     except:
         com_profile = ''
 
@@ -62,9 +62,8 @@ def job_details(request , job_id):
         'job': job,
         'skills':skillsToList(job.skills),
         'has_resume': hasResume ,
-        'company':user ,
+        'company':com ,
         'profile':com_profile ,
-        'has_resume': hasResume,
         'isapplied':isApplied
     }
     return render(request,'applicant/job_details.html', context)

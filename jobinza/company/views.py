@@ -259,7 +259,7 @@ def job_delete(request, job_id):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
+@allowed_users(allowed_roles=['employeer' , 'applicant'])
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
