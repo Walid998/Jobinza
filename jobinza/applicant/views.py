@@ -22,6 +22,11 @@ from account.decorators import allowed_users , unauthenticated_user
 # Create your views here.
 
 
+@login_required(login_url='login')
+def home_applicant(request):
+    return render(request,'applicant/home_applicant.html')
+
+
 #@login_required(login_url='login')
 #@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):

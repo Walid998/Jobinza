@@ -308,7 +308,7 @@ input::-webkit-input-placeholder {
                   
                   {% if user.groups.all.0.name == 'applicant' %}
                         <li>
-                          <a href="#">Home </a>
+                          <a href="{% url 'applicant:home_applicant' %}">Home </a>
                         </li>
 
                         <li class="has-children">

@@ -19,5 +19,6 @@ urlpatterns = [
 	path('applyforjob/<str:jbid>',views.ApplyForJob,name='ApplyForJob'),
 	path('listapp/',views.list_applicant,name='listapp'),
 	path('applied_jobs/',views.applied_jobs,name='listapp'),
+	path('home/',views.home_applicant,name='home_applicant'),
 	#path('details/', views.job_details, name='emp_detail'),
 ]
