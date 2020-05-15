@@ -12,6 +12,7 @@ from account.views import (
     logout_view,
     login_view,
     guestPage,
+    account_setting,
     #account_view,
     #must_authenticate_view,
 )
@@ -35,7 +36,8 @@ urlpatterns = [
 
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='account/password_change.html'), 
         name='password_change'),
-
+    
+    path('account_setting/<int:user_id>/', account_setting, name='account_setting'),
         path('reset-password', PasswordResetView.as_view(), name='password_reset'),
     path('reset-password/done', PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset-password/confirm/<uidb64>[0-9A-Za-z]+)-<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),

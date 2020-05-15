@@ -11,6 +11,17 @@ from django.contrib.auth.models import User
 from account.models import Profile
 from django.core.paginator import Paginator
 
+def account_setting(request , user_id):
+    id_num = int(user_id)
+    us = User.objects.get(id=id_num)
+    form = UserCreationForm(request.POST, instance=request.user)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.save()
+    else:
+        print("##################errorroroororor")
+    return render(request,'account/account_setting.html' , {'us':us})
+
 
 @unauthenticated_user
 def registration_view(request):
