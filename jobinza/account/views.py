@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserCreationForm, UserCreationForm2, LoginForm 
+from .forms import UserCreationForm, UserCreationForm2, LoginForm ,AccountSettingForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -14,12 +14,17 @@ from django.core.paginator import Paginator
 def account_setting(request , user_id):
     id_num = int(user_id)
     us = User.objects.get(id=id_num)
-    form = UserCreationForm(request.POST, instance=request.user)
-    if form.is_valid():
-        obj = form.save(commit=False)
-        obj.save()
-    else:
-        print("##################errorroroororor")
+    form = AccountSettingForm(request.POST, instance=request.user)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.username = request.POST.get('username')
+            obj.first_name = request.POST.get('first_name')
+            obj.last_name = request.POST.get('last_name')
+            obj.email = request.POST.get('email')
+            obj.save()
+        else:
+            print("##################errorroroororor")
     return render(request,'account/account_setting.html' , {'us':us})
 
 
