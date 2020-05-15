@@ -204,9 +204,8 @@ def job_edit(request, job_id):
 		'skills':skillsToList(jobpost.skills),
 		'categories':list_category,
 		'jobtype':list_jobtype,
-		'careerlevel':list_CareerLevel
+		'careerlevel':list_CareerLevel,
 		}
-
 	job_form = CreatePostForm(request.POST or None, instance = jobpost)
 	if job_form.is_valid():
 		obj = job_form.save(commit=False)
