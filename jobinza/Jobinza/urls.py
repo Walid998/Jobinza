@@ -21,6 +21,7 @@ from account.views import (
 urlpatterns = [
     #path('', views.home, name='home'),
     path('',guestPage,name='home'),
+    path('social-auth/', include('social_django.urls', namespace="social")),
     path('company/', include('company.urls', 'post')),
     path('admin/', admin.site.urls),
     #path('account/', account_view, name="account"),

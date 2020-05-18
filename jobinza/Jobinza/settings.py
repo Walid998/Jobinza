@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'crispy_forms',
     'company.apps.CompanyConfig',
     'account.apps.AccountConfig',
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
-
+SITE_ID = 1
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
@@ -66,6 +67,9 @@ ROOT_URLCONF = 'Jobinza.urls'
 AUTHENTICATION_BACKENDS = ( 
     'django.contrib.auth.backends.AllowAllUsersModelBackend', 
     'account.backends.CaseInsensitiveModelBackend',
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     )
 
 REST_FRAMEWORK = {
@@ -171,5 +175,15 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = 1529005933960931
+SOCIAL_AUTH_FACEBOOK_SECRET = 'ba27c92bdf1d619fa46e23a00aff8de4'
 
 

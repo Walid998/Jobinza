@@ -29,6 +29,32 @@
   .h3{
     text-align: center;
   }
+  .container-fluid {
+  height: 100vh;
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container-fluid > div {
+  width: 85%;
+  min-width: 300px;
+  max-width: 500px;
+}
+.card {
+  width: 100%;
+}
+.social-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.btn a, .btn a:hover {
+  color: white;
+  text-decoration: none ;
+}
+
+
 </style>
 
 {% if messages %}
@@ -63,6 +89,13 @@
   {% endif %}
 
   <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+  <hr>
+  <div class="col-md-8 mx-auto social-container my-2 order-md-1"></div>
+  <button class="btn btn-primary mb-2">
+    <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook
+    </a>
+</button>
+</div>
 <hr>
 <div class="d-flex flex-column">
   <a class="m-auto" href="{% url 'password_reset'%}">Reset password</a>
