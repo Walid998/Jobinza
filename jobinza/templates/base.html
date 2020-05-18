@@ -324,6 +324,7 @@ input::-webkit-input-placeholder {
                           
                           <ul class="dropdown arrow-top" >
                             <li><a href="{% url 'password_change' %}">Change password</a></li>
+                            <li><a href="/account_setting/{{user.id}}">Account setting</a></li>
                             <li><a href="{% url 'logout' %}">Log out</a></li>
                           </ul>
                         </li>
@@ -372,6 +373,7 @@ input::-webkit-input-placeholder {
                             
                             <ul class="dropdown arrow-top" >
                               <li><a href="{% url 'password_change' %}">Change password</a></li>
+                              <li><a href="/account_setting/{{user.id}}">Account setting</a></li>
                               <li><a href="{% url 'logout' %}">Log out</a></li>
                             </ul>
                           </li>

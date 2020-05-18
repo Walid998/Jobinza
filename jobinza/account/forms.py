@@ -28,6 +28,15 @@ class UserCreationForm(forms.ModelForm):
             raise forms.ValidationError('this email already registered before')
         return cd['email']
     
+class AccountSettingForm(forms.ModelForm):
+    first_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'First Name'}))
+    last_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
+    username =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'Username'}))
+    email =forms.EmailField(label='',widget=forms.TextInput(attrs={'placeholder':'Your Email'}))
+    class Meta:
+        model = User
+        fields = ('first_name','last_name','username','email',)
+
     
 class UserCreationForm2(forms.ModelForm):
     first_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'First Name'}))

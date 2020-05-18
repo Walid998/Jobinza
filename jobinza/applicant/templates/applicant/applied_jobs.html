@@ -66,9 +66,7 @@
                     <div class="p-3">
                       {% for r in result %}
                         {% if r.job_id == post.id %}
-                        <p class="btn btn-outline-info " >{{r.status}}</p>
-                        {% elif r.status == 'Accepted' %}
-                        <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;" >{{r.status}}</p>
+                        <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;">{{r.status}}</p>
                         {% endif %}
                        {% endfor %}
                     </div>
