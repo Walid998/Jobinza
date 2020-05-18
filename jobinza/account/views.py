@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .decorators import unauthenticated_user
 from django.contrib.auth.models import Group
-from company.models import CreatePost
+from company.models import CreatePost , category
 import random
 from django.contrib.auth.models import User
 from account.models import Profile
@@ -79,6 +79,7 @@ def guestPage(request):
     companies = []
     profiles = Profile.objects.all()
     jobs = CreatePost.objects.all()
+    catagories = category.objects.all()
     users = User.objects.all()
     for user in users :
         if user.groups.filter(name="employeer").exists():
@@ -91,4 +92,4 @@ def guestPage(request):
     paginator = Paginator(jobs,5)
     page = request.GET.get('page')
     jobs = paginator.get_page(page)
-    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result})
+    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result , 'catagories':catagories})
