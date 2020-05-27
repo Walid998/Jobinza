@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
+    #'social_django',
     'crispy_forms',
     'company.apps.CompanyConfig',
     'account.apps.AccountConfig',
@@ -67,9 +67,10 @@ ROOT_URLCONF = 'Jobinza.urls'
 AUTHENTICATION_BACKENDS = ( 
     'django.contrib.auth.backends.AllowAllUsersModelBackend', 
     'account.backends.CaseInsensitiveModelBackend',
-    'social_core.backends.linkedin.LinkedinOAuth2',
-    'social_core.backends.instagram.InstagramOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
+    #'social_core.backends.linkedin.LinkedinOAuth2',
+    #'social_core.backends.instagram.InstagramOAuth2',
+    #'social_core.backends.facebook.FacebookOAuth2',
+    #'social_core.backends.google.GoogleOAuth2',
     )
 
 REST_FRAMEWORK = {
@@ -98,6 +99,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'company.context_processors.add_variable_to_context',
                 'company.context_processors.list_Notification',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
 
             ],
         },
@@ -183,7 +186,8 @@ LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
 
 
-SOCIAL_AUTH_FACEBOOK_KEY = 1529005933960931
-SOCIAL_AUTH_FACEBOOK_SECRET = 'ba27c92bdf1d619fa46e23a00aff8de4'
+#SOCIAL_AUTH_FACEBOOK_KEY = '1529005933960931'
+#SOCIAL_AUTH_FACEBOOK_SECRET = 'ba27c92bdf1d619fa46e23a00aff8de4'
 
-
+#SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '566642614012-9nk7kn0sbc130p7hkn5h1ls5slhh727r.apps.googleusercontent.com'
+#SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '1taUQCN5jVY1YFP5SCVj63YW'
