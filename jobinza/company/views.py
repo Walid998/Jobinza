@@ -76,6 +76,16 @@ def create_post_view(request):
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
 		form.category = request.POST.get('category')
+		category_name = request.POST.get('category')
+		cat = category.objects.get(name = category_name)
+		if cat.jobno == None:
+			cat.jobno = 1
+		else:
+			cat.jobno = cat.jobno +1
+		cat.save()
+		print("<><<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",type(cat.jobno))
+		# cat.jobno =cat.jobno + 1
+		# cat.save()
 		pic = ''
 		try:
 			com = Profile.objects.get(author = user.id)
