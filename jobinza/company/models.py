@@ -39,6 +39,7 @@ class CreatePost(models.Model):
     date_updated 		= models.DateTimeField(auto_now=True, verbose_name="date updated")
     author 			= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     slug 			= models.SlugField(blank=True)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.jobtitle

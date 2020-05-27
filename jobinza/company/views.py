@@ -193,6 +193,8 @@ def job_details(request , job_id):
 	id_num = int(job_id)
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
+	job_list.views = job_list.views + 1
+	job_list.save()
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	context = {
 		'skills':skillsToList(job_list.skills),
