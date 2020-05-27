@@ -1,15 +1,31 @@
 from django.shortcuts import render, redirect
-from .forms import UserCreationForm, UserCreationForm2, LoginForm 
+from .forms import UserCreationForm, UserCreationForm2, LoginForm ,AccountSettingForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .decorators import unauthenticated_user
 from django.contrib.auth.models import Group
-from company.models import CreatePost
+from company.models import CreatePost , category
 import random
 from django.contrib.auth.models import User
 from account.models import Profile
 from django.core.paginator import Paginator
+
+def account_setting(request , user_id):
+    id_num = int(user_id)
+    us = User.objects.get(id=id_num)
+    form = AccountSettingForm(request.POST, instance=request.user)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.username = request.POST.get('username')
+            obj.first_name = request.POST.get('first_name')
+            obj.last_name = request.POST.get('last_name')
+            obj.email = request.POST.get('email')
+            obj.save()
+        else:
+            print("##################errorroroororor")
+    return render(request,'account/account_setting.html' , {'us':us})
 
 
 @unauthenticated_user
@@ -79,6 +95,7 @@ def guestPage(request):
     companies = []
     profiles = Profile.objects.all()
     jobs = CreatePost.objects.all()
+    catagories = category.objects.all()
     users = User.objects.all()
     for user in users :
         if user.groups.filter(name="employeer").exists():
@@ -91,4 +108,4 @@ def guestPage(request):
     paginator = Paginator(jobs,5)
     page = request.GET.get('page')
     jobs = paginator.get_page(page)
-    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result})
+    return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result , 'catagories':catagories})

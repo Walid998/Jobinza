@@ -76,6 +76,16 @@ def create_post_view(request):
 		form.year_of_experience = request.POST.get('year_of_experience')
 		form.deadline = request.POST.get('deadline')
 		form.category = request.POST.get('category')
+		category_name = request.POST.get('category')
+		cat = category.objects.get(name = category_name)
+		if cat.jobno == None:
+			cat.jobno = 1
+		else:
+			cat.jobno = cat.jobno +1
+		cat.save()
+		print("<><<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",type(cat.jobno))
+		# cat.jobno =cat.jobno + 1
+		# cat.save()
 		pic = ''
 		try:
 			com = Profile.objects.get(author = user.id)
@@ -183,6 +193,8 @@ def job_details(request , job_id):
 	id_num = int(job_id)
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
+	job_list.views = job_list.views + 1
+	job_list.save()
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	context = {
 		'skills':skillsToList(job_list.skills),
@@ -204,9 +216,8 @@ def job_edit(request, job_id):
 		'skills':skillsToList(jobpost.skills),
 		'categories':list_category,
 		'jobtype':list_jobtype,
-		'careerlevel':list_CareerLevel
+		'careerlevel':list_CareerLevel,
 		}
-
 	job_form = CreatePostForm(request.POST or None, instance = jobpost)
 	if job_form.is_valid():
 		obj = job_form.save(commit=False)

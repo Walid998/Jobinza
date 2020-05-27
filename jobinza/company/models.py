@@ -39,6 +39,7 @@ class CreatePost(models.Model):
     date_updated 		= models.DateTimeField(auto_now=True, verbose_name="date updated")
     author 			= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     slug 			= models.SlugField(blank=True)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.jobtitle
@@ -93,3 +94,4 @@ class Notification(models.Model):
 
 class category(models.Model):
     name = models.CharField( max_length=100 ,primary_key=True)
+    jobno = models.IntegerField(null=True,blank=True)
