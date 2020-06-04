@@ -98,7 +98,6 @@
               <p style="word-wrap: break-word;">{{job.job_description}}</p>
               <p><strong>Career level:</strong> {{job.careerlevel}}</p>
               <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
-              <p><strong>Years Of Experience:</strong> {{job.year_of_experience}}</p>
               <p><strong>Salary Range:</strong> ${{job.salary_range1}} - {{job.salary_range2}}</p>
               <p><strong>Number of Vacancies:</strong> {{job.num_vacancies}}</p>
               <p><strong>Job Type:</strong> {{job.jobtype}}</p>
@@ -109,7 +108,9 @@
                   {% endfor %}
                 {% endif %}
               </p>
+              {% if user.is_authenticated %}
               <p style="color:red"><strong>Deadline:</strong> {{job.deadline}}</p>
+              {% endif %}
               <!-- <p class="mt-5"><a href="#" class="btn btn-primary  py-2 px-4">Apply Job</a></p> -->
             </div>
           </div>
@@ -158,7 +159,7 @@
               class="border border-info rounded py-2 px-3 text-info" >Apply Now</a>
               {% endif %}
           </div>
-          {% if has_resume == False %}
+          {% if has_resume == False and user.is_authenticated %}
           <div class="alert alert-warning uploadRsm" role="alert">
             <i class="fas fa-exclamation-triangle"></i>
             You have to upload your resume to apply for any job. <a href="#" data-toggle="modal" data-target="#exampleModal">upload my resume?</a>
