@@ -99,8 +99,13 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'company.context_processors.add_variable_to_context',
                 'company.context_processors.list_Notification',
+<<<<<<< HEAD
                 # 'social_django.context_processors.backends',
                 # 'social_django.context_processors.login_redirect',
+=======
+                #'social_django.context_processors.backends',
+                #'social_django.context_processors.login_redirect',
+>>>>>>> eb7d64a06553f9df498fef287effa68d1a851683
 
             ],
         },
@@ -125,7 +130,12 @@ EMAIL_USE_TLS = True
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'JobinzaDB',
+        'NAME': 'jobinza',
+        'CLIENT':{
+            'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
+        },
+        'USER': 'jobinza',
+        'PASSWORD': 'jobinza',
         'ENFORCE_SCHEMA': False,
     }
 }
