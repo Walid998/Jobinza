@@ -8,11 +8,11 @@ import time
 import pytz
 from django.contrib.auth.models import User
 from django.conf import settings
-from company.models import CreatePost, Match_Results , Notification , category
-from company.forms import CreatePostForm , SendEmailForm 
+from company.models import CreatePost, Match_Results , Notification , category,Schdule
+from company.forms import CreatePostForm , SendEmailForm ,SchduleForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
-from account.models import Profile
+from account.models import Profile 
 from company.forms import editprofileForm
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
@@ -23,6 +23,7 @@ from django.template.loader import get_template
 import os
 from django.core.paginator import Paginator
 from Jobinza.utils import PaginatorX
+
 
 
 def skillsToList(txt):
@@ -193,13 +194,28 @@ def job_details(request , job_id):
 	id_num = int(job_id)
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
+	sc_user = User.objects.all()
 	job_list.views = job_list.views + 1
 	job_list.save()
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
+	schudle_user = Match_Results.objects.all().filter(status = 'Accepted')
+	form = SchduleForm(request.POST or None)
+	if request.method == 'POST':
+		if form.is_valid():
+			scc = Schdule()
+			scc.username = request.POST.get('username')
+			scc.jobname = request.POST.get('jobname')
+			scc.date_schdule = request.POST.get('date_schdule')
+			scc.time_schdule = request.POST.get('time_schdule')
+			scc.save()
+		else:
+			print("form not not not not valid ")
 	context = {
 		'skills':skillsToList(job_list.skills),
 		'job': job_list ,
-		'applicants':list_applicants
+		'applicants':list_applicants,
+		'schudle_user' : schudle_user,
+		'sc_user':sc_user,
 		}
 	return render(request,'company/job_details.html', context)
 
@@ -276,27 +292,25 @@ def profile_info(request,user_name):
     pk = User.objects.get(username=user_name).pk
     try:
         p_info = Profile.objects.get(author = pk)
-        return render(request,'company/profile.html', {'result': user_info , 'info':p_info } )
+        return render(request,'company/profiles.html', {'result': user_info , 'info':p_info ,'schudle_info':Schdule.objects.all()} )
     except:
-        return render(request,'company/profile.html', {'result': user_info , 'info':'' })
+        return render(request,'company/profiles.html', {'result': user_info , 'info':'' ,'schudle_info':Schdule.objects.all(),})
 
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def editProfile (request):    
+def editProfile (request,user_name):
+	auth = User.objects.get(username=user_name)
+	pk = User.objects.get(username=user_name).pk
+	pinfo = Profile.objects.get(author = pk)    
 	if request.method == 'POST':
-		uname = request.user
-		auth = User.objects.get(username=uname)
-		pk = User.objects.get(username=uname).pk
 		try:
-			pinfo = Profile.objects.get(author = pk)
 			print("***********<<<<<<< pinfo has data >>>>>>>***********")
 			form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
 			if form.is_valid():
 				obj = form.save(commit=False)
 				obj.save()
                 #messages.success(request,f'Job has been updated successfully !!')
-				return redirect(f'/company/profile/{request.user}')
 		except:
 			form = editprofileForm(request.POST , request.FILES)
 			if form.is_valid():
@@ -310,7 +324,7 @@ def editProfile (request):
 				inst.description = form.cleaned_data.get('description')
 				inst.author = auth
 				inst.save()
-				return redirect(f'/company/profile/{request.user}')
+	return render(request,'company/edit_pro.html',{'result':auth , 'info' : pinfo ,})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])

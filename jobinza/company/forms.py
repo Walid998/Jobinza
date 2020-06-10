@@ -1,6 +1,6 @@
 from django import forms
 
-from company.models import CreatePost,Match_Results,Send_Email
+from company.models import CreatePost,Match_Results,Send_Email,Schdule
 from account.models import Profile
 from datetime import datetime
 
@@ -69,3 +69,8 @@ class DateForm(forms.Form):
             'data-target': '#datetimepicker1'
         })
     )
+
+class SchduleForm(forms.Form):
+    class Meta:
+        model : Schdule
+        fields = ['username','jobname','date_schdule','time_schdule',]

@@ -95,3 +95,9 @@ class Notification(models.Model):
 class category(models.Model):
     name = models.CharField( max_length=100 ,primary_key=True)
     jobno = models.IntegerField(null=True,blank=True)
+
+class Schdule(models.Model):
+    username = models.CharField( max_length=100)
+    jobname = models.CharField( max_length=100)
+    date_schdule = models.DateTimeField(auto_now=False, auto_now_add=False)
+    time_schdule = models.TimeField(auto_now=False, auto_now_add=False)
