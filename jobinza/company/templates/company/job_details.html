@@ -238,7 +238,7 @@
                   <br>Rejected</a>
                 </li>
                 <li class="nav-itemx">
-                  <a  href="#interview" role="tab" data-toggle="tab">
+                  <a href="#" data-toggle="modal" data-target="#exampleModalINTER">
                     <i class="far fa-clock"></i>
                     <small style="color: rgb(237, 173, 100);" class="interview"></small>
                   <br>interview</a>
@@ -409,49 +409,7 @@
               {% endfor %}
             </div>
                                <!-- ___-------__ interview __-------___ -->
-<div class="text-center" id="interview">
-  <br>
-  <form method="post" enctype="multipart/form-data">{% csrf_token %}
-    <div class="form-row">
-    <div class="form-group col-md-4">
-      <label for="inputText">username</label>
-      <select name = "username" id="inputText" class="form-control">
-        {% for sc in schudle_user %}
-        <option value = {{sc.aplcnt_id}}  selected>
-          {{sc.aplcnt_id}}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="form-group col-md-4">
-      <label for="inputText">jobname</label>
-      <select name = "jobname" id="inputText" class="form-control">
-        {% for sc in schudle_user %}
-        <option value = {{sc.job_id}}  selected>
-          {{sc.job_id}}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="example-date-input" class="col-2 col-form-label">Date</label>
-        <div class="col-10">
-          <input name = "date_schdule" class="form-control" type="date"  id="example-date-input">
-        </div>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="example-time-input" class="col-2 col-form-label">Time</label>
-        <div class="col-10">
-          <input name = "time_schdule" class="form-control" type="time"  id="example-time-input">
-        </div>
-      </div>
-        
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
+
 <!--################## end interview ############################-->
 
             </div>
@@ -460,9 +418,7 @@
   </div>
 </div>
 
-
-
-<!-- Modal -->
+<!-- Modal Control Job -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -498,6 +454,65 @@
   </div>
 </div>
 
+<!-- _________________________ INTERVIEW TIME ______________________________ -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalINTER" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Job Interview</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                
+        <div class="text-center">
+          <form method="post" style="padding: 15px;"  enctype="multipart/form-data">{% csrf_token %}
+            
+            <div class="form-group">
+              <label for="inputText">username</label>
+              <select name = "username" id="inputText" class="form-control">
+                {% for sc in schudle_user %}
+                <option value = {{sc.aplcnt_id}}  selected>
+                  {{sc.aplcnt_id}}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputText">jobname</label>
+              <select name = "jobname" id="inputText" class="form-control">
+                {% for sc in schudle_user %}
+                <option value = {{sc.job_id}}  selected>
+                  {{sc.job_id}}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+          
+            
+              <div class="form-group">
+                <label for="example-date-input" >Date</label>
+                <input name = "date_schdule" class="form-control" type="date"  id="example-date-input">
+              </div>
+              <div class="form-group">
+                <label for="example-time-input" class="col-2 col-form-label">Time</label>
+                  <input name = "time_schdule" class="form-control" type="time"  id="example-time-input">
+              </div>
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+          
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
 
 
 
