@@ -474,8 +474,8 @@
               <label for="inputText">username</label>
               <select name = "username" id="inputText" class="form-control">
                 {% for sc in schudle_user %}
-                <option value = {{sc.aplcnt_id}}  selected>
-                  {{sc.aplcnt_id}}
+                <option value = {{sc.aplcnt}}  selected>
+                  {{sc.aplcnt}}
                 </option>
                 {% endfor %}
               </select>
@@ -483,11 +483,11 @@
             <div class="form-group">
               <label for="inputText">jobname</label>
               <select name = "jobname" id="inputText" class="form-control">
-                {% for sc in schudle_user %}
-                <option value = {{sc.job_id}}  selected>
-                  {{sc.job_id}}
+                
+                <option value = {{job.jobtitle}}  selected>
+                  {{job.jobtitle}}
                 </option>
-                {% endfor %}
+                
               </select>
             </div>
           

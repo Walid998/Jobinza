@@ -190,16 +190,16 @@ def category_posts(request , category_name):
 #jod details
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def job_details(request , job_id):
+def job_details(request , job_id , user_name):
 	id_num = int(job_id)
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
-	sc_user = User.objects.all()
+	
 	job_list.views = job_list.views + 1
 	job_list.save()
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	schudle_user = Match_Results.objects.all().filter(status = 'Accepted')
-	form = SchduleForm(request.POST or None)
+	form = SchduleForm(request.POST or None )
 	if request.method == 'POST':
 		if form.is_valid():
 			scc = Schdule()
@@ -215,7 +215,7 @@ def job_details(request , job_id):
 		'job': job_list ,
 		'applicants':list_applicants,
 		'schudle_user' : schudle_user,
-		'sc_user':sc_user,
+		
 		}
 	return render(request,'company/job_details.html', context)
 
