@@ -13,6 +13,7 @@ from company.forms import CreatePostForm , SendEmailForm ,SchduleForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
 from account.models import Profile 
+from account.forms import AccountSettingForm
 from company.forms import editprofileForm
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
@@ -307,15 +308,20 @@ def editProfile (request,user_name):
 		try:
 			print("***********<<<<<<< pinfo has data >>>>>>>***********")
 			form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
-			if form.is_valid():
+			form1 = AccountSettingForm(request.POST , instance = auth)
+			if form.is_valid() and form1.is_valid():
 				obj = form.save(commit=False)
+				obj1 = form1.save(commit=False)
 				obj.save()
+				obj1.save()
                 #messages.success(request,f'Job has been updated successfully !!')
 		except:
 			form = editprofileForm(request.POST , request.FILES)
-			if form.is_valid():
+			form1 = AccountSettingForm(request.POST)
+			if form.is_valid() and form1.is_valid():
 				print("<<< pinfo has no data >>>")
 				inst = Profile()
+				auth_user = User()
 				inst.image = request.FILES.get('image')
 				print ('**************************',inst.image)
 				inst.phonenumber = form.cleaned_data.get('phonenumber')
@@ -323,6 +329,10 @@ def editProfile (request,user_name):
 				inst.location = form.cleaned_data.get('location')
 				inst.description = form.cleaned_data.get('description')
 				inst.author = auth
+				auth_user.username = form1.cleaned_data.get('username')
+				auth_user.first_name = form1.cleaned_data.get('first_name')
+				auth_user.last_name = form1.cleaned_data.get('last_name')
+				auth_user.email = form1.cleaned_data.get('email')
 				inst.save()
 	return render(request,'company/edit_pro.html',{'result':auth , 'info' : pinfo ,})
 
