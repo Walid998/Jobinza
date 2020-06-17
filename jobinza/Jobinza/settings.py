@@ -129,12 +129,13 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'jobinza',
         'CLIENT':{
-            'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
+          'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
         },
-        'USER': 'jobinza',
-        'PASSWORD': 'jobinza',
+        'USERNAME': 'jobinza',
+       'PASSWORD': 'jobinza',
         'ENFORCE_SCHEMA': False,
     }
+    
 }
 
 

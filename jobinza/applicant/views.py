@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from company.models import CreatePost, Match_Results 
+from company.models import CreatePost, Match_Results , category
 from account.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -56,15 +56,17 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-        isApplied = False
-        
+        isApplied = False   
+    r = CreatePost.objects.all().filter(category = job.category)   
+    print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj:',r) 
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
         'has_resume': hasResume ,
         'company':com ,
         'profile':com_profile ,
-        'isapplied':isApplied
+        'isapplied':isApplied ,
+        'simi_jobs' : r
     }
     return render(request,'applicant/job_details.html', context)
 
@@ -245,7 +247,10 @@ def applied_jobs(request):
     posts = paginator.get_page(page)
     users = User.objects.all()
 
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )    
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )   
+  
+    
+
 
     # isNewUser = False
     # prof = ''
