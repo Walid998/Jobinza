@@ -58,7 +58,7 @@ def job_details(request , job_id):
     except:
         isApplied = False   
     r = CreatePost.objects.all().filter(category = job.category)   
-    print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj:',r) 
+   # print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj:',r) 
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
