@@ -44,7 +44,6 @@ urlpatterns = [
     path('reset-password/confirm/<uidb64>[0-9A-Za-z]+)-<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset-password/complete/',PasswordResetCompleteView.as_view(),name='password_reset_complete'),
     url(r'^search/$',search,name="search"),
-
     path('applicant/', include('applicant.urls')), 
 
 ]

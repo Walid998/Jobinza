@@ -31,7 +31,7 @@ urlpatterns = [
 	path('create/', create_post_view, name="create"),
 	path('list/' , list_job_view , name="list"),
 	path('delete/<int:job_id>/' ,job_delete,name='delete'),
-	path('details/<int:job_id>/', job_details, name='detials'),
+	path('details/<str:user_name>/<int:job_id>/', job_details, name='detials'),
 	path('edit/<int:job_id>/', job_edit, name='edit'),
 	path('status/<int:job_id>/',job_state_closed),
 	path('status_open/<int:job_id>',job_state_open),

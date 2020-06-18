@@ -13,6 +13,7 @@ from company.forms import CreatePostForm , SendEmailForm ,SchduleForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
 from account.models import Profile 
+from account.forms import AccountSettingForm
 from company.forms import editprofileForm
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
@@ -190,16 +191,16 @@ def category_posts(request , category_name):
 #jod details
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def job_details(request , job_id):
+def job_details(request , job_id , user_name):
 	id_num = int(job_id)
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
-	sc_user = User.objects.all()
+	
 	job_list.views = job_list.views + 1
 	job_list.save()
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
 	schudle_user = Match_Results.objects.all().filter(status = 'Accepted')
-	form = SchduleForm(request.POST or None)
+	form = SchduleForm(request.POST or None )
 	if request.method == 'POST':
 		if form.is_valid():
 			scc = Schdule()
@@ -215,7 +216,7 @@ def job_details(request , job_id):
 		'job': job_list ,
 		'applicants':list_applicants,
 		'schudle_user' : schudle_user,
-		'sc_user':sc_user,
+		
 		}
 	return render(request,'company/job_details.html', context)
 
@@ -307,15 +308,20 @@ def editProfile (request,user_name):
 		try:
 			print("***********<<<<<<< pinfo has data >>>>>>>***********")
 			form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
-			if form.is_valid():
+			form1 = AccountSettingForm(request.POST , instance = auth)
+			if form.is_valid() and form1.is_valid():
 				obj = form.save(commit=False)
+				obj1 = form1.save(commit=False)
 				obj.save()
+				obj1.save()
                 #messages.success(request,f'Job has been updated successfully !!')
 		except:
 			form = editprofileForm(request.POST , request.FILES)
-			if form.is_valid():
+			form1 = AccountSettingForm(request.POST)
+			if form.is_valid() and form1.is_valid():
 				print("<<< pinfo has no data >>>")
 				inst = Profile()
+				auth_user = User()
 				inst.image = request.FILES.get('image')
 				print ('**************************',inst.image)
 				inst.phonenumber = form.cleaned_data.get('phonenumber')
@@ -323,6 +329,10 @@ def editProfile (request,user_name):
 				inst.location = form.cleaned_data.get('location')
 				inst.description = form.cleaned_data.get('description')
 				inst.author = auth
+				auth_user.username = form1.cleaned_data.get('username')
+				auth_user.first_name = form1.cleaned_data.get('first_name')
+				auth_user.last_name = form1.cleaned_data.get('last_name')
+				auth_user.email = form1.cleaned_data.get('email')
 				inst.save()
 	return render(request,'company/edit_pro.html',{'result':auth , 'info' : pinfo ,})
 

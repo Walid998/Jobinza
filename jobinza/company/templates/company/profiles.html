@@ -331,7 +331,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>id</th>
                                     <th>Username</th>
                                     <th>jobname</th>
                                     <th>date</th>
@@ -339,16 +339,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                     <tr>
                                 {% for sc in schudle_info %}
-                                    <td>#</td>
+                                     <tr>
+                                
+                                    <td>{{sc.id}}</td>
                                     <td>{{sc.username}}</td>
                                     <td>{{sc.jobname}}</td>
                                     <td>{{sc.date_schdule}}</td>
                                     <td>{{sc.time_schdule}}</td>
-                                {% endfor %}
+                                
                                 </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
