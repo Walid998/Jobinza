@@ -13,6 +13,7 @@ from company.forms import CreatePostForm , SendEmailForm ,SchduleForm
 from django.contrib.auth.decorators import login_required
 from account.decorators import allowed_users , unauthenticated_user
 from account.models import Profile 
+from account.forms import AccountSettingForm
 from company.forms import editprofileForm
 from django.views.generic import UpdateView,DeleteView 
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
@@ -334,6 +335,10 @@ def editProfile (request):
 				inst.location = form.cleaned_data.get('location')
 				inst.description = form.cleaned_data.get('description')
 				inst.author = auth
+				auth_user.username = form1.cleaned_data.get('username')
+				auth_user.first_name = form1.cleaned_data.get('first_name')
+				auth_user.last_name = form1.cleaned_data.get('last_name')
+				auth_user.email = form1.cleaned_data.get('email')
 				inst.save()
 				return redirect(f'/company/edit_profile/')
 	return render(request,'company/edit_profile.html',{'result':auth , 'info' : pinfo ,})
