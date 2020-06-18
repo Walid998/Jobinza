@@ -71,7 +71,7 @@
             {% for post in jobs %} 
             <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
               <div class="company-logo blank-logo text-center text-md-left pl-3">
-                <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+                <img src="{{post.image}}" alt="Image" class="img-fluid mx-auto">
               </div>
               <div class="job-details h-100">
                 <div class="p-3 align-self-center">
@@ -175,8 +175,8 @@
               <span class="d-block"><span class="icon-room"></span>  {{post.joblocation}} , {{post.city}} , {{post.Area}}</span>
               <span class="d-block"><span class="icon-money mr-1"></span> {{post.salary_range1}} &mdash; {{post.salary_range2}}</span>
             </p>
-            <p class="mb-0" style="word-wrap: break-word;">We are hiring a {{post.job_description}} with : <br> - {{post.year_of_experience}} years Experience
-            <br> - {{post.skills_id}} skills </p>
+            <p class="mb-0" style="word-wrap: break-word;">We are hiring a {% comment %}{{post.job_description}}{% endcomment %} with : <br> - {{post.year_of_experience}} years Experience 
+            <br> - skills... </p>
             <a href="/applicant/details/{{post.id}}" class="text-danger" style="text-decoration: underline; padding-top: 15px;"><small>More details</small></a>
   
           </div>
@@ -199,10 +199,10 @@
       <div class="nonloop-block-15 owl-carousel" style="width: 750px; margin-left: 16%;"> 
         {% for profile in profiles %}
         {% if profile.image %}
-        <div class="media-with-text" style="width:230px; height: 200px;">
+        <div class="media-with-text">
           <div class="img-border-sm" >
               <a href="#" class="image-play" >
-                <img src="{{profile.image.url}}" alt="" class="img-fluid">
+                <img src="{{profile.image}}" alt="" class="img-fluid">
               </a>
           </div>
         </div>

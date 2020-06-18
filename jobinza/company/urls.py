@@ -39,7 +39,7 @@ urlpatterns = [
 	path('Rejected/<int:pk>/',status_rejected),
 	path('send_email/<str:user_name>/<int:job_id>/',send_email,name="send_email"),
 	path('profile/<str:user_name>/', profile_info, name='profile'),
-	path('edit_pro/<str:user_name>/',editProfile, name='edit_pro'),
+	path('edit_profile/',editProfile, name="edit_profile"),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 	path('read_notification/' , readall_notification , name="notification"),

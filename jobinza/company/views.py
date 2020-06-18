@@ -299,32 +299,44 @@ def profile_info(request,user_name):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def editProfile (request,user_name):
-	auth = User.objects.get(username=user_name)
-	pk = User.objects.get(username=user_name).pk
-	pinfo = Profile.objects.get(author = pk)    
+def editProfile (request):
+	uname = request.user
+	auth = User.objects.get(username=uname)
+	pk = User.objects.get(username=uname).pk
+	pinfo = ''
+	try:
+		pinfo = Profile.objects.get(author = pk)   
+	except:
+		print('no profile')
+
 	if request.method == 'POST':
 		try:
+			pinfo = Profile.objects.get(author = pk)  
 			print("***********<<<<<<< pinfo has data >>>>>>>***********")
-			form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
+			form = editprofileForm(request.POST)
 			if form.is_valid():
-				obj = form.save(commit=False)
-				obj.save()
+				pinfo.phonenumber = form.cleaned_data.get('phonenumber')
+				pinfo.address = form.cleaned_data.get('address')
+				pinfo.location = form.cleaned_data.get('location')
+				pinfo.description = form.cleaned_data.get('description')
+				pinfo.save()
+				return redirect(f'/company/edit_profile/')
                 #messages.success(request,f'Job has been updated successfully !!')
 		except:
-			form = editprofileForm(request.POST , request.FILES)
+			form = editprofileForm(request.POST)
 			if form.is_valid():
 				print("<<< pinfo has no data >>>")
 				inst = Profile()
-				inst.image = request.FILES.get('image')
-				print ('**************************',inst.image)
+				#inst.image = request.FILES.get('image')
+				#print ('**************************',inst.image)
 				inst.phonenumber = form.cleaned_data.get('phonenumber')
 				inst.address = form.cleaned_data.get('address')
 				inst.location = form.cleaned_data.get('location')
 				inst.description = form.cleaned_data.get('description')
 				inst.author = auth
 				inst.save()
-	return render(request,'company/edit_pro.html',{'result':auth , 'info' : pinfo ,})
+				return redirect(f'/company/edit_profile/')
+	return render(request,'company/edit_profile.html',{'result':auth , 'info' : pinfo ,})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])

@@ -161,7 +161,7 @@
                         
                         <div class="col-sm-6"><span class="float-left mr-3">
                             {% if info.image %}
-                                <img src="{{info.image.url}}" alt="" class="thumb-lg rounded-circle">
+                                <img src="{{info.image}}" alt="" class="thumb-lg rounded-circle">
                             {% else %}
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="thumb-lg rounded-circle">
                             {% endif %}
@@ -175,7 +175,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-right">
-                                <a type="button" class="btn btn-light waves-effect" href="/company/edit_pro/{{result.username}}"><i class="mdi mdi-account-settings-variant mr-1"></i> Edit Profile</a>
+                                <a type="button" class="btn btn-light waves-effect" href="{% url 'company:edit_profile' %}"><i class="mdi mdi-account-settings-variant mr-1"></i> Edit Profile</a>
                             </div>
                         </div>
                     </div>

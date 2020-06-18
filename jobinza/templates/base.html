@@ -13,6 +13,8 @@
   
     
     <link rel="stylesheet" href="{% static 'jobinza/css/bootstrap.min.css'%}">
+    
+  <link rel="stylesheet" href="../../../static/jobinza/css/croppie.css">
     <link rel="stylesheet" href="{% static 'jobinza/css/magnific-popup.css'%}">
     <link rel="stylesheet" href="{% static 'jobinza/css/jquery-ui.css'%}">
     <link rel="stylesheet" href="{% static 'jobinza/css/owl.carousel.min.css'%}">
@@ -320,8 +322,11 @@ input::-webkit-input-placeholder {
                         </li>
 
                         <li class="has-children" >
-                          <a href="/applicant/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
-                          
+                          {% if usr_prof_pic is not None %}
+                            <img src="{{usr_prof_pic}}" style="width: 45px;height: 45px;border-radius: 50%;" />
+                          {% else %}
+                            <img src="{% static 'jobinza/images/person.jpg'%}" style="width: 45px;height: 45px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
+                          {% endif %}
                           <ul class="dropdown arrow-top" >
                             <li><a href="{% url 'password_change' %}">Change password</a></li>
                             <li><a href="/account_setting/{{user.id}}">Account setting</a></li>
@@ -364,16 +369,21 @@ input::-webkit-input-placeholder {
                           </div> -->
 
                           
-                          <li class="has-children" >
+                          <li class="has-children" style="margin: 0px 20px 0px 0px;">
                             {% if user.groups.all.0.name == 'employeer' %}
-                            <a href="/company/profile/{{user.username}}" style="padding-right: 17px;">{{user.username }}</a>
+                              {% if usr_prof_pic is not None %}
+                                <img src="{{usr_prof_pic}}" style="width: 45px;height: 45px;border-radius: 50%;" />
+                              {% else %}
+                                <img src="{% static 'jobinza/images/person.jpg'%}" style="width: 45px;height: 45px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
+                              {% endif %}
                             {% elif user.is_superuser %}
                             <a href="" style="padding-right: 17px;">{{user.username }}</a>
                             {% endif %}
                             
-                            <ul class="dropdown arrow-top" >
-                              <li><a href="{% url 'password_change' %}">Change password</a></li>
-                              <li><a href="/account_setting/{{user.id}}">Account setting</a></li>
+                            <ul class="dropdown arrow-top" style="width: 180px;">
+                              <li><a href="/company/profile/{{user.username}}">Profile</a></li>
+                              <!-- <li><a href="{% url 'password_change' %}">Change password</a></li> -->
+                              <li><a href="/company/edit_profile/">Account setting</a></li>
                               <li><a href="{% url 'logout' %}">Log out</a></li>
                             </ul>
                           </li>
@@ -382,7 +392,7 @@ input::-webkit-input-placeholder {
 
                         <!--------------------------- Notification--------------------------->
 
-                        <li class="dropdown">
+                        <li class="dropdown" style="margin-left: 10px;">
 
                           <!-- Notification Icon -->
                           <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
@@ -579,7 +589,8 @@ input::-webkit-input-placeholder {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&libraries=places&callback=initAutocomplete"
         async defer></script>
     
-
+    
+<script src="../../../static/jobinza/js/croppie.js"></script>
     <!--------------------------------------profile.html-------------------------------------->
     
 
