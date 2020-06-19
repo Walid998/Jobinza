@@ -237,6 +237,12 @@
                     <small style="color: rgb(237, 173, 100);" class="rjnum"></small>
                   <br>Rejected</a>
                 </li>
+                <li class="nav-itemx">
+                  <a href="#" data-toggle="modal" data-target="#exampleModalINTER">
+                    <i class="far fa-clock"></i>
+                    <small style="color: rgb(237, 173, 100);" class="interview"></small>
+                  <br>interview</a>
+                </li>
               </ul>
             </div>
             <button class="btn btn-success" id="btn-acc">Accept Selected</button>
@@ -358,6 +364,9 @@
             </div>
             
             
+
+
+
             <!-- _____ REJECTED APPLICANTS _____ -->
             <div class="tab-pane text-center gallery rejs" id="rejected">
                               <!--Rank Result-->
@@ -381,7 +390,7 @@
                   <small><a href="/company/send_email/{{appl.aplcnt}}/{{appl.id}}/">send email <i class="fas fa-check-circle"></i></a></small>
                   |                                  
                   <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
-                </div>
+|                </div>
                 <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
               </div>
               
@@ -399,16 +408,17 @@
               {% endif %}
               {% endfor %}
             </div>
-        </div>
-      </div>
+                               <!-- ___-------__ interview __-------___ -->
 
+<!--################## end interview ############################-->
+
+            </div>
+      </div>
     </div>
   </div>
 </div>
 
-
-
-<!-- Modal -->
+<!-- Modal Control Job -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -444,6 +454,65 @@
   </div>
 </div>
 
+<!-- _________________________ INTERVIEW TIME ______________________________ -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalINTER" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Job Interview</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                
+        <div class="text-center">
+          <form method="post" style="padding: 15px;"  enctype="multipart/form-data">{% csrf_token %}
+            
+            <div class="form-group">
+              <label for="inputText">username</label>
+              <select name = "username" id="inputText" class="form-control">
+                {% for sc in schudle_user %}
+                <option value = {{sc.aplcnt}}  selected>
+                  {{sc.aplcnt}}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputText">jobname</label>
+              <select name = "jobname" id="inputText" class="form-control">
+                
+                <option value = {{job.jobtitle}}  selected>
+                  {{job.jobtitle}}
+                </option>
+                
+              </select>
+            </div>
+          
+            
+              <div class="form-group">
+                <label for="example-date-input" >Date</label>
+                <input name = "date_schdule" class="form-control" type="date"  id="example-date-input">
+              </div>
+              <div class="form-group">
+                <label for="example-time-input" class="col-2 col-form-label">Time</label>
+                  <input name = "time_schdule" class="form-control" type="time"  id="example-time-input">
+              </div>
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+          
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
 
 
 
@@ -461,10 +530,11 @@
    // var al=isdivempty('.all' ,'no one apply to this job')
     var ac=isdivempty('.Accp','no accepted applicants')
     var rj=isdivempty('.rejs','no rejected applicants')
-
+    
     $('.alnum').text(''+al+'')
     $('.acnum').text(''+ac+'')
     $('.rjnum').text(''+rj+'')
+    
   });
 
   function isdivempty(divname,message){

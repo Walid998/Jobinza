@@ -1,23 +1,24 @@
 from django import forms
 
-from company.models import CreatePost,Match_Results,Send_Email
+from company.models import CreatePost,Match_Results,Send_Email,Schdule
 from account.models import Profile
 from datetime import datetime
 
 
 
 class editprofileForm(forms.ModelForm):
-    image = forms.ImageField(required=False)
+    #image = forms.ImageField(required=False)
     phonenumber = forms.CharField(required=False)
     address = forms.CharField(required=False)
     location = forms.CharField(required=False)
     description = forms.CharField(required=False)
+    
 
     class Meta:
         model = Profile
         fields = [
 	
-        'image',
+        #'image',
         'phonenumber',
         'address',
         'location', 
@@ -69,3 +70,8 @@ class DateForm(forms.Form):
             'data-target': '#datetimepicker1'
         })
     )
+
+class SchduleForm(forms.Form):
+    class Meta:
+        model : Schdule
+        fields = ['username','jobname','date_schdule','time_schdule',]

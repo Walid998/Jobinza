@@ -127,6 +127,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'JobinzaDB'
     }
+    
 }
 
 

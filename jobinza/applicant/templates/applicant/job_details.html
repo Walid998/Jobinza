@@ -123,7 +123,7 @@
               <hr>
               <div class="d-flex flex-row mb-3">
                 {% if profile.image %}
-                <img style="width: 100px;height: 105px;" src="{{profile.image.url}}" alt="Image" class="img-fluid mx-auto">
+                <img style="width: 100px;height: 105px;" src="{{profile.image}}" alt="Image" class="img-fluid mx-auto">
                 {% else %}
                 <img style="width: 100px;height: 105px;" src="{% static 'jobinza/images/person.png'%}" alt="Image" class="img-fluid mx-auto">
                 {% endif %}
@@ -159,6 +159,61 @@
               class="border border-info rounded py-2 px-3 text-info" >Apply Now</a>
               {% endif %}
           </div>
+          <div class="border rounded d-flex justify-content-center p-3 mb-3 bg-white" style="overflow-y: scroll; height: 300px;">    
+            {% if user.is_authenticated %}
+            <div class="col-lg-15" > 
+              <small>Similarty Jobs</small>
+                <hr> 
+              {% for post in simi_jobs %}
+              
+                
+                <div class="d-flex flex-row mb-3">
+                  {% if post.image %}
+                <img src="{{post.image.url}}" alt="Image" class="img-fluid mx-auto">
+                {% else %}
+                <img src="../../../static/jobinza/images/company_logo_blank.png">
+                {%endif%}
+      
+                  <div style="width: 200px;word-wrap: break-word; margin-top: 10px;">
+                    <div class="pl-3">
+                      <a href="/applicant/details/{{post.id}}">
+                      <p style="color: black; font-size: 15px;">
+                        {% if post.jobtitle %}
+                       {{post.jobtitle}}
+                      {% else %}
+                     {{post.jobtitle}}
+                     {% endif %}
+                      </p>
+                    </a>
+                      <p>
+                        {% for user in users%}
+                    {% if post.author_id == user.id %}</p>
+                  <p>
+                    <span >@ {{user.username}}</span>
+                  </p>
+                   {% else %} <div></div>
+                   {% endif %}
+                  {% endfor %}
+                <p>
+                  {% if post.joblocation %}
+                  {{post.joblocation}}
+                {% else %}
+                  {{post.joblocation}}
+                {% endif %},
+                {% if post.city %}
+                {{post.city}}
+              {% else %}
+                {{post.city}}
+              {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+               <hr>
+              {% endfor%}
+          </div>
+            {% endif %}
+        </div>
           {% if has_resume == False and user.is_authenticated %}
           <div class="alert alert-warning uploadRsm" role="alert">
             <i class="fas fa-exclamation-triangle"></i>
@@ -218,7 +273,10 @@
         {%endif%}
 
       </div>
-    </div>
+
+      
+      
+</div>
 
   <script>
 $('#fileUpload').change(function() {

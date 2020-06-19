@@ -30,7 +30,8 @@ class CreatePost(models.Model):
     #related_industry 	= models.ForeignKey('relatedIndustry' , on_delete=models.CASCADE)
     jobtype			= models.CharField(max_length=50, null=False, blank=True)
     #skills 			= models.ForeignKey('skills' , on_delete=models.CASCADE )
-    image 				= models.ImageField(upload_to=upload_location, null=False, blank=True)
+    #image 				= models.ImageField(upload_to=upload_location, null=False, blank=True)
+    image           = models.CharField(max_length=5000)
     skills 			= models.CharField(max_length=500, null=False, blank=True)
     deadline 		= models.DateField(null=False, blank=True ) 
     status          = models.CharField(max_length=10 , default="Publishing" )
@@ -95,3 +96,9 @@ class Notification(models.Model):
 class category(models.Model):
     name = models.CharField( max_length=100 ,primary_key=True)
     jobno = models.IntegerField(null=True,blank=True)
+
+class Schdule(models.Model):
+    username = models.CharField( max_length=100)
+    jobname = models.CharField( max_length=100)
+    date_schdule = models.DateTimeField(auto_now=False, auto_now_add=False)
+    time_schdule = models.TimeField(auto_now=False, auto_now_add=False)

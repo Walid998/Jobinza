@@ -27,10 +27,11 @@ from company.views import (
 app_name = 'company'
 
 urlpatterns = [
+	
 	path('create/', create_post_view, name="create"),
 	path('list/' , list_job_view , name="list"),
 	path('delete/<int:job_id>/' ,job_delete,name='delete'),
-	path('details/<int:job_id>/', job_details, name='detials'),
+	path('details/<str:user_name>/<int:job_id>/', job_details, name='detials'),
 	path('edit/<int:job_id>/', job_edit, name='edit'),
 	path('status/<int:job_id>/',job_state_closed),
 	path('status_open/<int:job_id>',job_state_open),
@@ -38,7 +39,7 @@ urlpatterns = [
 	path('Rejected/<int:pk>/',status_rejected),
 	path('send_email/<str:user_name>/<int:job_id>/',send_email,name="send_email"),
 	path('profile/<str:user_name>/', profile_info, name='profile'),
-	path('',editProfile, name='edit-profile'),
+	path('edit_profile/',editProfile, name="edit_profile"),
 	#path('<slug>/', detail_post_view, name="detail"),
 	#path('<slug>/edit', edit_post_view, name="edit"),
 	path('read_notification/' , readall_notification , name="notification"),

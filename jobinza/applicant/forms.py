@@ -37,3 +37,7 @@ class contactform(forms.Form):
         'phone',
         'message',
     ]
+
+class SeeJobsForm(forms.Form):
+    job_title = forms.CharField(required=True)
+    city = forms.CharField(required=False)

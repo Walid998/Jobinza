@@ -13,6 +13,8 @@ from account.views import (
     login_view,
     guestPage,
     account_setting,
+    change_account_setting,
+    upld_propic,
     #account_view,
     #must_authenticate_view,
 )
@@ -32,10 +34,11 @@ urlpatterns = [
     path('contact/',contact, name='contact'),
     
     path('signup/hr/' , registration_view_hr , name="register"),
+    path('changeaccounntsetting',change_account_setting,name="changeaccounntsetting"),
 	path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html'), 
         name='password_change_done'),
-
-    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='account/password_change.html'), 
+    path('upload_profile_pic/',upld_propic,name='upload_profile_pic'),
+    path('setting/', auth_views.PasswordChangeView.as_view(template_name='account/password_change.html'), 
         name='password_change'),
     
     path('account_setting/<int:user_id>/', account_setting, name='account_setting'),
@@ -44,7 +47,6 @@ urlpatterns = [
     path('reset-password/confirm/<uidb64>[0-9A-Za-z]+)-<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset-password/complete/',PasswordResetCompleteView.as_view(),name='password_reset_complete'),
     url(r'^search/$',search,name="search"),
-
     path('applicant/', include('applicant.urls')), 
 
 ]
