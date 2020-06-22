@@ -167,6 +167,7 @@ def editProfile (request):
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
+                inst.job_title = form.cleaned_data('job_title')
                 inst.author = auth
                 inst.save()
                 return redirect(f'/applicant/profile/{request.user}')
@@ -471,10 +472,14 @@ class IndeedJobSearch(object):
 
 
 def showResult(request):
-    jobsearch = IndeedJobSearch(title='scrum', location='cairo')
+    info = Profile.objects.get(author_id=request.user.id  )
+    t = str(info.job_title)
+    z = str(info.address)
+    jobsearch = IndeedJobSearch(title=t, location=z)
     data = jobsearch.getJobs()
     context = {
         'data' : data,
+        
         
     }
     return render(request,'applicant/recommendation_indeed.html',context)
