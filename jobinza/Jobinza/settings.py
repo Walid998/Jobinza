@@ -134,7 +134,7 @@ DATABASES = {
           'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
         },
         'USERNAME': 'jobinza',
-       'PASSWORD': 'jobinza',
+        'PASSWORD': 'jobinza',
         'ENFORCE_SCHEMA': False,
     }
     

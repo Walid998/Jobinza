@@ -237,17 +237,8 @@ def applied_jobs(request):
     for r in result:
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
-        print(r.job_id)
-    print("-------------------------")
-    for post in posts:
-        print(post.id)
-
-    paginator = Paginator(posts,4)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
     users = User.objects.all()
-
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )   
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
   
     
 
