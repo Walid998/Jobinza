@@ -3,29 +3,347 @@
 
 {% block content%}
 <style>
-    .owl-dots{
-      display:none
+.owl-dots{
+   display:none
     }
 
-    .rounded {
-        margin: 20px;
-        width: 800px;
-        margin-left: 10%;
+.rounded {
+    margin: 20px;
+    width: 800px;
+    margin-left: 10%;
     }
-    .job-item {
-        width: 800px;
+.job-item {
+     width: 800px;
     }
-    .mb-5 {
-      padding-left: 70px;
+.mb-5 {
+    padding-left: 70px;
     }
+.dropdown-menu .nav-item {
+  width:90%;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top:5%;
+  font-size: 17px;
+
+}
+.dropdown-menu .nav-item a.active{
+  background-color: none;
+}
+
+
+#Accepted::-webkit-scrollbar-track , #Rejected::-webkit-scrollbar-track  , #Pending::-webkit-scrollbar-track , #all::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#Accepted::-webkit-scrollbar , #Rejected::-webkit-scrollbar , #Pending::-webkit-scrollbar , #all::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#Accepted::-webkit-scrollbar-thumb , #Rejected::-webkit-scrollbar-thumb , #Pending::-webkit-scrollbar-thumb ,#all::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+}
   </style>
 
 <div class="site-section bg-light" style="margin-top: -50px;">
     <div class="container">
 
+ 
       <div class="row">
         <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-          <h2 class="mb-5 h3" >Applied Jobs</h2>
+                    <div class="profile-tabs">
+                      <!-------------------------DropDown ------------------------------->
+                      <div class="btn-group mb-3" style="margin-left: 15px; margin-top: 10px;" >
+                        <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Control Applied Jobs List  
+                        </button>
+                         <div class="dropdown-menu"  style="width: 80px; margin-left: 70%;">
+                          <ul class="nav nav-pills " >
+                            <li class="nav-item">
+                                <a class=" active" href="#all" role="tab" data-toggle="tab">All </a>
+                            </li> 
+                            <li class="nav-item">
+                                <a  href="#Accepted" role="tab" data-toggle="tab">Accepted </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#Rejected" role="tab" data-toggle="tab">Rejected </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="#Pending" role="tab" data-toggle="tab">Pending </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+  
+<!--End Profile tab-->
+
+<!---------------------------------- List content ---------------------------------->
+<div class="jobs-wrap">
+  <div class="tab-content tab-space">
+
+    <!---------------------------- All jobs ------------------------>
+    <div class="tab-pane active" id="all" style="height: 430px; overflow-y: scroll;width:117% ; overflow-x: hidden; ">
+      {% for post in posts %} 
+            {% if forloop.counter < 5  or forloop.counter == 5%}
+            <script>
+                document.getElementById("all").style.overflow = 'hidden';
+            </script>
+           {% endif %}
+            <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+              <div class="company-logo blank-logo text-center text-md-left pl-3">
+                <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+              </div>
+              <div class="job-details h-100">
+                <div class="p-3 align-self-center">
+  
+                  <div class="row">
+                  <h3 style="padding-top: 4px;">
+                   {{post.jobtitle}}
+                  </h3>
+                   {% for user in users%}
+                    {% if post.author_id == user.id %}
+                    <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+                    {%else%} <div></div>
+                    {%endif%}
+                  {% endfor %} 
+                </div>
+                  <div class="d-block d-lg-flex">
+                    <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                      {{post.careerlevel}} 
+                </div>
+  
+                    <div><i class="fas fa-clock mr-1"></i>
+                      {{post.jobtype}}
+                    </div>
+                     <div class="mr-3" style="margin-left:5px"><i class="fas fa-map-marker-alt"></i>
+                        {{post.joblocation}}
+                    </div> 
+                    
+                  </div>
+                </div>
+              </div>
+                <div class="job-category align-self-center">
+                    <div class="p-3">
+                      {% for r in result %}
+                        {% if r.job_id == post.id %}
+                        <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;">{{r.status}}</p>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                </div>   
+            </a>
+       
+  
+            {% empty %}
+                  <li class="list-group-item ">no jobs added</li>
+            {% endfor %}
+          </div> 
+
+   <!---------------------------- Accepted jobs ------------------------>
+
+    <div class="tab-pane" id="Accepted" style="height: 430px; overflow-y: scroll;width:117% ; overflow-x: hidden; ">
+     <!-- {% if clo < 5  or clo == 5%}
+      <script>
+          document.getElementById("closed").style.overflow = 'hidden';
+      </script>
+      {% endif %} -->
+      {% for post in posts %} 
+          {% for r in result %}
+             {% if r.job_id == post.id and r.status == "Accepted" %}
+                     
+             {% if forloop.counter < 5  or forloop.counter == 5%}
+              <script>
+                  document.getElementById("Accepted").style.overflow = 'hidden';
+              </script>
+            {% endif %}
+            <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+              <div class="company-logo blank-logo text-center text-md-left pl-3">
+                <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+              </div>
+              <div class="job-details h-100">
+                <div class="p-3 align-self-center">
+  
+                  <div class="row">
+                  <h3 style="padding-top: 4px;">
+                   {{post.jobtitle}}
+                  </h3>
+                   {% for user in users%}
+                    {% if post.author_id == user.id %}
+                    <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+                    {%else%} <div></div>
+                    {%endif%}
+                  {% endfor %} 
+                </div>
+                  <div class="d-block d-lg-flex">
+                    <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                      {{post.careerlevel}} 
+                </div>
+  
+                    <div><i class="fas fa-clock mr-1"></i>
+                      {{post.jobtype}}
+                    </div>
+                     <div class="mr-3" style="margin-left:5px"><i class="fas fa-map-marker-alt"></i>
+                        {{post.joblocation}}
+                    </div> 
+                    
+                  </div>
+                </div>
+              </div>
+                <div class="job-category align-self-center">
+                    <div class="p-3">
+                        <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;">{{r.status}}</p>
+                    </div>
+                </div>   
+            </a>
+            {%endif%}
+  
+            {% empty %}
+                  <li class="list-group-item ">no Accepted jobs </li>
+                  {% endfor %}
+            {% endfor %}
+      
+   </div>
+
+   <!---------------------------- Rejected jobs ------------------------>
+    <div class="tab-pane" id="Rejected" style="height: 450px; overflow-y: scroll; width:117% ; overflow-x: hidden;">
+
+      {% for post in posts %} 
+      {% for r in result %}
+      {% if r.job_id == post.id and r.status == "Rejected" %}
+          {% if forloop.counter < 5  or forloop.counter == 5%}
+          <script>
+              document.getElementById("Rejected").style.overflow = 'hidden';
+          </script>
+          {% endif %}
+      <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+        <div class="company-logo blank-logo text-center text-md-left pl-3">
+          <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+        </div>
+        <div class="job-details h-100">
+          <div class="p-3 align-self-center">
+
+            <div class="row">
+            <h3 style="padding-top: 4px;">
+             {{post.jobtitle}}
+            </h3>
+             {% for user in users%}
+              {% if post.author_id == user.id %}
+              <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+              {%else%} <div></div>
+              {%endif%}
+            {% endfor %} 
+          </div>
+            <div class="d-block d-lg-flex">
+              <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+                {{post.careerlevel}} 
+          </div>
+
+              <div><i class="fas fa-clock mr-1"></i>
+                {{post.jobtype}}
+              </div>
+               <div class="mr-3" style="margin-left:5px"><i class="fas fa-map-marker-alt"></i>
+                  {{post.joblocation}}
+              </div> 
+              
+            </div>
+          </div>
+        </div>
+          <div class="job-category align-self-center">
+              <div class="p-3">
+                {% for r in result %}
+                  {% if r.job_id == post.id %}
+                  <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;">{{r.status}}</p>
+                  {% endif %}
+                 {% endfor %}
+              </div>
+          </div>   
+      </a>
+      
+      {%endif%}
+
+      {% empty %}
+            <li class="list-group-item ">No Rejected jobs </li>
+       {% endfor %}
+    {% endfor %}
+  </div>
+
+    <!---------------------------- Pending jobs ------------------------>
+
+  <div class="tab-pane" id="Pending" style="height: 450px; overflow-y: scroll; width:117% ; overflow-x: hidden;">
+
+    {% for post in posts %} 
+    {% for r in result %}
+    {% if r.job_id == post.id and r.status == "pending" %}
+        {% if forloop.counter < 5  or forloop.counter == 5%}
+        <script>
+            document.getElementById("Pending").style.overflow = 'hidden';
+        </script>
+        {% endif %}
+    <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+      <div class="company-logo blank-logo text-center text-md-left pl-3">
+        <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+      </div>
+      <div class="job-details h-100">
+        <div class="p-3 align-self-center">
+
+          <div class="row">
+          <h3 style="padding-top: 4px;">
+           {{post.jobtitle}}
+          </h3>
+           {% for user in users%}
+            {% if post.author_id == user.id %}
+            <p><span class="border border-warning rounded p-1 px-2 text-warning" style="font-size: 12px;margin-left: 9px;">@ {{user.username}}</span></p>
+            {%else%} <div></div>
+            {%endif%}
+          {% endfor %} 
+        </div>
+          <div class="d-block d-lg-flex">
+            <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+              {{post.careerlevel}} 
+        </div>
+
+            <div><i class="fas fa-clock mr-1"></i>
+              {{post.jobtype}}
+            </div>
+             <div class="mr-3" style="margin-left:5px"><i class="fas fa-map-marker-alt"></i>
+                {{post.joblocation}}
+            </div> 
+            
+          </div>
+        </div>
+      </div>
+        <div class="job-category align-self-center">
+            <div class="p-3">
+              {% for r in result %}
+                {% if r.job_id == post.id %}
+                <p class="border border-danger rounded p-1 px-2 text-danger" style="width: auto;">{{r.status}}</p>
+                {% endif %}
+               {% endfor %}
+            </div>
+        </div>   
+    </a>
+
+    {%endif%}
+    {% empty %}
+          <li class="list-group-item ">no Rejected jobs </li>
+          {% endfor %}
+    {% endfor %}
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+      <!-- <div class="row">
+        <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
             
           <div class="rounded border jobs-wrap">
             {% for post in posts %} 
@@ -80,38 +398,14 @@
             {% endfor %}
           </div>
  
-          <br>
-          <nav class='d-flex justify-content-center' aria-label="Page navigation example">
-  
-            <ul class="pagination justify-content-end">
-              <li class="page-item">
-                {% if posts.has_previous %}
-                <a class= "page-link" href ="?page={{ posts.previous_page_number }}">Previous</a>
-                <!--<a class="page-link" href="?page={{ posts.paginator.num_pages }}"> Previous </a>-->
-                {% endif %}
-              </li>
-              {% for num in posts.paginator.page_range %}
-                {% if posts.number == num %}
-                <a class="page-link" href="?page={{ num }}" > {{num}} </a>
-                {% elif num > posts.number|add:'-3' and num < posts.number|add:'3'%}
-              <a class="page-link" href="?page={{ num }}" > {{num}} </a>
-              {% elif posts.has_next != True%}
-                {% endif %}
-              {% endfor %}
-    
-              <li class="page-item">
-                {% if posts.has_next %}
-                <!--<a class="page-link" href="?page={{ posts.next_page_number }}">></a>-->
-                <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Next</a>
-                {%endif%}
-              </li>
-            </ul>
-          </nav>
-        </div>
+       
 
     </div>
+     -->
   </div>
   </div>
+
+
   <script>
     $(function(){
       $('#mess').delay(4000).fadeOut('fast')

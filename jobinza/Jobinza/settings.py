@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'applicant.apps.ApplicantConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    #'django_extensions',
+    
 ]
 
 SITE_ID = 1
@@ -132,7 +134,7 @@ DATABASES = {
           'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
         },
         'USERNAME': 'jobinza',
-       'PASSWORD': 'jobinza',
+        'PASSWORD': 'jobinza',
         'ENFORCE_SCHEMA': False,
     }
     

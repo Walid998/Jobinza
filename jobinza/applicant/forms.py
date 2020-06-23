@@ -18,13 +18,15 @@ class editprofileForm(forms.ModelForm):
     image = forms.ImageField(required=False)
     phonenumber = forms.CharField(required=False)
     address = forms.CharField(required=False)
+    job_title = forms.CharField(required=False)
     class Meta:
         model = Profile
         fields = [
 	
         'image',
         'phonenumber',
-        'address', 			
+        'address',
+        'job_title', 			
 
 ]
 
