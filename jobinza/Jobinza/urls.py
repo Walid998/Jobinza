@@ -15,6 +15,7 @@ from account.views import (
     account_setting,
     change_account_setting,
     upld_propic,
+    registration_for_both,
     #account_view,
     #must_authenticate_view,
 )
@@ -31,6 +32,11 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     #path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
     path('signup/', registration_view, name="signup"),
+
+
+    path('signupp/', registration_for_both, name="Signup"),
+
+
     path('contact/',contact, name='contact'),
     
     path('signup/hr/' , registration_view_hr , name="register"),

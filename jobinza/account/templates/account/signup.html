@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<link rel="stylesheet" href="//unpkg.com/bootstrap-select-country@4.0.0/dist/css/bootstrap-select-country.min.css" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+
+<style>
+.switch {
+    position: absolute;
+    display: inline-block;
+    width: 296px;
+    height: 44px;
+    left: 150px;
+    top: 200px;
+    background-color: #2ab934;
+    border-radius: 34px;
+    padding: 4px 4px 0 4px;
+}  
+    
+.switch input {display:none;}
+
+input[type="radio"].toggle:checked + label {
+    background-color: white;
+    box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: default;
+    color: black;
+    border-color: transparent;
+    text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
+    
+}
+
+
+input[type="radio"].toggle + label {
+    width: 148px;
+    height: 36px;
+    position: absolute;
+    color: white;
+    font-size: 18px;
+    margin-top: 4px;
+    padding-top: 3px;
+    text-align: center;
+    
+}
+    
+input[type="radio"].toggle-left + label {
+    border-right: 0;
+    border-radius: 34px;
+}
+
+input[type="radio"].toggle-right + label {
+    border-radius: 34px;
+    right: 4px;
+}
+
+
+
+    .wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 550px; 
+        margin-top: 4px;
+        padding: 20px 0px;
+    }
+
+    .signin-form{
+        position: absolute;
+        text-align: center;
+        width: 700px;
+        height: 500px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        transition: 1s;
+
+    }
+    
+    #slide {
+        left: -800px;
+        background: rgb(180, 180, 180);
+        border-top-right-radius: 10% 50%;
+        border-bottom-right-radius: 10% 50%;  
+    }
+        
+    #slide2 {
+        right: 0px;
+        background: rgba(161, 123, 123);
+        border-top-left-radius: 10% 50%;
+        border-bottom-left-radius: 10% 50%;
+    }
+    
+    /*.wrapper:hover #slide {
+        transition: 1s;
+        left: 0;
+    }*/
+    </style>
+
+
+
+<div class="wrapper">
+        
+    <!-- <img id="slide" src="http://lorempixel.com/output/cats-q-c-100-100-4.jpg" /> -->
+    <form id="slide" class="signin-form" action="/action_page.php">
+        <h3>Sign in as Company</h3>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="John"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Doe"><br><br>
+        <input type="submit" value="Submit">
+      </form> 
+        <label class="switch">
+            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" onclick="myFunction()" checked>
+            <label for="toggle-on" class="btn">Applicant</label>
+            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" onclick="myFunction()">
+            <label for="toggle-off" class="btn">Company</label>
+        </label>
+    <!-- <img id="slide2" src="http://lorempixel.com/output/cats-q-c-100-100-4.jpg" /> -->
+    <form id="slide2" class="signin-form" action="/action_page.php">
+        <h3>Sign in as Applicant</h3>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="John"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Doe"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+</div>
+
+<script>
+    function myFunction() {
+      if (document.getElementById('toggle-on').checked) {
+          $('#slide').css({
+            transition: '1.5s',
+            left: '-800px'
+        });
+          $('#slide2').css({
+            transition: '1.5s',
+            right: '0px'
+        });
+          $('.switch').css({
+              transition: '1s',
+              left: '150px'
+          });
+      } 
+
+      else {
+          $('#slide').css({
+            transition: '1.5s',
+            left: '0px'
+        });
+          
+          $('#slide2').css({
+            transition: '1.5s',
+            right: '-800px'
+        });
+          $('.switch').css({
+              transition: '1s',
+              left: '940px'
+          })
+      }
+    }
+</script>
+
+
+<!--------------------------------------------------------------------------------------------------------------------------->
+    
+<!-- <form id="myform"  action="/action_page.php">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" value="John"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" value="Doe"><br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<form id="myform2" action="/action_page.php" style="display: none">
+  <label for="fname">Company:</label><br>
+  <input type="text" id="fname" name="fname" value="nour"><br>
+  <label for="lname">Company:</label><br>
+  <input type="text" id="lname" name="lname" value="ashraf"><br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<p><b>Note:</b> The element will not take up any space when the display property set "none".</p> -->
+
+
+<!--------------------------------------------------------------------------------------------------------------------------->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="js/scripts.js"></script>
+{% endblock content%} 
+

@@ -101,6 +101,13 @@ def registration_view_hr(request):
         form = UserCreationForm2()
     return render(request, 'account/register_hr.html', {'title': 'Sign Up','form': form,})
 
+
+@unauthenticated_user
+def registration_for_both(request):
+    return render(request, 'account/signup.html')
+
+
+
 @unauthenticated_user
 def login_view(request):
     if request.method == 'POST':
