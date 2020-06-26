@@ -9,14 +9,63 @@
 
 
 <style>
-.switch {
+
+body{
+    background: -webkit-linear-gradient(left, #000 ,#0f9b0f );
+    /* background: -webkit-linear-gradient(left, #232526,#414345); */
+    /* background: -webkit-linear-gradient(left, #195c2f, #618B25); */
+    /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
+}
+
+/* .switch {
     position: absolute;
     display: inline-block;
+} */
+
+/* .switch img{
+    left: 220px;
+    top: 250px;
+}*/
+
+
+
+.corner{
+    position: absolute;
+    display: inline-block;
+    left: 10%;
+    top: 20%;
+}
+
+    .register-left{
+    text-align: center;
+    color: #fff;
+}
+.register-left img{
+    margin-bottom: 5%;
+    width: 30%;
+    -webkit-animation: mover 2s infinite  alternate;
+    animation: mover 2s infinite  alternate;
+}
+@-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+@keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+
+}
+.register-left p{
+    font-weight:lighter;
+    margin-top: -3%;
+}
+
+.switch {
+
     width: 296px;
     height: 44px;
-    left: 150px;
-    top: 200px;
-    background-color: #2ab934;
+
+    background-color: #fff;
     border-radius: 34px;
     padding: 4px 4px 0 4px;
 }  
@@ -24,10 +73,10 @@
 .switch input {display:none;}
 
 input[type="radio"].toggle:checked + label {
-    background-color: white;
+    background-color: #2ab934;
     box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
     cursor: default;
-    color: black;
+    color: white;
     border-color: transparent;
     text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
     
@@ -38,12 +87,18 @@ input[type="radio"].toggle + label {
     width: 148px;
     height: 36px;
     position: absolute;
-    color: white;
+    color: black;
     font-size: 18px;
-    margin-top: 4px;
+    font-weight: bolder;
+    /* margin-top: 4px; */
     padding-top: 3px;
     text-align: center;
-    
+    /* pointer-events:none; */
+    cursor: pointer;
+}
+
+input[type="radio"].toggle + label.btn:hover {
+    box-shadow: none;
 }
     
 input[type="radio"].toggle-left + label {
@@ -62,16 +117,16 @@ input[type="radio"].toggle-right + label {
         position: relative;
         overflow: hidden;
         width: 100%;
-        height: 550px; 
-        margin-top: 4px;
-        padding: 20px 0px;
+        height: 620px; 
+        margin-top: -1px;
+        /* padding: 20px 0px; */
+        padding: 0px;
     }
 
     .signin-form{
         position: absolute;
-        text-align: center;
-        width: 700px;
-        height: 500px;
+        width: 800px;
+        height: 620px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         transition: 1s;
 
@@ -79,14 +134,14 @@ input[type="radio"].toggle-right + label {
     
     #slide {
         left: -800px;
-        background: rgb(180, 180, 180);
+        background: rgb(0, 0, 0 , 0.15 );
         border-top-right-radius: 10% 50%;
         border-bottom-right-radius: 10% 50%;  
     }
         
     #slide2 {
         right: 0px;
-        background: rgba(161, 123, 123);
+        background: rgb(0, 0, 0 , 0.2 );
         border-top-left-radius: 10% 50%;
         border-bottom-left-radius: 10% 50%;
     }
@@ -95,41 +150,121 @@ input[type="radio"].toggle-right + label {
         transition: 1s;
         left: 0;
     }*/
+
+.register-form{
+    margin: 7% 5% 0;
+}
+
+
+.submit-btn{
+    font-size: 20px; 
+    background-color: #2ab934;
+    color: white;
+    padding-top: 3px;
+    width:150px ; 
+    height:40px; 
+    margin:30px; 
+    margin-left:auto; 
+    margin-right: auto;
+}
+
+
+
     </style>
 
 
 
 <div class="wrapper">
         
-    <!-- <img id="slide" src="http://lorempixel.com/output/cats-q-c-100-100-4.jpg" /> -->
     <form id="slide" class="signin-form" action="/action_page.php">
-        <h3>Sign in as Company</h3>
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value="John"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value="Doe"><br><br>
-        <input type="submit" value="Submit">
+        <h3 style="text-align: center; color: white; margin-top: 10%;"> Signup as Company</h3>
+        <div class="row register-form">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="First Name *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="Last Name *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" style="height: 35px; margin-bottom: 10%;" placeholder="Password *" value="" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="email" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="Your Email *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="Your Phone *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" style="height: 35px; margin-bottom: 10%;" placeholder="Confirm Password *" value="" />
+                </div>
+            </div>
+            <button type="submit" class="btn submit-btn" >Signup</button><br>
+        </div>
+        <div class="" style="border-top: 1px solid#888; font-size:15px; width: 500px; margin-left:auto; margin-right: auto; color: white;"  >
+            Already have account?<a href="{% url 'login' %}" > Login </a>
+        </div>
       </form> 
-        <label class="switch">
-            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" onclick="myFunction()" checked>
-            <label for="toggle-on" class="btn">Applicant</label>
-            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" onclick="myFunction()">
-            <label for="toggle-off" class="btn">Company</label>
+
+<!--**************************************************************************************************************************-->
+      
+    <div class="corner">
+        <div class="register-left">
+            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+            <h3 style="color: white;">Welcome</h3>
+            <p>Fill the form to start our journey!</p>
+            <h6>Signup as:</h6>
+        </div>
+        <label class=" switch">
+            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" onclick="myFunction()" >
+            <label for="toggle-on" class="">Company</label>
+            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" onclick="myFunction()" checked>
+            <label for="toggle-off" class="">Applicant</label>
         </label>
-    <!-- <img id="slide2" src="http://lorempixel.com/output/cats-q-c-100-100-4.jpg" /> -->
+    </div>
+
+
+<!--**************************************************************************************************************************-->
+
+        
     <form id="slide2" class="signin-form" action="/action_page.php">
-        <h3>Sign in as Applicant</h3>
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value="John"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value="Doe"><br><br>
-        <input type="submit" value="Submit">
+        <h3 style="text-align: center; color: white; margin-top: 10%;"> Signup as Applicant</h3>
+        <div class="row register-form">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="first_name" style="height: 35px; margin-bottom: 15%;" placeholder="First Name *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" style="height: 35px; margin-bottom: 15%;" placeholder="username *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password1" style="height: 35px; margin-bottom: 10%;" placeholder="Password *" value="" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="last_name" style="height: 35px; margin-bottom: 15%;" placeholder="Last Name *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" style="height: 35px; margin-bottom: 15%;" placeholder="Email *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password2" style="height: 35px; margin-bottom: 10%;" placeholder="Confirm Password *" value="" />
+                </div>
+            </div>
+            <button type="submit" class="btn submit-btn" >Signup</button><br>
+        </div>
+        <div class="" style="border-top: 1px solid#888; font-size:15px; width: 500px; margin-left:auto; margin-right: auto; color: white;"  >
+            Already have account?<a href="{% url 'login' %}" > Login </a>
+        </div>
       </form>
 </div>
 
 <script>
     function myFunction() {
-      if (document.getElementById('toggle-on').checked) {
+      if (document.getElementById('toggle-off').checked) {
           $('#slide').css({
             transition: '1.5s',
             left: '-800px'
@@ -138,9 +273,9 @@ input[type="radio"].toggle-right + label {
             transition: '1.5s',
             right: '0px'
         });
-          $('.switch').css({
-              transition: '1s',
-              left: '150px'
+          $('.corner').css({
+              transition: '1.5s',
+              left: '10%'
           });
       } 
 
@@ -154,9 +289,9 @@ input[type="radio"].toggle-right + label {
             transition: '1.5s',
             right: '-800px'
         });
-          $('.switch').css({
-              transition: '1s',
-              left: '940px'
+          $('.corner').css({
+              transition: '1.5s',
+              left: '69%'
           })
       }
     }
