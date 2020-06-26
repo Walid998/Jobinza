@@ -130,7 +130,8 @@ def guestPage(request):
     companies = []
     profiles = Profile.objects.all()
     jobs = CreatePost.objects.all().filter(status = "Publishing")
-    catagories = category.objects.all()
+    catagories = category.objects.filter(jobno__gt = 0)
+
     users = User.objects.all()
     for user in users :
         if user.groups.filter(name="employeer").exists():

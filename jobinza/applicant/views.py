@@ -57,9 +57,13 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-        isApplied = False   
-    r = CreatePost.objects.all().filter(category = job.category)   
-   # print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj:',r) 
+        isApplied = False
+    
+    r = None
+    try:
+        r = CreatePost.objects.all().filter(category = job.category)
+    except:
+        print("no jobs in this category") 
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -167,7 +171,7 @@ def editProfile (request):
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
-                inst.job_title = form.cleaned_data('job_title')
+                inst.job_title = form.cleaned_data.get('job_title')
                 inst.author = auth
                 inst.save()
                 return redirect(f'/applicant/profile/{request.user}')
@@ -464,6 +468,7 @@ class IndeedJobSearch(object):
 
 def showResult(request):
     info = Profile.objects.get(author_id=request.user.id  )
+    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
     t = str(info.job_title)
     z = str(info.address)
     jobsearch = IndeedJobSearch(title=t, location=z)

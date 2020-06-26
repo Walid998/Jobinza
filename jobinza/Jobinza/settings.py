@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'applicant.apps.ApplicantConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    #'django_extensions',
-    
 ]
 
 SITE_ID = 1
@@ -117,8 +115,8 @@ WSGI_APPLICATION = 'Jobinza.wsgi.application'
 # email backend
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'jobinzaweb@gmail.com' 
-EMAIL_HOST_PASSWORD = '01128238520'
+EMAIL_HOST_USER = 'zaynfortest@gmail.com' 
+EMAIL_HOST_PASSWORD = '111111111@'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -129,13 +127,14 @@ EMAIL_USE_TLS = True
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'jobinza',
-        'CLIENT':{
-          'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
-        },
-        'USERNAME': 'jobinza',
-        'PASSWORD': 'jobinza',
-        'ENFORCE_SCHEMA': False,
+        'NAME': 'JobinzaDB',
+    #     'NAME': 'jobinza',
+    #     'CLIENT':{
+    #       'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
+    #     },
+    #     'USERNAME': 'jobinza',
+    #    'PASSWORD': 'jobinza',
+    #     'ENFORCE_SCHEMA': False,
     }
     
 }
