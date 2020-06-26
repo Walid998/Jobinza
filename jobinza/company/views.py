@@ -191,14 +191,14 @@ def category_posts(request , category_name):
 #jod details
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
-def job_details(request , job_id , user_name):
+def job_details(request , job_id):
 	id_num = int(job_id)
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
 	
 	job_list.views = job_list.views + 1
 	job_list.save()
-	list_applicants = Match_Results.objects.all().filter(job_id=job_id)
+	list_applicants = Match_Results.objects.all().filter(job_id=job_id).order_by('-skills_rslt')
 	schudle_user = Match_Results.objects.all().filter(status = 'Accepted')
 	form = SchduleForm(request.POST or None )
 	if request.method == 'POST':
@@ -335,10 +335,10 @@ def editProfile (request):
 				inst.location = form.cleaned_data.get('location')
 				inst.description = form.cleaned_data.get('description')
 				inst.author = auth
-				auth_user.username = form1.cleaned_data.get('username')
-				auth_user.first_name = form1.cleaned_data.get('first_name')
-				auth_user.last_name = form1.cleaned_data.get('last_name')
-				auth_user.email = form1.cleaned_data.get('email')
+				#auth_user.username = form1.cleaned_data.get('username')
+				#auth_user.first_name = form1.cleaned_data.get('first_name')
+				#auth_user.last_name = form1.cleaned_data.get('last_name')
+				#auth_user.email = form1.cleaned_data.get('email')
 				inst.save()
 				return redirect(f'/company/edit_profile/')
 	return render(request,'company/edit_profile.html',{'result':auth , 'info' : pinfo ,})
@@ -385,25 +385,49 @@ def send_email(request,user_name,job_id):
 
 	return render(request,'company/send_email.html',{'applicant':applicant,"stat" : stat})
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
-def readall_notification(request):
-	Notifications = Notification.objects.all().filter(receiver = request.user.id)
-	for n in Notifications :
-		if n.read == False:
-			n.read = True
-			n.save()
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def send_emails(content,to):
+	email = EmailMessage(
+		"New contact form email",
+		content,
+		"jobinza web" + '',
+		[to],
+		headers = { 'Reply To': to }
+	)
+	email.send()
 
+def contentmessage(applicant,company,job_title,app_status):
+	content = ""
+	if app_status == 'Accepted':
+		content = f'''Congratulations {applicant} !!, you have been accepted to have an interview
+					  in {company.capitalize()} company according to your apply request for {job_title} job , 
+					  you will recieve another email inform you the appointment and location soon. 
+					  Good Luck !! '''
+	elif app_status == 'Rejected':
+			content = f'''Dear {applicant}, we are sorry to tell you that your apply request
+			for {job_title} job has been rejected because your qualifications
+			not match our job requirements, to have to do your best all time and
+			you're able to apply again after 3 monthes. Good Luck !! - company: {company.capitalize()}.'''
+	return content
 
-def readone_notification(job_id):
-	Noti = Notification.objects.all().filter(post = job_id)
-	for n in Noti :
-		if n.read == False:
-			n.read = True
-			n.save()
-
-
+def selected_applicants(request,company,job_title,app_status):
+	if request.method == 'POST' and (request.POST.get('applicants_emails') != None):
+		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^before send email :: ')
+		emls = str(request.POST.get('applicants_emails'))
+		lst = skillsToList(emls)
+		content= ""
+		for app_email in lst:
+			applicant = Match_Results.objects.get(app_email = app_email)
+			app_name = User.objects.get(username = applicant.aplcnt)
+			applicant.status = app_status
+			applicant.save()
+			content = contentmessage(app_name.username ,company,job_title,app_status)
+			print("KKMMKKMMDDFFDDFFZZZZZZZZZZZZZZ<<<<<<<<<< :: ",content)
+			send_emails(content,app_email)
+		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^after send email ')
+		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+	else:
+		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+		
 ########################################################
 ########################################################
 ########################################################
@@ -431,3 +455,21 @@ def status_rejected(request , pk):
 ########################################################
 ########################################################
 ########################################################
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employeer'])
+def readall_notification(request):
+	Notifications = Notification.objects.all().filter(receiver = request.user.id)
+	for n in Notifications :
+		if n.read == False:
+			n.read = True
+			n.save()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def readone_notification(job_id):
+	Noti = Notification.objects.all().filter(post = job_id)
+	for n in Noti :
+		if n.read == False:
+			n.read = True
+			n.save()

@@ -57,9 +57,13 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-        isApplied = False   
-    r = CreatePost.objects.all().filter(category = job.category)   
-   # print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj:',r) 
+        isApplied = False
+    
+    r = None
+    try:
+        r = CreatePost.objects.all().filter(category = job.category)
+    except:
+        print("no jobs in this category") 
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -167,6 +171,7 @@ def editProfile (request):
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
+                inst.job_title = form.cleaned_data.get('job_title')
                 inst.author = auth
                 inst.save()
                 return redirect(f'/applicant/profile/{request.user}')
@@ -236,17 +241,8 @@ def applied_jobs(request):
     for r in result:
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
-        print(r.job_id)
-    print("-------------------------")
-    for post in posts:
-        print(post.id)
-
-    paginator = Paginator(posts,4)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
     users = User.objects.all()
-
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )   
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
   
     
 
@@ -471,10 +467,15 @@ class IndeedJobSearch(object):
 
 
 def showResult(request):
-    jobsearch = IndeedJobSearch(title='scrum', location='cairo')
+    info = Profile.objects.get(author_id=request.user.id  )
+    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+    t = str(info.job_title)
+    z = str(info.address)
+    jobsearch = IndeedJobSearch(title=t, location=z)
     data = jobsearch.getJobs()
     context = {
         'data' : data,
+        
         
     }
     return render(request,'applicant/recommendation_indeed.html',context)

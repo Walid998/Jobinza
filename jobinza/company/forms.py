@@ -50,7 +50,7 @@ class CreatePostForm(forms.ModelForm):
         'job_description', 	
         'skills', 				
         'deadline',
-        'image',
+        #'image',
         'category',
 ]
 

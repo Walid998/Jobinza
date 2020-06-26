@@ -47,17 +47,11 @@
         </div>
         {%endfor%}
        
-        
-        
-        
-        
-        <div class="col mt-4" data-aos="fade-up" data-aos-delay="800">
-          <div class="d-flex justify-content-center">
-            <a href="#" style="text-decoration: underline;">See All Categories</a>
-          </div>
-        </div>
       </div>
-
+      <br />
+      <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="600">
+        <a href="#" style="text-decoration: underline;">See All Categories</a>
+      </div>
     </div>
 </div>
 
@@ -175,7 +169,7 @@
               <span class="d-block"><span class="icon-room"></span>  {{post.joblocation}} , {{post.city}} , {{post.Area}}</span>
               <span class="d-block"><span class="icon-money mr-1"></span> {{post.salary_range1}} &mdash; {{post.salary_range2}}</span>
             </p>
-            <p class="mb-0" style="word-wrap: break-word;">We are hiring a {% comment %}{{post.job_description}}{% endcomment %} with : <br> - {{post.year_of_experience}} years Experience 
+            <p class="mb-0" style="word-wrap: break-word;">We are hiring an applicant {% comment %}{{post.job_description}}{% endcomment %} with : <br> - {{post.year_of_experience}} years Experience 
             <br> - skills... </p>
             <a href="/applicant/details/{{post.id}}" class="text-danger" style="text-decoration: underline; padding-top: 15px;"><small>More details</small></a>
   

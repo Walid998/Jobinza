@@ -21,6 +21,7 @@ from company.views import (
 	category_posts,
 	status_accepted,
 	status_rejected,
+	selected_applicants,
  )
 
 
@@ -31,7 +32,7 @@ urlpatterns = [
 	path('create/', create_post_view, name="create"),
 	path('list/' , list_job_view , name="list"),
 	path('delete/<int:job_id>/' ,job_delete,name='delete'),
-	path('details/<str:user_name>/<int:job_id>/', job_details, name='detials'),
+	path('details/<int:job_id>/', job_details, name='detials'),
 	path('edit/<int:job_id>/', job_edit, name='edit'),
 	path('status/<int:job_id>/',job_state_closed),
 	path('status_open/<int:job_id>',job_state_open),
@@ -44,6 +45,6 @@ urlpatterns = [
 	#path('<slug>/edit', edit_post_view, name="edit"),
 	path('read_notification/' , readall_notification , name="notification"),
 	path('catgeory_posts/<str:category_name>' , category_posts , name="categoryPosts"),
-
+	path('acptSelect/<str:company>/<str:job_title>/<str:app_status>',selected_applicants, name="selected_applicants")
 
 ]

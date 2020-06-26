@@ -63,7 +63,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text" style="height: 35px;"><i class='fa fa-envelope' style="color: gray;"></i></span>
                 </div>
-                <input type="email" class="form-control" name="email" required  style="height: 35px;">
+                <input type="email" id="emal" class="form-control" name="email" required  style="height: 35px;">
               </div>
 
               <h5> Password</h5>
@@ -103,9 +103,14 @@
 </div>
 </div>
 <script>
-$(function () {
+  $(function () {
     $('select').selectpicker();});
 
+    $(document).ready(function(){
+    $("#emal").on('change keyup paste',function(){
+    $(this).val($(this).val().toLowerCase());
+     });
+    });
 </script>
 {% endblock content%} 
 
