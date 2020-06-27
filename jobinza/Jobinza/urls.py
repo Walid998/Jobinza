@@ -31,10 +31,10 @@ urlpatterns = [
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
     #path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
-    path('signup/', registration_view, name="signup"),
+    path('signup/', registration_view, name="signup-Applicant"),
 
 
-    path('signupp/', registration_for_both, name="Signup"),
+    path('signupp/', registration_for_both, name="signup"),
 
 
     path('contact/',contact, name='contact'),

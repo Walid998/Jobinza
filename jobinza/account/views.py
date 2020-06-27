@@ -80,7 +80,7 @@ def registration_view(request):
             return redirect('login')
     else:  
         form = UserCreationForm()
-    return render(request, 'account/register.html', {'title': 'Sign Up','form': form,})
+    return render(request, 'account/signup.html', {'title': 'Sign Up','form': form,})
 
 @unauthenticated_user
 def registration_view_hr(request):

@@ -229,7 +229,7 @@ input[type="radio"].toggle-right + label {
 <!--**************************************************************************************************************************-->
 
         
-    <form id="slide2" class="signin-form" action="/action_page.php">
+    <form action="{% url 'signup-Applicant' %}" id="slide2" class="signin-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <h3 style="text-align: center; color: white; margin-top: 10%;"> Signup as Applicant</h3>
         <div class="row register-form">
             <div class="col-md-6">
