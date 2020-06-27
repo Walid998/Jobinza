@@ -183,7 +183,23 @@ def list_applicant(request):
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
-    return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
+    info = Profile.objects.get(author_id=request.user.id  )
+    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+    t = str(info.job_title)
+    z = str(info.address)
+    jobsearch = IndeedJobSearch(title=t, location=z)
+    data = jobsearch.getJobs()
+
+    datas = Paginator(data,3)
+    page = request.GET.get('page')
+    data_paginator = datas.get_page(page)
+
+    context = {
+        'posts' : listpost , 
+        'users': listusers,
+        'data' : data,
+    }
+    return render(request,'applicant/home.html', context )
 
 #####################################
 ########____UPLOAD RESUME____########
