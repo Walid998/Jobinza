@@ -39,7 +39,7 @@ urlpatterns = [
 
     path('contact/',contact, name='contact'),
     
-    path('signup/hr/' , registration_view_hr , name="register"),
+    path('signup/hr/' , registration_view_hr , name="signup-Company"),
     path('changeaccounntsetting',change_account_setting,name="changeaccounntsetting"),
 	path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html'), 
         name='password_change_done'),

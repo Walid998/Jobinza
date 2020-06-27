@@ -321,7 +321,7 @@ def editProfile (request):
 				pinfo.location = form.cleaned_data.get('location')
 				pinfo.description = form.cleaned_data.get('description')
 				pinfo.save()
-				return redirect(f'/company/edit_profile/')
+				return redirect(f'/company/profile/{request.user}')
                 #messages.success(request,f'Job has been updated successfully !!')
 		except:
 			form = editprofileForm(request.POST)

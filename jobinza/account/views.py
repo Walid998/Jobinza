@@ -99,7 +99,7 @@ def registration_view_hr(request):
             return redirect('login')
     else:  
         form = UserCreationForm2()
-    return render(request, 'account/register_hr.html', {'title': 'Sign Up','form': form,})
+    return render(request, 'account/signup.html', {'title': 'Sign Up','form': form,})
 
 
 @unauthenticated_user

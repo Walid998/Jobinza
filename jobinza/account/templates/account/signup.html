@@ -176,35 +176,35 @@ input[type="radio"].toggle-right + label {
 
 <div class="wrapper">
         
-    <form id="slide" class="signin-form" action="/action_page.php">
+    <form action="{% url 'signup-Company' %}" id="slide" class="signin-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <h3 style="text-align: center; color: white; margin-top: 10%;"> Signup as Company</h3>
         <div class="row register-form">
             <div class="col-md-6">
                 <div class="form-group">
-                    <input type="text" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="First Name *" value="" />
+                    <input type="text" class="form-control" name="first_name" style="height: 35px; margin-bottom: 15%;" placeholder="First Name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="Last Name *" value="" />
+                    <input type="text" class="form-control" name="username" style="height: 35px; margin-bottom: 15%;" placeholder="Company Name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" style="height: 35px; margin-bottom: 10%;" placeholder="Password *" value="" />
+                    <input type="password" class="form-control" name="password1" style="height: 35px; margin-bottom: 10%;" placeholder="Password *" value="" />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <input type="email" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="Your Email *" value="" />
+                    <input type="text" class="form-control" name="last_name" style="height: 35px; margin-bottom: 15%;" placeholder="Last Name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" style="height: 35px; margin-bottom: 15%;" placeholder="Your Phone *" value="" />
+                    <input type="email" class="form-control" name="email" style="height: 35px; margin-bottom: 15%;" placeholder="Company Email *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" style="height: 35px; margin-bottom: 10%;" placeholder="Confirm Password *" value="" />
+                    <input type="password" class="form-control" name="password2" style="height: 35px; margin-bottom: 10%;" placeholder="Confirm Password *" value="" />
                 </div>
             </div>
             <button type="submit" class="btn submit-btn" >Signup</button><br>
         </div>
         <div class="" style="border-top: 1px solid#888; font-size:15px; width: 500px; margin-left:auto; margin-right: auto; color: white;"  >
-            Already have account?<a href="{% url 'login' %}" > Login </a>
+            Already have an account?<a href="{% url 'login' %}" > Login </a>
         </div>
       </form> 
 
@@ -257,7 +257,7 @@ input[type="radio"].toggle-right + label {
             <button type="submit" class="btn submit-btn" >Signup</button><br>
         </div>
         <div class="" style="border-top: 1px solid#888; font-size:15px; width: 500px; margin-left:auto; margin-right: auto; color: white;"  >
-            Already have account?<a href="{% url 'login' %}" > Login </a>
+            Already have an account?<a href="{% url 'login' %}" > Login </a>
         </div>
       </form>
 </div>
