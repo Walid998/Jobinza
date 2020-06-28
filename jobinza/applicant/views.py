@@ -34,6 +34,8 @@ def job_details(request , job_id):
     user = request.user
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
+    job.views = job.views + 1
+    job.save()
     com = User.objects.get(id=job.author_id)
     com_profile = ''
     try:
