@@ -127,6 +127,9 @@ def login_view(request):
         'title': 'Sign in',
     })
 
+def log(request):
+    return render(request, 'account/log.html')
+
 def logout_view(request):
     logout(request)
     return redirect('login')

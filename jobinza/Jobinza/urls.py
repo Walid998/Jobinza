@@ -16,6 +16,7 @@ from account.views import (
     change_account_setting,
     upld_propic,
     registration_for_both,
+    log,
     #account_view,
     #must_authenticate_view,
 )
@@ -29,6 +30,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('account/', account_view, name="account"),
     path('login/', login_view, name="login"),
+
+    path('log/', log , name="log"),
+
     path('logout/', logout_view, name="logout"),
     #path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
     path('signup/', registration_view, name="signup-Applicant"),
