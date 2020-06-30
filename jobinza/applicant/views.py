@@ -34,6 +34,8 @@ def job_details(request , job_id):
     user = request.user
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
+    job.views = job.views + 1
+    job.save()
     com = User.objects.get(id=job.author_id)
     com_profile = ''
     try:
@@ -57,9 +59,19 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
+<<<<<<< HEAD
         isApplied = False   
     r = CreatePost.objects.all().filter(category = job.category)   
   
+=======
+        isApplied = False
+    
+    r = None
+    try:
+        r = CreatePost.objects.all().filter(category = job.category)
+    except:
+        print("no jobs in this category") 
+>>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -170,6 +182,7 @@ def editProfile (request):
                 print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
+                inst.job_title = form.cleaned_data.get('job_title')
                 inst.author = auth
                 inst.save()
                 return redirect(f'/applicant/profile/{request.user}')
@@ -181,7 +194,23 @@ def list_applicant(request):
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
-    return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
+    info = Profile.objects.get(author_id=request.user.id  )
+    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+    t = str(info.job_title)
+    z = str(info.address)
+    jobsearch = IndeedJobSearch(title=t, location=z)
+    data = jobsearch.getJobs()
+
+    datas = Paginator(data,3)
+    page = request.GET.get('page')
+    data_paginator = datas.get_page(page)
+
+    context = {
+        'posts' : listpost , 
+        'users': listusers,
+        'data' : data,
+    }
+    return render(request,'applicant/home.html', context )
 
 #####################################
 ########____UPLOAD RESUME____########
@@ -239,21 +268,17 @@ def applied_jobs(request):
     for r in result:
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
-        print(r.job_id)
-    print("-------------------------")
-    for post in posts:
-        print(post.id)
-
-    paginator = Paginator(posts,4)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
     users = User.objects.all()
+<<<<<<< HEAD
 
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
 
 
 
 
+=======
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
+>>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
   
     
 
@@ -478,10 +503,15 @@ class IndeedJobSearch(object):
 
 
 def showResult(request):
-    jobsearch = IndeedJobSearch(title='scrum', location='cairo')
+    info = Profile.objects.get(author_id=request.user.id  )
+    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+    t = str(info.job_title)
+    z = str(info.address)
+    jobsearch = IndeedJobSearch(title=t, location=z)
     data = jobsearch.getJobs()
     context = {
         'data' : data,
+        
         
     }
     return render(request,'applicant/recommendation_indeed.html',context)

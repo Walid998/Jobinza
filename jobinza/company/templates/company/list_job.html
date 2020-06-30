@@ -88,9 +88,13 @@
         <!---------------------------- All jobs ------------------------>
         <div class="tab-pane active" id="all">
           {% for post in posts %}
-              <a href="/company/details/{{applicants.aplcnt}}/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+              <a href="/company/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                 <div class="company-logo blank-logo text-center text-md-left pl-3">
+                {% if post.image is not None %}
+                <img src="{{post.image}}" alt="Image" class="img-fluid mx-auto">
+                {% else %}
                 <img src="images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
+                {% endif %}
                 </div>
                 <div class="job-details h-100">
                  <div class="p-3 align-self-center">

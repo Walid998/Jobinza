@@ -7,17 +7,18 @@ from datetime import datetime
 
 
 class editprofileForm(forms.ModelForm):
-    image = forms.ImageField(required=False)
+    #image = forms.ImageField(required=False)
     phonenumber = forms.CharField(required=False)
     address = forms.CharField(required=False)
     location = forms.CharField(required=False)
     description = forms.CharField(required=False)
+    
 
     class Meta:
         model = Profile
         fields = [
 	
-        'image',
+        #'image',
         'phonenumber',
         'address',
         'location', 
@@ -49,7 +50,7 @@ class CreatePostForm(forms.ModelForm):
         'job_description', 	
         'skills', 				
         'deadline',
-        'image',
+        #'image',
         'category',
 ]
 

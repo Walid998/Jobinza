@@ -2,44 +2,59 @@
 {% load static%}
 {% block content %}
 
-<div class="card">
-    <div class="card-header">
-      {{data.title.0}}
-    </div>
-    
-    <div class="card-body">
-      <h5 class="card-title">{{data.location.0}}</h5>
-      <p class="card-text">{{data.summary.0}}</p>
-      <p class="card-text">{{data.date.0}}</p>
-      <a href="{{data.link.0}}" class="btn btn-primary">Go explore</a>
-    </div>
-</div>
-<div class="card">
-  <div class="card-header">
-    {{data.title.1}}
-  </div>
+
+<div class="site-section bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+<div class="jobs-wrap">
+  <div class="tab-content tab-space">
+
+    <!---------------------------- All jobs ------------------------>
+    <div class="tab-pane active" id="all">
+{%for d in data.itertuples  %}
+<a href="{{d.link}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+  <div class="company-logo blank-logo text-center text-md-left pl-3">
   
-  <div class="card-body">
-    <h5 class="card-title">{{data.location.1}}</h5>
-    <p class="card-text">{{data.summary.1}}</p>
-    <p class="card-text">{{data.date.1}}</p>
-    <a href="{{data.link.1}" class="btn btn-primary">Go explore</a>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-header">
-    {{data.title.2}}
-  </div>
   
-  <div class="card-body">
-    <h5 class="card-title">{{data.location.2}}</h5>
-    <p class="card-text">{{data.summary.2}}</p>
-    <p class="card-text">{{data.date.2}}</p>
-    <a href="{{data.link.2}}" class="btn btn-primary">Go explore</a>
+  <img src="../../../static/jobinza/images/indeed.png" alt="Image" class="img-fluid mx-auto">
+  </div>
+  <div class="job-details h-100">
+   <div class="p-3 align-self-center">
+      <h3>
+      
+        {{d.title}}
+     
+      </h3>
+      <h7>
+      
+        {{d.summary}}
+     
+      </h7>
+      <div class="d-block d-lg-flex">
+      <div class="mr-3"><span class="icon-suitcase mr-1"></span>
+      
+        {{d.date}}
+      
+      </div>
+      <div class="mr-3"><span class="icon-room mr-1"></span>
+      
+        {{d.location}}
+      
+      </div>
+      <div><span class="icon-money mr-1"></span>
+        
+      </div>
+      </div>
+  </div>
+  </div> 
+</a>
+{%endfor%}
+    </div>
   </div>
 </div>
-
-
-
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

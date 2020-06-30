@@ -1,14 +1,16 @@
 from company.models import CreatePost , Notification
-
+from account.models import Profile
 # this file for search field and need alot to be accurate
 def add_variable_to_context(request):
-    posts = CreatePost.objects.all()
-    lst = list()
-    for i in posts:
-        lst.append(i.jobtitle)
-
+    pic = None
+    try:
+        obj =Profile.objects.get(author = request.user.id)
+        if obj.image != "" or obj.image is not None:
+            pic = obj.image 
+    except:
+        pic = None
     return {
-        'jobs': 'walid'
+        'usr_prof_pic': pic
     }
 
 def list_Notification(request):

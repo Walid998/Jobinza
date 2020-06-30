@@ -10,7 +10,7 @@ import random
 from django.contrib.auth.models import User
 from account.models import Profile
 from django.core.paginator import Paginator
-
+import base64
 def account_setting(request , user_id):
     id_num = int(user_id)
     us = User.objects.get(id=id_num)
@@ -25,11 +25,46 @@ def account_setting(request , user_id):
             obj.save()
         else:
             print("##################errorroroororor")
-    return render(request,'account/account_setting.html' , {'us':us})
+    return render(request,'account/account_setting2.html' , {'us':us})
 
+def upld_propic(request):
+    user = request.user
+    usrnm = str(user)
+    if request.method == 'POST':
+        img = request.POST.get('propic')
+        with open("media/profile-pic/company/"+usrnm+"_imageToSave.png", "wb") as fh:
+            fh.write(base64.b64decode(img))
+        try:
+            obj =Profile.objects.get(author = user.id)
+            obj.image = "/"+fh.name
+            obj.save()
+        except:
+            obj = Profile()
+            obj.image = "/"+fh.name
+            obj.author = user
+            obj.save()
+        
+        return redirect ('/company/edit_profile/')
+
+def change_account_setting(request):
+    user = request.user
+    #us = User.objects.get(id=user.id)
+    form = AccountSettingForm(request.POST, instance=user)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save(commit=False)
+            #obj.username = request.POST.get('username')
+            obj.first_name = request.POST.get('first_name')
+            obj.last_name = request.POST.get('last_name')
+            obj.email = request.POST.get('email')
+            obj.save()
+        else:
+            print("##################errorroroororor")
+    return redirect('password_change')
 
 @unauthenticated_user
 def registration_view(request):
+    
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -45,7 +80,7 @@ def registration_view(request):
             return redirect('login')
     else:  
         form = UserCreationForm()
-    return render(request, 'account/register.html', {'title': 'Sign Up','form': form,})
+    return render(request, 'account/signup.html', {'title': 'Sign Up','form': form,})
 
 @unauthenticated_user
 def registration_view_hr(request):
@@ -64,7 +99,14 @@ def registration_view_hr(request):
             return redirect('login')
     else:  
         form = UserCreationForm2()
-    return render(request, 'account/register_hr.html', {'title': 'Sign Up','form': form,})
+    return render(request, 'account/signup.html', {'title': 'Sign Up','form': form,})
+
+
+@unauthenticated_user
+def registration_for_both(request):
+    return render(request, 'account/signup.html')
+
+
 
 @unauthenticated_user
 def login_view(request):
@@ -85,6 +127,9 @@ def login_view(request):
         'title': 'Sign in',
     })
 
+def log(request):
+    return render(request, 'account/log.html')
+
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -94,8 +139,9 @@ def guestPage(request):
     result = []
     companies = []
     profiles = Profile.objects.all()
-    jobs = CreatePost.objects.all()
-    catagories = category.objects.all()
+    jobs = CreatePost.objects.all().filter(status = "Publishing")
+    catagories = category.objects.filter(jobno__gt = 0)
+
     users = User.objects.all()
     for user in users :
         if user.groups.filter(name="employeer").exists():

@@ -513,6 +513,13 @@ footer p a:hover {
                               </div>
                               {% endif %}
 
+                              {% if info.job_title %}
+                              <div class="input-group" style="padding-left: 42%">
+                                <div style="display: block;"><i class="fa fa-dribbble"></i></div>
+                                <h4 style="padding-left: 10px;">{{info.job_title}}</h4>
+                              </div>
+                              {% endif %}
+
                               {% endif %}
                             
 								<a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
@@ -659,6 +666,11 @@ footer p a:hover {
                         <input type="text" name="phonenumber" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
                         <!-- <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}"> -->
                     </div>
+                    <div class="form-inputs">
+                        <input type="text" name="job_title" placeholder="job title" class="input-form" value="{{info.job_title}}">
+                        <!-- <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}"> -->
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -220,34 +220,39 @@
               <div class="tabs">
               <ul class="nav nav-pills nav-pills-icons" role="tablist">
                 <li class="nav-itemx">
-                    <a  class="active" href="#studio" role="tab" data-toggle="tab" >
+                    <a id="tap1" class="active" href="#studio" role="tab" data-toggle="tab" >
                       <i class="fa fa-align-justify fa-lg" ></i>
                       
                     <br>ALL</a>
                 </li>
                 <li class="nav-itemx">
-                  <a  href="#accepted" role="tab" data-toggle="tab"  value ='run function'>
+                  <a id="tap2" href="#accepted" role="tab" data-toggle="tab"  value ='run function'>
                     <i class="fa fa-check fa-lg"></i>
                     <small style="color: rgb(178, 237, 100);" class="acnum"></small>
                   <br> Accepted</a>
                 </li>
                 <li class="nav-itemx">
-                  <a  href="#rejected" role="tab" data-toggle="tab">
+                  <a id="tap3" href="#rejected" role="tab" data-toggle="tab">
                     <i class="fa fa-times fa-lg"></i>
                     <small style="color: rgb(237, 173, 100);" class="rjnum"></small>
                   <br>Rejected</a>
                 </li>
                 <li class="nav-itemx">
                   <a href="#" data-toggle="modal" data-target="#exampleModalINTER">
-                    <i class="far fa-clock"></i>
+                    <i class="far fa-clock fa-lg"></i>
                     <small style="color: rgb(237, 173, 100);" class="interview"></small>
                   <br>interview</a>
                 </li>
               </ul>
             </div>
-            <button class="btn btn-success" id="btn-acc">Accept Selected</button>
-            <button class="btn btn-danger" id="btn-rej" >Reject Selected</button>
-
+            <form id="acc_form" action="{% url 'company:selected_applicants' user.username job.jobtitle 'Accepted'  %}" method="POST">{% csrf_token %}
+            <input type="hidden" name="applicants_emails" class="applicants_emails">
+            <button type="submit" class="btn btn-success" id="btn-acc" disabled>Accept Selected</button>
+            </form>
+            <form id="rej_form" action="{% url 'company:selected_applicants' user.username job.jobtitle 'Rejected'  %}" method="POST">{% csrf_token %}
+              <input type="hidden" name="applicants_emails" class="applicants_emails">
+              <button type="submit" class="btn btn-danger" id="btn-rej" disabled>Reject Selected</button>
+            </form>
             </div>
 
           </div>
@@ -258,7 +263,7 @@
           </div>
 
           <div class="select" style="text-align:left" >
-            <input type="checkbox" style="margin-left: -25%; width: 18px; height:18px; color:#fff" />
+            <input type="checkbox" id="selectAll" style="margin-left: -25%; width: 18px; height:18px; color:#fff" />
             <label style="padding-top: 5.5px; color: #28a745; padding-right: 4px;;"> Select all </label>  |             
             
             <label style="top: 10px; color: #28a745; padding-left: 4px;">   
@@ -273,7 +278,7 @@
       </div>
 
       <!-- _____________CONTENT OF ALL tab _________________-->
-      <div class="row justify-content-center" style="width: 100%;">
+      <div id="checkboxes" class="row justify-content-center" style="width: 100%;">
           <div class="tab-content tab-space" style="width: 65%; margin-left:25%">
             <!-- _______  ALL APPLICANTS _______ -->
             <div class="tab-pane active text-center gallery all" id="studio">
@@ -284,7 +289,7 @@
                   <a class="link" href="#">{{appl.aplcnt}}</a> 
                 </div>
                 
-                <input type="checkbox" >
+                <input name="{{appl.app_email}}" type="checkbox" >
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuenow="{{appl.skills_rslt}}" aria-valuemin="0" aria-valuemax="100" >
                   </div>              
@@ -327,13 +332,13 @@
                  <!--Rank Result-->
 
               {% for appl in applicants %}
-              {% if appl.skills_rslt > 0 %}
+              {% if appl.status == 'Accepted' %}
               <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
                 <div class="row" >
                   <a class="link" href="#">{{appl.aplcnt}}</a> 
                 </div>
                 
-                <input type="checkbox" >
+                <input name="{{appl.app_email}}" type="checkbox" >
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuenow="{{appl.skills_rslt}}" aria-valuemin="0" aria-valuemax="100">
                   </div>              
@@ -346,6 +351,9 @@
                   <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
                 </div>
                 <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
+                {% if appl.status == 'Accepted' %}
+                <span class="badge badge-pill badge-success" style=" margin-left:40%;" >{{appl.status}}</span>
+                {% endif %}
               </div>
               
               <!-- MORE DETAILS MODAL -->
@@ -372,14 +380,14 @@
                               <!--Rank Result-->
 
               {% for appl in applicants %}
-              {% if appl.skills_rslt == 0 %}
+              {% if appl.status == 'Rejected' %}
               <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
                 <div class="row" >
                   <a class="link" href="#">{{appl.aplcnt}}</a> 
                 </div>
                 
 
-                <input type="checkbox" >
+                <input name="{{appl.app_email}}" type="checkbox" >
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuenow="{{appl.skills_rslt}}" aria-valuemin="0" aria-valuemax="100">
                   </div>              
@@ -392,6 +400,9 @@
                   <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
 |                </div>
                 <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
+                {% if appl.status == 'Rejected' %}
+                <span class="badge badge-pill badge-danger" style=" margin-left:40%;" >{{appl.status}}</span>
+                {% endif %}
               </div>
               
               <!-- MORE DETAILS MODAL -->
@@ -513,19 +524,76 @@
     </div>
   </div>
 </div>
-
+<button onclick="getselect()">get select</button>
 
 
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script>
-  //progress bar
+  var selected = [];
+  function getselect(){
+    selected = []
+    if($("#tap1").hasClass("active")){
+      selected = []
+      $(".applicants_emails").val('')
+      $('#studio input:checked').each(function() {
+      selected.push($(this).attr('name'));
+      });
+      var emails = String(selected) + ","
+      $(".applicants_emails").val(emails)
+    }
+    else if ($("#tap2").hasClass("active")){
+      selected = []
+      $('#accepted input:checked').each(function() {
+      selected.push($(this).attr('name'));
+      });
+    }
+    else if ($("#tap3").hasClass("active")){
+      selected = []
+      $('#rejected input:checked').each(function() {
+      selected.push($(this).attr('name'));
+      });
+    }
+  }
+
+  $('#acc_form').submit(function(){
+    getselect()
+    return true;
+  });
+  $('#rej_form').submit(function(){
+    getselect()
+    return true;
+  });
+
   $(document).ready(function() {
+    $("#selectAll").click(function() {
+      $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
+    });
+
+    $("input[type=checkbox]").click(function() {
+        if (!$(this).prop("checked")) {
+            $("#selectAll").prop("checked", false);
+        }
+    });
+    
+    
+    $("input[type=checkbox]").click(function(){
+      if($("input[type=checkbox]:checked").length > 0){
+        $("#btn-acc").prop("disabled", false);
+        $("#btn-rej").prop("disabled", false);
+      }else{
+        $("#btn-acc").prop("disabled", true);
+        $("#btn-rej").prop("disabled", true);
+      }
+      
+    });
+
+    /**************************************************/
+    //progress bar
     $('.progress .progress-bar').css("width",
         function() {
             return $(this).attr("aria-valuenow") + "%";
         }
       )
-
     
    // var al=isdivempty('.all' ,'no one apply to this job')
     var ac=isdivempty('.Accp','no accepted applicants')
