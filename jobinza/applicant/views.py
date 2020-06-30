@@ -59,7 +59,7 @@ def job_details(request , job_id):
     except:
         isApplied = False   
     r = CreatePost.objects.all().filter(category = job.category)   
-   # print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj:',r) 
+  
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -127,6 +127,9 @@ def contact(request):
         post.message=request.POST.get('message')
         post.save()
     return render(request,'applicant/contact.html')
+@unauthenticated_user
+def about(request):
+    return render(request, 'applicant/about.html')
 
 
 @login_required(login_url='login')
@@ -246,7 +249,11 @@ def applied_jobs(request):
     posts = paginator.get_page(page)
     users = User.objects.all()
 
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} )   
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+
+
+
+
   
     
 
