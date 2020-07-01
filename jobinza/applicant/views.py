@@ -59,19 +59,17 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-<<<<<<< HEAD
+
         isApplied = False   
     r = CreatePost.objects.all().filter(category = job.category)   
-  
-=======
-        isApplied = False
     
+        isApplied = False
     r = None
     try:
         r = CreatePost.objects.all().filter(category = job.category)
     except:
         print("no jobs in this category") 
->>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
+
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
