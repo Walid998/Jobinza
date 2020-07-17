@@ -59,17 +59,14 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-
         isApplied = False   
-    r = CreatePost.objects.all().filter(category = job.category)   
-    
-        isApplied = False
+    r = CreatePost.objects.all().filter(category = job.category)
+    isApplied = False
     r = None
     try:
         r = CreatePost.objects.all().filter(category = job.category)
     except:
         print("no jobs in this category") 
-
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -127,6 +124,7 @@ def ApplyForJob(request,jbid):
         return redirect(f'/applicant/details/{jbid}')
     else:
         return redirect(f'/applicant/details/{jbid}')
+        
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
@@ -267,17 +265,8 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
-<<<<<<< HEAD
 
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
-
-
-
-
-=======
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
->>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
-  
     
 
 
