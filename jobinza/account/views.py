@@ -80,7 +80,7 @@ def registration_view(request):
             return redirect('login')
     else:  
         form = UserCreationForm()
-    return render(request, 'account/register.html', {'title': 'Sign Up','form': form,})
+    return render(request, 'account/signup.html', {'title': 'Sign Up','form': form,})
 
 @unauthenticated_user
 def registration_view_hr(request):
@@ -99,7 +99,14 @@ def registration_view_hr(request):
             return redirect('login')
     else:  
         form = UserCreationForm2()
-    return render(request, 'account/register_hr.html', {'title': 'Sign Up','form': form,})
+    return render(request, 'account/signup.html', {'title': 'Sign Up','form': form,})
+
+
+@unauthenticated_user
+def registration_for_both(request):
+    return render(request, 'account/signup.html')
+
+
 
 @unauthenticated_user
 def login_view(request):
@@ -119,6 +126,9 @@ def login_view(request):
     return render(request, 'account/login.html', {
         'title': 'Sign in',
     })
+
+def log(request):
+    return render(request, 'account/log.html')
 
 def logout_view(request):
     logout(request)

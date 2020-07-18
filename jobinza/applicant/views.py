@@ -34,6 +34,8 @@ def job_details(request , job_id):
     user = request.user
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
+    job.views = job.views + 1
+    job.save()
     com = User.objects.get(id=job.author_id)
     com_profile = ''
     try:
@@ -57,13 +59,17 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-        isApplied = False
+
+        isApplied = False   
+    r = CreatePost.objects.all().filter(category = job.category)   
     
+        isApplied = False
     r = None
     try:
         r = CreatePost.objects.all().filter(category = job.category)
     except:
         print("no jobs in this category") 
+
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -131,6 +137,9 @@ def contact(request):
         post.message=request.POST.get('message')
         post.save()
     return render(request,'applicant/contact.html')
+@unauthenticated_user
+def about(request):
+    return render(request, 'applicant/about.html')
 
 
 @login_required(login_url='login')
@@ -183,7 +192,23 @@ def list_applicant(request):
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
-    return render(request,'applicant/home.html', {'posts' : listpost , 'users': listusers} )
+    info = Profile.objects.get(author_id=request.user.id  )
+    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+    t = str(info.job_title)
+    z = str(info.address)
+    jobsearch = IndeedJobSearch(title=t, location=z)
+    data = jobsearch.getJobs()
+
+    datas = Paginator(data,3)
+    page = request.GET.get('page')
+    data_paginator = datas.get_page(page)
+
+    context = {
+        'posts' : listpost , 
+        'users': listusers,
+        'data' : data,
+    }
+    return render(request,'applicant/home.html', context )
 
 #####################################
 ########____UPLOAD RESUME____########
@@ -242,7 +267,16 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
+<<<<<<< HEAD
+
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+
+
+
+
+=======
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
+>>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
   
     
 

@@ -196,8 +196,6 @@ def job_details(request , job_id):
 	readone_notification(id_num)
 	job_list = CreatePost.objects.get(id=id_num)
 	
-	job_list.views = job_list.views + 1
-	job_list.save()
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id).order_by('-skills_rslt')
 	schudle_user = Match_Results.objects.all().filter(status = 'Accepted')
 	form = SchduleForm(request.POST or None )
@@ -321,7 +319,7 @@ def editProfile (request):
 				pinfo.location = form.cleaned_data.get('location')
 				pinfo.description = form.cleaned_data.get('description')
 				pinfo.save()
-				return redirect(f'/company/edit_profile/')
+				return redirect(f'/company/profile/{request.user}')
                 #messages.success(request,f'Job has been updated successfully !!')
 		except:
 			form = editprofileForm(request.POST)
