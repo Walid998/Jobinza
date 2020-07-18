@@ -398,15 +398,9 @@ def send_emails(content,to):
 def contentmessage(applicant,company,job_title,app_status):
 	content = ""
 	if app_status == 'Accepted':
-		content = f'''Congratulations {applicant} !!, you have been accepted to have an interview
-					  in {company.capitalize()} company according to your apply request for {job_title} job , 
-					  you will recieve another email inform you the appointment and location soon. 
-					  Good Luck !! '''
+		content = f'''Congratulations {applicant} !!, you have been accepted to have an interview in {company.capitalize()} company according to your apply request for {job_title} job , you will recieve another email inform you the appointment and location soon. Good Luck !! '''
 	elif app_status == 'Rejected':
-			content = f'''Dear {applicant}, we are sorry to tell you that your apply request
-			for {job_title} job has been rejected because your qualifications
-			not match our job requirements, to have to do your best all time and
-			you're able to apply again after 3 monthes. Good Luck !! - company: {company.capitalize()}.'''
+			content = f'''Dear {applicant}, we are sorry to tell you that your apply request for {job_title} job has been rejected because your qualifications not match our job requirements, to have to do your best all time and you're able to apply again after 3 monthes. Good Luck !! - company: {company.capitalize()}.'''
 	return content
 
 def selected_applicants(request,company,job_title,app_status):
