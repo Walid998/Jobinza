@@ -61,10 +61,9 @@ def job_details(request , job_id):
     except:
 
         isApplied = False   
-    r = CreatePost.objects.all().filter(category = job.category)   
-    
+        r = CreatePost.objects.all().filter(category = job.category)   
         isApplied = False
-    r = None
+        r = None
     try:
         r = CreatePost.objects.all().filter(category = job.category)
     except:
@@ -192,21 +191,28 @@ def list_applicant(request):
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
-    info = Profile.objects.get(author_id=request.user.id  )
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
-    t = str(info.job_title)
-    z = str(info.address)
-    jobsearch = IndeedJobSearch(title=t, location=z)
-    data = jobsearch.getJobs()
+    info = ""
+    data = ""
+    try:
+        info = Profile.objects.get(author_id=request.user.id)
+        print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+        t = str(info.job_title)
+        z = str(info.address)
+        jobsearch = IndeedJobSearch(title=t, location=z)
+        data = jobsearch.getJobs()
 
-    datas = Paginator(data,3)
-    page = request.GET.get('page')
-    data_paginator = datas.get_page(page)
+        datas = Paginator(data,3)
+        page = request.GET.get('page')
+        data_paginator = datas.get_page(page)
+    except:
+        info = ""
+    
 
     context = {
         'posts' : listpost , 
         'users': listusers,
         'data' : data,
+        'info' : info,
     }
     return render(request,'applicant/home.html', context )
 
@@ -267,16 +273,7 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
-<<<<<<< HEAD
-
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
-
-
-
-
-=======
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
->>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
   
     
 
