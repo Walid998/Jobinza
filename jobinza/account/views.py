@@ -123,7 +123,7 @@ def login_view(request):
         else:
             messages.warning(
                 request, 'your username or password isn\'t correct !! ')
-    return render(request, 'account/login.html', {
+    return render(request, 'account/log.html', {
         'title': 'Sign in',
     })
 

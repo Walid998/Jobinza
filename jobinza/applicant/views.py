@@ -59,7 +59,6 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-
         isApplied = False   
         r = CreatePost.objects.all().filter(category = job.category)   
         isApplied = False
@@ -68,7 +67,6 @@ def job_details(request , job_id):
         r = CreatePost.objects.all().filter(category = job.category)
     except:
         print("no jobs in this category") 
-
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -117,8 +115,11 @@ def ApplyForJob(request,jbid):
         match = Match_Results()
         match.resume = prof.resume
         match.aplcnt = user
+        print("onetwothree",user)
         match.app_email = user.email
         match.job_id = job.id
+        match.company = job.author_id
+        print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",job.author_id)
         reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
         match.skills_rslt = reslt
         match.status = 'pending'
@@ -126,6 +127,7 @@ def ApplyForJob(request,jbid):
         return redirect(f'/applicant/details/{jbid}')
     else:
         return redirect(f'/applicant/details/{jbid}')
+        
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
@@ -200,14 +202,12 @@ def list_applicant(request):
         z = str(info.address)
         jobsearch = IndeedJobSearch(title=t, location=z)
         data = jobsearch.getJobs()
-
         datas = Paginator(data,3)
         page = request.GET.get('page')
         data_paginator = datas.get_page(page)
     except:
         info = ""
     
-
     context = {
         'posts' : listpost , 
         'users': listusers,

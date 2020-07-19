@@ -56,6 +56,7 @@ class Match_Results(models.Model):
     job_id = models.IntegerField('the job', null=True, blank=True)
     skills_rslt = models.FloatField('match result', max_length=1000, null=True, blank=True)
     status = models.CharField('status', max_length=100, null=True, blank=True)
+    company = models.CharField('company', max_length=100, null=True, blank=True)
     content = models.CharField(max_length=300,null=True,blank=True)
     def __str__(self):
         return self.id
@@ -98,6 +99,7 @@ class category(models.Model):
     jobno = models.IntegerField(null=True,blank=True)
 
 class Schdule(models.Model):
+    author = models.CharField( max_length=100)
     username = models.CharField( max_length=100)
     jobname = models.CharField( max_length=100)
     date_schdule = models.DateTimeField(auto_now=False, auto_now_add=False)
