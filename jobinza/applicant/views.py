@@ -190,17 +190,19 @@ def list_applicant(request):
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
-    info = Profile.objects.get(author_id=request.user.id  )
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
-    t = str(info.job_title)
-    z = str(info.address)
-    jobsearch = IndeedJobSearch(title=t, location=z)
-    data = jobsearch.getJobs()
-
-    datas = Paginator(data,3)
-    page = request.GET.get('page')
-    data_paginator = datas.get_page(page)
-
+    info = ""
+    try:
+        info = Profile.objects.get(author_id=request.user.id)
+        t = str(info.job_title)
+        z = str(info.address)
+        jobsearch = IndeedJobSearch(title=t, location=z)
+        data = jobsearch.getJobs()
+        datas = Paginator(data,3)
+        page = request.GET.get('page')
+        data_paginator = datas.get_page(page)
+    except:
+        info = ""
+    
     context = {
         'posts' : listpost , 
         'users': listusers,
