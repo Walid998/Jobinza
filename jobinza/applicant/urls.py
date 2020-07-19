@@ -21,6 +21,6 @@ urlpatterns = [
 	path('applied_jobs/',views.applied_jobs,name='listapp'),
 	path('indeed/',views.showResult , name='indeed'),
 	path('home/',views.home_applicant,name='home_applicant'),
-	path('about/',views.about,name='about')
+	#path('about/',views.about,name='about')
 	#path('details/', views.job_details, name='emp_detail'),
 ]
