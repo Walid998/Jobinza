@@ -113,8 +113,8 @@ WSGI_APPLICATION = 'Jobinza.wsgi.application'
 # email backend
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'zaynfortest@gmail.com' 
-EMAIL_HOST_PASSWORD = '111111111@'
+EMAIL_HOST_USER = 'jobinzaweb@gmail.com' 
+EMAIL_HOST_PASSWORD = '01128238520'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
