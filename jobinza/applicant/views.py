@@ -115,8 +115,11 @@ def ApplyForJob(request,jbid):
         match = Match_Results()
         match.resume = prof.resume
         match.aplcnt = user
+        print("onetwothree",user)
         match.app_email = user.email
         match.job_id = job.id
+        match.company = job.author_id
+        print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",job.author_id)
         reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
         match.skills_rslt = reslt
         match.status = 'pending'
