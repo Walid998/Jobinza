@@ -9,8 +9,12 @@
     display:none
   }
 </style>
+<<<<<<< HEAD
 
 <div class="site-blocks-cover overlay" style="background-image: url(../../../static/jobinza/images/hero_1.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+=======
+<!-- <div class="site-blocks-cover overlay" style="background-image: url(../../../static/jobinza/images/hero_1.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+>>>>>>> fc40deabb7e264444b4742445460be98864c067c
   <div class="container">
     <div class="row align-items-center">
       <div class="col-12" data-aos="fade">
@@ -45,7 +49,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="site-section bg-light" style="margin-top: -50px;">
   <div class="container">
@@ -192,6 +196,7 @@
 
 
 <!--###################################start indeed #####################33-->
+{% if info.job_title %}
 <div class="site-section bg-light" style="margin-top: -50px;">
   <div class="container">
     {% if messages %}
@@ -203,7 +208,7 @@
     {% endif %}
     <div class="row">
       <div class="col-md-8 mb-5 mb-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-        <h2 class="mb-5 h3">indeed Jobs</h2>
+        <h2 class="mb-5 h3">Recommended jobs from "indeed"</h2>
           
         <div class="rounded border jobs-wrap" style="overflow:scroll;overflow-x: enable; height: 380px;">
           {% for post in data.itertuples %} 
@@ -312,6 +317,7 @@
   </div>
 </div>
 </div>
+{% endif %}
 
 <!--####################################indeed################################-->
 <script>
