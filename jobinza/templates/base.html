@@ -202,7 +202,7 @@ input::-webkit-input-placeholder {
     width:22px;
     height:25px;
     border-radius:50%;
-    background:#ff2c74;
+    background:crimson;
     color:#fff;
     line-height:25px;
     font-family:sans-serif;
@@ -311,7 +311,7 @@ input::-webkit-input-placeholder {
                   {% if user.is_authenticated %}
                   {% if user.groups.all.0.name == 'applicant' %}
                         <li>
-                          <a href="{% url 'applicant:home_applicant' %}">Home </a>
+                          <a href="{% url 'applicant:list_app' %}">Explore</a>
                         </li>
 
                         <li class="has-children">
@@ -424,7 +424,10 @@ input::-webkit-input-placeholder {
                                 <li class="icon" style="color: black; margin-left: 30px;">
                                   <span class="text" > {{n.verb}} {{n.description}}</span>
                                   {% if n.read == False %}
-                                    <p class="btn btn-danger" style="float: right; margin-right: 20px; height: 25px; width:50px; font-size: 13px; padding-bottom: 20px;">New</p>                                  {% else %} <p></p>
+                                  <div style="float: right; color: white; margin-right: 20px; border-radius: 5px; font-size: 12px; background-color:crimson; width: 40px; height: 25px; padding-top: 3px; text-align: center;">New</div>
+                                                                   
+                                  {% else %}
+                                   <p></p>
                                   {% endif %}
                                 </li> 
                               </a>
@@ -616,7 +619,7 @@ input::-webkit-input-placeholder {
           <div class="col-md-4">
             <h3 class="footer-heading mb-4 text-white">About</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quos rem ullam, placeat amet.</p>
-            <p><a href="#" class="btn btn-primary pill text-white px-4">Read More</a></p>
+            <p><a href="{% url 'about'%}" class="btn btn-primary pill text-white px-4">Read More</a></p>
           </div>
           <div class="col-md-6">
             <div class="row">

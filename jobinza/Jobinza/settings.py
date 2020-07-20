@@ -132,9 +132,8 @@ DATABASES = {
         #  },
         # 'USERNAME': 'jobinza',
         # 'PASSWORD': 'jobinza',
-        'ENFORCE_SCHEMA': False,
+        # 'ENFORCE_SCHEMA': False,
     }
-    
 }
 
 

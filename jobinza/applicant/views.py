@@ -60,8 +60,7 @@ def job_details(request , job_id):
             isApplied = True
     except:
         isApplied = False   
-    r = CreatePost.objects.all().filter(category = job.category)
-    isApplied = False
+
     r = None
     try:
         r = CreatePost.objects.all().filter(category = job.category)
@@ -121,7 +120,10 @@ def ApplyForJob(request,jbid):
         match.company = job.author_id
         print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",job.author_id)
         reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
-        match.skills_rslt = reslt
+        match.skills_rslt = reslt['percent']
+        match.matched_skills = reslt['fnd']
+        match.not_matched_skills = reslt['nfnd']
+        match.experience = pars_obj.experience
         match.status = 'pending'
         match.save()
         return redirect(f'/applicant/details/{jbid}')
@@ -144,7 +146,7 @@ def about(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=[ 'applicant'])
+@allowed_users(allowed_roles=[ 'applicant','employeer'])
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
@@ -194,8 +196,10 @@ def list_applicant(request):
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
     info = ""
+    data = ""
     try:
         info = Profile.objects.get(author_id=request.user.id)
+        print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
         t = str(info.job_title)
         z = str(info.address)
         jobsearch = IndeedJobSearch(title=t, location=z)
@@ -205,11 +209,12 @@ def list_applicant(request):
         data_paginator = datas.get_page(page)
     except:
         info = ""
-    
+
     context = {
         'posts' : listpost , 
         'users': listusers,
         'data' : data,
+        'info' : info,
     }
     return render(request,'applicant/home.html', context )
 
@@ -270,9 +275,9 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
-
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
     
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+
 
 
     # isNewUser = False

@@ -10,12 +10,24 @@
     position: relative;
     border-radius: 5px
 }
-.bg-custom {
-    background-color: #6E6C6C!important;
+.bg-custom{
+    background-image: url(https://images.pexels.com/photos/433154/pexels-photo-433154.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
 }
+
+.rrr{
+    padding: 20px;
+    background: -webkit-linear-gradient(left, rgb(0, 0, 0, 0.8) ,rgb(15, 155, 15, 0.8) );
+} 
+
 .profile-user-box {
     position: relative;
     border-radius: 5px;
+    margin-bottom: 30px;
+
 }
 
 .card-box {
@@ -156,21 +168,22 @@
         <div class="row">
             <div class="col-sm-12">
                 <!-- meta -->
-                <div class="profile-user-box card-box bg-custom">
+                <div class="profile-user-box  bg-custom">
+                    <div class="rrr">
                     <div class="row">
                         
                         <div class="col-sm-6"><span class="float-left mr-3">
                             {% if info.image %}
-                                <img src="{{info.image}}" alt="" class="thumb-lg rounded-circle">
+                                <img src="{{info.image}}" alt="" class="thumb-lg img-raised rounded-circle" style="border: 3px solid white;">
                             {% else %}
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="thumb-lg rounded-circle">
                             {% endif %}
                         </span>
                         
                             <div class="media-body text-white">
-                                <h4 class="mt-1 mb-1 font-18">{{user.first_name}} {{user.last_name}}</h4>
-                                <p class="font-13 text-light">User Experience Specialist</p>
-                                <p class="text-light mb-0">{{info.address}}{{info.location}}</p>
+                                <h4 class="mt-1 mb-1 font-18 text-light">{{user.username}}</h4>
+                                <!-- <p class="font-13 text-light">User Experience Specialist</p> -->
+                                <p class="text-light mb-0">{{info.address}}, {{info.location}}</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -179,6 +192,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
                 <!--/ meta -->
             </div>
