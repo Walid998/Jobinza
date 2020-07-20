@@ -202,7 +202,7 @@ input::-webkit-input-placeholder {
     width:22px;
     height:25px;
     border-radius:50%;
-    background:#ff2c74;
+    background:crimson;
     color:#fff;
     line-height:25px;
     font-family:sans-serif;
@@ -424,7 +424,10 @@ input::-webkit-input-placeholder {
                                 <li class="icon" style="color: black; margin-left: 30px;">
                                   <span class="text" > {{n.verb}} {{n.description}}</span>
                                   {% if n.read == False %}
-                                    <p class="btn btn-danger" style="float: right; margin-right: 20px; height: 25px; width:50px; font-size: 13px; padding-bottom: 20px;">New</p>                                  {% else %} <p></p>
+                                  <div style="float: right; color: white; margin-right: 20px; border-radius: 5px; font-size: 12px; background-color:crimson; width: 40px; height: 25px; padding-top: 3px; text-align: center;">New</div>
+                                                                   
+                                  {% else %}
+                                   <p></p>
                                   {% endif %}
                                 </li> 
                               </a>
