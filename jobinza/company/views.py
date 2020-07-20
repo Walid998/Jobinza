@@ -197,11 +197,12 @@ def job_details(request , job_id):
 	job_list = CreatePost.objects.get(id=id_num)
 	
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id).order_by('-skills_rslt')
-	schudle_user = Match_Results.objects.all().filter(status = 'Accepted')
+	schudle_user = Match_Results.objects.all().filter(status = 'Accepted' , company = request.user.id)
 	form = SchduleForm(request.POST or None )
 	if request.method == 'POST':
 		if form.is_valid():
 			scc = Schdule()
+			scc.author = request.user.id
 			scc.username = request.POST.get('username')
 			scc.jobname = request.POST.get('jobname')
 			scc.date_schdule = request.POST.get('date_schdule')
@@ -289,12 +290,20 @@ def job_delete(request, job_id):
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
-    try:
+	
+    try:	
         p_info = Profile.objects.get(author = pk)
-        return render(request,'company/profiles.html', {'result': user_info , 'info':p_info ,'schudle_info':Schdule.objects.all()} )
+        return render(request,'company/profiles.html', {'result': user_info , 'info':p_info ,'schudle_info':Schdule.objects.filter(author=request.user.id)
+		,'count_jobs':CreatePost.objects.filter(author_id = request.user.id).count(),
+		'pending' : Match_Results.objects.filter(status='pending',company=request.user.id).count(),
+		'accepted': Match_Results.objects.filter(status='Accepted',company=request.user.id).count(),
+		'user_company':Match_Results.objects.filter(company=request.user.id),})
     except:
-        return render(request,'company/profiles.html', {'result': user_info , 'info':'' ,'schudle_info':Schdule.objects.all(),})
-
+        return render(request,'company/profiles.html', {'result': user_info , 'info':'' ,'schudle_info':Schdule.objects.filter(author=request.user.id)
+		,'count_jobs':CreatePost.objects.filter(author_id = request.user.id).count(),
+		'pending' : Match_Results.objects.filter(status='pending',company=request.user.id).count(),
+		'accepted': Match_Results.objects.filter(status='Accepted',company=request.user.id).count(),
+		'user_company':Match_Results.objects.filter(company=request.user.id),})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])

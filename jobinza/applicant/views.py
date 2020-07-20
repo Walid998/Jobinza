@@ -66,7 +66,6 @@ def job_details(request , job_id):
         r = CreatePost.objects.all().filter(category = job.category)
     except:
         print("no jobs in this category") 
-
     context = {
         'job': job,
         'skills':skillsToList(job.skills),
@@ -115,8 +114,11 @@ def ApplyForJob(request,jbid):
         match = Match_Results()
         match.resume = prof.resume
         match.aplcnt = user
+        print("onetwothree",user)
         match.app_email = user.email
         match.job_id = job.id
+        match.company = job.author_id
+        print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",job.author_id)
         reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
         match.skills_rslt = reslt['percent']
         match.matched_skills = reslt['fnd']
@@ -127,6 +129,7 @@ def ApplyForJob(request,jbid):
         return redirect(f'/applicant/details/{jbid}')
     else:
         return redirect(f'/applicant/details/{jbid}')
+        
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
@@ -206,11 +209,19 @@ def list_applicant(request):
         data_paginator = datas.get_page(page)
     except:
         info = ""
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+=======
+    
+>>>>>>> fc40deabb7e264444b4742445460be98864c067c
+>>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
     context = {
         'posts' : listpost , 
         'users': listusers,
         'data' : data,
+        'info' : info,
     }
     return render(request,'applicant/home.html', context )
 
@@ -271,11 +282,23 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
+<<<<<<< HEAD
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+=======
+<<<<<<< HEAD
+>>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
+
+
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
 
+  
 
-
-
+<<<<<<< HEAD
+=======
+=======
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
+>>>>>>> fc40deabb7e264444b4742445460be98864c067c
+>>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
   
     
 

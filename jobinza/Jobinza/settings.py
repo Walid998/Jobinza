@@ -126,6 +126,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'JobinzaDB',
+<<<<<<< HEAD
         # 'NAME': 'jobinza',
         # 'CLIENT':{
         #    'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
@@ -133,6 +134,16 @@ DATABASES = {
         # 'USERNAME': 'jobinza',
         # 'PASSWORD': 'jobinza',
         # 'ENFORCE_SCHEMA': False,
+=======
+        'ENFORCE_SCHEMA': False,
+    # 'NAME': 'jobinza',
+    # 'CLIENT':{
+    #    'host':'mongodb+srv://jobinza:jobinza@cluster0-wqyxo.mongodb.net/jobinza?retryWrites=true&w=majority',   
+    #  },
+    # 'USERNAME': 'jobinza',
+    # 'PASSWORD': 'jobinza',
+        
+>>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
     }
 }
 
