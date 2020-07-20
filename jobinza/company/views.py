@@ -418,6 +418,7 @@ def selected_applicants(request,company,job_title,app_status):
 		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^after send email ')
 		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 	else:
+		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^OOOOOOOLLL::::: No EMails ')
 		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 		
 ########################################################

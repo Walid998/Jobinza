@@ -59,11 +59,8 @@ def job_details(request , job_id):
         if mtch.status == 'pending':
             isApplied = True
     except:
-
         isApplied = False   
-    r = CreatePost.objects.all().filter(category = job.category)   
-    
-        isApplied = False
+
     r = None
     try:
         r = CreatePost.objects.all().filter(category = job.category)
@@ -121,7 +118,10 @@ def ApplyForJob(request,jbid):
         match.app_email = user.email
         match.job_id = job.id
         reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
-        match.skills_rslt = reslt
+        match.skills_rslt = reslt['percent']
+        match.matched_skills = reslt['fnd']
+        match.not_matched_skills = reslt['nfnd']
+        match.experience = pars_obj.experience
         match.status = 'pending'
         match.save()
         return redirect(f'/applicant/details/{jbid}')
@@ -143,7 +143,7 @@ def about(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=[ 'applicant'])
+@allowed_users(allowed_roles=[ 'applicant','employeer'])
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
@@ -192,17 +192,21 @@ def list_applicant(request):
     listusers = User.objects.all()
     listpost=CreatePost.objects.all()
     listpost = PaginatorX(request,listpost,5)
-    info = Profile.objects.get(author_id=request.user.id  )
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
-    t = str(info.job_title)
-    z = str(info.address)
-    jobsearch = IndeedJobSearch(title=t, location=z)
-    data = jobsearch.getJobs()
-
-    datas = Paginator(data,3)
-    page = request.GET.get('page')
-    data_paginator = datas.get_page(page)
-
+    info = ""
+    data = ""
+    try:
+        info = Profile.objects.get(author_id=request.user.id)
+        print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:: ",info)
+        t = str(info.job_title)
+        z = str(info.address)
+        jobsearch = IndeedJobSearch(title=t, location=z)
+        data = jobsearch.getJobs()
+        datas = Paginator(data,3)
+        page = request.GET.get('page')
+        data_paginator = datas.get_page(page)
+    except:
+        info = ""
+    
     context = {
         'posts' : listpost , 
         'users': listusers,
@@ -267,16 +271,11 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
-<<<<<<< HEAD
-
     return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
 
 
 
 
-=======
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
->>>>>>> 7a6a2f56b5c234cad35de127754fc46dca9b0fe0
   
     
 

@@ -55,6 +55,9 @@ class Match_Results(models.Model):
     app_email = models.CharField('email',max_length=50, null=False, blank=True)
     job_id = models.IntegerField('the job', null=True, blank=True)
     skills_rslt = models.FloatField('match result', max_length=1000, null=True, blank=True)
+    matched_skills = models.CharField('f_Skills', max_length=1000, null=True, blank=True)
+    not_matched_skills= models.CharField('n_Skills', max_length=1000, null=True, blank=True)
+    experience= models.CharField('Experience', max_length=5000, null=True, blank=True)
     status = models.CharField('status', max_length=100, null=True, blank=True)
     content = models.CharField(max_length=300,null=True,blank=True)
     def __str__(self):
