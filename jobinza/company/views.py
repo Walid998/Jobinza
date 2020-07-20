@@ -297,13 +297,13 @@ def profile_info(request,user_name):
 		,'count_jobs':CreatePost.objects.filter(author_id = request.user.id).count(),
 		'pending' : Match_Results.objects.filter(status='pending',company=request.user.id).count(),
 		'accepted': Match_Results.objects.filter(status='Accepted',company=request.user.id).count(),
-		'user_company':Match_Results.objects.filter(company=request.user.id),})
+		'user_company':Match_Results.objects.filter(company=request.user.id , status = 'Accepted'),})
     except:
         return render(request,'company/profiles.html', {'result': user_info , 'info':'' ,'schudle_info':Schdule.objects.filter(author=request.user.id)
 		,'count_jobs':CreatePost.objects.filter(author_id = request.user.id).count(),
 		'pending' : Match_Results.objects.filter(status='pending',company=request.user.id).count(),
 		'accepted': Match_Results.objects.filter(status='Accepted',company=request.user.id).count(),
-		'user_company':Match_Results.objects.filter(company=request.user.id),})
+		'user_company':Match_Results.objects.filter(company=request.user.id , status = 'Accepted'),})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer'])
