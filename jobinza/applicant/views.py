@@ -209,14 +209,7 @@ def list_applicant(request):
         data_paginator = datas.get_page(page)
     except:
         info = ""
-<<<<<<< HEAD
-    
-=======
-<<<<<<< HEAD
-=======
-    
->>>>>>> fc40deabb7e264444b4742445460be98864c067c
->>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
+
     context = {
         'posts' : listpost , 
         'users': listusers,
@@ -282,25 +275,9 @@ def applied_jobs(request):
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
     users = User.objects.all()
-<<<<<<< HEAD
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
-=======
-<<<<<<< HEAD
->>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
-
-
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
-
-  
-
-<<<<<<< HEAD
-=======
-=======
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users } )   
->>>>>>> fc40deabb7e264444b4742445460be98864c067c
->>>>>>> fb408c1d1554b520e6718cbdb8ea53afae93cdff
-  
     
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+
 
 
     # isNewUser = False
