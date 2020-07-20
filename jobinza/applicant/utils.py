@@ -10,11 +10,19 @@ def Percent(number,List):
 
 def Comparison(hrSkills,AppSkills):
     #match = list() #m[0]=> matched skills, #m[1]=> not matched skills ,#m[2]=> result
+    skills = dict()
+    flist  = ""
+    ulist  = ""
     found= 0
     for i in hrSkills:
         if i in AppSkills:
             found=found+1
-    return Percent(found,hrSkills)
+            flist =flist+ i + " - "
+        else:
+            ulist =ulist+ i + " - "
+    prc = Percent(found,hrSkills)
+    skills = {'fnd':flist[:-2],'nfnd':ulist[:-2],'percent':prc}
+    return skills
 
 def IsFileExists(filename):
     if filename == os.listdir(settings.MEDIA_ROOT):

@@ -225,10 +225,16 @@
                       
                     <br>ALL</a>
                 </li>
-                <li class="nav-itemx">
-                  <a id="tap2" href="#accepted" role="tab" data-toggle="tab"  value ='run function'>
+                <!-- <li class="nav-itemx">
+                  <a id="tap2" href="#pending" role="tab" data-toggle="tab">
                     <i class="fa fa-check fa-lg"></i>
-                    <small style="color: rgb(178, 237, 100);" class="acnum"></small>
+                    <small style="color: rgb(237, 184, 100);" class="pend"></small>
+                  <br> Pending</a>
+                </li> -->
+                <li class="nav-itemx">
+                  <a id="tap2" href="#accepted" role="tab" data-toggle="tab">
+                    <i class="fa fa-check fa-lg"></i>
+                    <small style="color: rgb(124, 212, 9);" class="acnum"></small>
                   <br> Accepted</a>
                 </li>
                 <li class="nav-itemx">
@@ -258,17 +264,16 @@
           </div>
           <!--Controll filtration-->
           <div class="range">
-             <label>Progress Range</label> 
-             <input type="text" style="text-align: center"> <label style="margin-left: 0.3%;"> %</label> <p style="float: left; padding-top:8px; font-size:13px;"> (ex: 70-80)</p>
+             <label>Percentage</label> 
+             <input type="text" onkeyup="ProgRange()" id="rangebox" style="text-align: center;width: 50px;border: none;border-radius: 10%;"> <label style="margin-left: 0.3%;"> %</label> <small style="float: left; padding-top:8px; font-size:13px;">enter a value to show only applicants from this value to 100%</small>
           </div>
 
           <div class="select" style="text-align:left" >
-            <input type="checkbox" id="selectAll" style="margin-left: -25%; width: 18px; height:18px; color:#fff" />
-            <label style="padding-top: 5.5px; color: #28a745; padding-right: 4px;;"> Select all </label>  |             
-            
+            <input type="checkbox" id="selectAll" style="margin-left: 1%; width: 18px; height:18px; color:#fff" />
+            <label style="padding-top: 5.5px; color: #28a745; padding-right: 4px;;"> Select all </label><!--  |                          
             <label style="top: 10px; color: #28a745; padding-left: 4px;">   
              Select top </label> 
-             <input type="number" style="width: 47px; height:23px ; text-align: center;" /> 
+             <input type="number" style="width: 47px; height:23px ; text-align: center;" />  -->
           </div>
 
           <!--End of tab header -->
@@ -284,9 +289,9 @@
             <div class="tab-pane active text-center gallery all" id="studio">
               {% for appl in applicants %}
                 <!--Rank Result-->
-              <div style="display: inline-block;width: 100%;margin-bottom: 10px; ">
+              <div id="applicantpanal" style="display: inline-block;width: 100%;margin-bottom: 10px; ">
                 <div class="row" >
-                  <a class="link" href="#">{{appl.aplcnt}}</a> 
+                  <a class="link" href="/applicant/profile/{{appl.aplcnt}}">{{appl.aplcnt}}</a> 
                 </div>
                 
                 <input name="{{appl.app_email}}" type="checkbox" >
@@ -316,8 +321,11 @@
               <div style="transition: none;" class="collapse" id="collapseExample{{appl.aplcnt}}">
                 <div class="card card-body">
                   <div style="text-align: left;">
-                    Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
-                    Anlysis: this resumes seems good for this job Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit quasi alias eaque provident nisi, cum minus amet perspiciatis minima libero? Est molestias cumque inventore tempora corporis magnam quisquam sequi nisi. Anim pariatur cliche reprehenderit
+                    <b>Matched Skills:</b> {{appl.matched_skills}}
+                    <br>
+                    <b>Missed Skills:</b> {{appl.not_matched_skills}}
+                    <br>
+                    <b>Experience:</b> {{appl.experience}}
                   </div>
                 </div>
               </div>
@@ -326,16 +334,15 @@
               {% endfor %}
             </div>
 
-
             <!-- _____ ACCEPTED APPLICANTS _____ -->
             <div class="tab-pane text-center gallery Accp" id="accepted">
                  <!--Rank Result-->
 
               {% for appl in applicants %}
               {% if appl.status == 'Accepted' %}
-              <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
+              <div id="applicantpanal" style="display: inline-block;width: 100%;margin-bottom: 10px;">
                 <div class="row" >
-                  <a class="link" href="#">{{appl.aplcnt}}</a> 
+                  <a class="link" href="/applicant/profile/{{appl.aplcnt}}">{{appl.aplcnt}}</a> 
                 </div>
                 
                 <input name="{{appl.app_email}}" type="checkbox" >
@@ -360,8 +367,11 @@
               <div style="transition: none;" class="collapse" id="collapseExample{{appl.aplcnt}}">
                 <div class="card card-body">
                   <div style="text-align: left;">
-                    Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
-                    Anlysis: this resumes seems good for this job Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam delectus, totam ullam et maxime harum rerum ratione assumenda! Odio facilis ipsum, rem unde fugiat deleniti in doloribus ea quo magnam. Anim pariatur cliche reprehenderit
+                    <b>Matched Skills:</b> {{appl.matched_skills}}
+                    <br>
+                    <b>Missed Skills:</b> {{appl.not_matched_skills}}
+                    <br>
+                    <b>Experience:</b> {{appl.experience}}
                   </div>
                 </div>
               </div>
@@ -370,20 +380,16 @@
               {% endif %}
               {% endfor %}
             </div>
-            
-            
-
-
-
+          
             <!-- _____ REJECTED APPLICANTS _____ -->
             <div class="tab-pane text-center gallery rejs" id="rejected">
                               <!--Rank Result-->
 
               {% for appl in applicants %}
               {% if appl.status == 'Rejected' %}
-              <div style="display: inline-block;width: 100%;margin-bottom: 10px;">
+              <div id="applicantpanal" style="display: inline-block;width: 100%;margin-bottom: 10px;">
                 <div class="row" >
-                  <a class="link" href="#">{{appl.aplcnt}}</a> 
+                  <a class="link" href="/applicant/profile/{{appl.aplcnt}}">{{appl.aplcnt}}</a> 
                 </div>
                 
 
@@ -398,7 +404,7 @@
                   <small><a href="/company/send_email/{{appl.aplcnt}}/{{appl.id}}/">send email <i class="fas fa-check-circle"></i></a></small>
                   |                                  
                   <small class="rej"><a data-toggle="collapse" href="#collapseExample{{appl.aplcnt}}" role="button" aria-expanded="false" aria-controls="collapseExample">More Details <i class="fas fa-sort-down"></i></a></small>
-|                </div>
+                </div>
                 <small style="margin: 0px 10px;float: right;" >{{appl.skills_rslt}}%</small>
                 {% if appl.status == 'Rejected' %}
                 <span class="badge badge-pill badge-danger" style=" margin-left:40%;" >{{appl.status}}</span>
@@ -409,8 +415,11 @@
               <div style="transition: none;" class="collapse" id="collapseExample{{appl.aplcnt}}">
                 <div class="card card-body">
                   <div style="text-align: left;">
-                    Skills Founded: <ul> <li>skill1</li><li>skill2</li><li>skill3</li></ul>
-                    Anlysis: this resumes seems good for this job Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi adipisci architecto reiciendis harum pariatur tenetur aspernatur beatae at neque quam? Adipisci et perspiciatis ratione. Sequi officiis cumque hic a aperiam? Anim pariatur cliche reprehenderit
+                    <b>Matched Skills:</b> {{appl.matched_skills}}
+                    <br>
+                    <b>Missed Skills:</b> {{appl.not_matched_skills}}
+                    <br>
+                    <b>Experience:</b> {{appl.experience}}
                   </div>
                 </div>
               </div>
@@ -420,10 +429,8 @@
               {% endfor %}
             </div>
                                <!-- ___-------__ interview __-------___ -->
-
-<!--################## end interview ############################-->
-
-            </div>
+            <!--################## end interview ############################-->
+          </div>
       </div>
     </div>
   </div>
@@ -524,7 +531,7 @@
     </div>
   </div>
 </div>
-<button onclick="getselect()">get select</button>
+<button onclick="getselect()" hidden>get select</button>
 
 
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
@@ -536,9 +543,14 @@
       selected = []
       $(".applicants_emails").val('')
       $('#studio input:checked').each(function() {
-      selected.push($(this).attr('name'));
+        if($("#applicantpanal").is(":visible")){
+          selected.push($(this).attr('name'));
+        }
       });
-      var emails = String(selected) + ","
+      var emails = null
+      if(selected.length != 0){
+        emails = String(selected) + ","
+      }else{emails=null}
       $(".applicants_emails").val(emails)
     }
     else if ($("#tap2").hasClass("active")){
@@ -553,6 +565,8 @@
       selected.push($(this).attr('name'));
       });
     }
+
+    console.log("emails:: ",selected);
   }
 
   $('#acc_form').submit(function(){
@@ -591,19 +605,39 @@
     //progress bar
     $('.progress .progress-bar').css("width",
         function() {
+            var ex = parseInt($(this).attr("aria-valuenow"))
             return $(this).attr("aria-valuenow") + "%";
         }
       )
     
-   // var al=isdivempty('.all' ,'no one apply to this job')
+    var al=isdivempty('.all' ,'no one apply to this job')
+    var pd=isdivempty('.Pnd','no pending applicants')
     var ac=isdivempty('.Accp','no accepted applicants')
     var rj=isdivempty('.rejs','no rejected applicants')
     
     $('.alnum').text(''+al+'')
+    $('.pend').text(''+pd+'')
     $('.acnum').text(''+ac+'')
     $('.rjnum').text(''+rj+'')
     
   });
+
+  function ProgRange(){
+    var range = parseInt($("#rangebox").val());
+    console.log("new:: ",range);
+    if(range >= 0 && range <= 100){
+      $('.progress .progress-bar').css("width",
+        function() {
+            var ex = parseInt($(this).attr("aria-valuenow"))
+            if(ex < range){
+              $(this).parent().parent().attr("hidden",true)
+            }else{
+              $(this).parent().parent().attr("hidden",false)
+            }
+        }
+      )
+    }
+  }
 
   function isdivempty(divname,message){
     var Applicants = $(''+divname+' .collapse');

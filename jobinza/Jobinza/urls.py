@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
-from applicant.views import contact,search
+from applicant.views import contact,search , about
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from account.views import (
     registration_view_hr,    
@@ -42,6 +42,7 @@ urlpatterns = [
 
 
     path('contact/',contact, name='contact'),
+    path('about/', about, name='about'),
     
     path('signup/hr/' , registration_view_hr , name="signup-Company"),
     path('changeaccounntsetting',change_account_setting,name="changeaccounntsetting"),

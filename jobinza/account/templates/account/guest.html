@@ -2,6 +2,15 @@
 {% load static %}
 
 {% block content%}
+{% if user.groups.all.0.name == 'employeer' %} 
+<script>
+  location.replace("/company/list/")
+</script>
+{% elif user.groups.all.0.name == 'applicant' %}
+<script>
+  location.replace("/applicant/listapp/")
+</script>
+{%endif%}
 
 <div class="site-blocks-cover " 
     style="background-image: url('../../../static/jobinza/images/testback.jpg');margin-top: -50px;" 
