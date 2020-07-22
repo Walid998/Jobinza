@@ -9,6 +9,7 @@ from company.models import CreatePost , category
 import random
 from django.contrib.auth.models import User
 from account.models import Profile
+from company.models import Notification 
 from django.core.paginator import Paginator
 import base64
 def account_setting(request , user_id):
@@ -75,6 +76,8 @@ def registration_view(request):
             group = Group.objects.get(name='applicant')
             user = form.save()
             user.groups.add(group)
+            user_acc = User.objects.get(username = user.username )
+            Notification.objects.create(receiver=user_acc , verb= "Welcome" ,  description = "Welcom to Jobinza We are happy to have you in our website ! , Please Click to complete your Profile to get best jobs " )	                
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
@@ -94,6 +97,8 @@ def registration_view_hr(request):
             group = Group.objects.get(name='employeer')
             user = form.save()
             user.groups.add(group)
+            user_acc = User.objects.get(username = user.username )
+            Notification.objects.create(receiver=user_acc , verb= "Welcome" ,  description = "Welcom to Jobinza We are happy to have you in our website ! , Please Click to complete your Profile " )	                
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
