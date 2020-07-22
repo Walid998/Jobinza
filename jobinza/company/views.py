@@ -25,8 +25,6 @@ import os
 from django.core.paginator import Paginator
 from Jobinza.utils import PaginatorX
 
-
-
 def skillsToList(txt):
 	lst = list()
 	t=''
@@ -215,7 +213,6 @@ def job_details(request , job_id):
 		'job': job_list ,
 		'applicants':list_applicants,
 		'schudle_user' : schudle_user,
-		
 		}
 	return render(request,'company/job_details.html', context)
 
