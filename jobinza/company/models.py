@@ -41,6 +41,9 @@ class CreatePost(models.Model):
     author 			= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     slug 			= models.SlugField(blank=True)
     views = models.IntegerField(default=0)
+    
+    class Meta:
+        ordering = ['-date_published',]
 
     def __str__(self):
         return self.jobtitle

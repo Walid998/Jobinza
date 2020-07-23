@@ -27,6 +27,11 @@ class UserCreationForm(forms.ModelForm):
         if User.objects.filter(email=cd['email']).exists():
             raise forms.ValidationError('this email already registered before')
         return cd['email']
+    def clean_username(self):
+        cd=self.cleaned_data
+        if User.objects.filter(username=cd['username']).exists():
+            raise forms.ValidationError('this name already registered before , try again')
+        return cd['username']
     
 class AccountSettingForm(forms.ModelForm):
     first_name =forms.CharField(label='',max_length=30,widget=forms.TextInput(attrs={'placeholder':'First Name'}))
@@ -37,6 +42,11 @@ class AccountSettingForm(forms.ModelForm):
         model = User
         fields = ('first_name','last_name','email',)
         # fields = ('first_name','last_name','username','email',)
+    def clean_email(self):
+        cd=self.cleaned_data
+        if User.objects.filter(email=cd['email']).exists():
+            raise forms.ValidationError('this email already registered before')
+        return cd['email']
 
     
 class UserCreationForm2(forms.ModelForm):
