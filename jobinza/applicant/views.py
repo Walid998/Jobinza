@@ -195,7 +195,7 @@ def editProfile (request):
 def list_applicant(request):
     update_status(request)
     listusers = User.objects.all()
-    listpost=CreatePost.objects.all()
+    listpost=CreatePost.objects.all().filter(status = "Publishing")
     listpost = PaginatorX(request,listpost,5)
     info = ""
     data = ""
@@ -253,20 +253,43 @@ def parser_r(resume,resume_name,user):
 
 ###################search################################
 def search(request):
+    user = request.user
+    acc = []
+    profile = []
     if request.method=='POST':
         srch = request.POST['srh']
         print('>>>>>>>>>>>>>>>>>>>>> ', srch)
         if srch:
-            match = CreatePost.objects.filter(
-                Q(jobtitle__icontains=srch)|Q(city__icontains=srch)
-            )
-            if match:
-                return render(request,'applicant/search.html',{'sr':match})
-            else:
-                messages.error(request,'no result found')
+            if user.groups.filter(name="employeer").exists():
+                match = CreatePost.objects.filter(
+                    Q(jobtitle__icontains=srch)|Q(city__icontains=srch) , author_id = request.user.id
+                )
+                acc = User.objects.get(id = request.user.id)
+                profile = Profile.objects.get(author_id=request.user.id)
+                if match:
+                    return render(request,'applicant/search.html',{'sr':match , 'acc':acc , 'profile':profile})
+
+            elif user.groups.filter(name="applicant").exists():
+                match = CreatePost.objects.filter(
+                    Q(jobtitle__icontains=srch)|Q(city__icontains=srch) , status="Publishing"
+                )
+                for m in match :
+                    print(m.author_id)
+                    account = User.objects.get(id = m.author_id)
+                    acc.append(account)
+
+                for account in acc:
+                    pro = Profile.objects.get(author_id=account.id)
+                    profile.append(pro)
+
+                if match:
+                    return render(request,'applicant/search.html',{'sr':match , 'acc':acc , 'profiles':profile })
+
+
         else:
             return HttpResponseRedirect('/search/')
     return render(request,'applicant/search.html')
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])

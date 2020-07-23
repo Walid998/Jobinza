@@ -103,8 +103,20 @@ def create_post_view(request):
 			Notification.objects.create(receiver=obj.author , verb= "Posting" ,  description = obj.jobtitle + " Post is Closed " , post=obj.id )	
 			return redirect(f'/company/list')
 		
+	profile = ""
 	form = CreatePostForm()
-	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
+
+	try :
+		pro = Profile.objects.get(author_id=request.user.id)
+		if pro.address and pro.phonenumber and pro.description and pro.image and pro.location:
+			profile = "complete"
+		else :
+			profile = "uncomplete"
+	except :
+		print("no profile")
+		profile = "uncomplete"
+
+	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories , 'profile' : profile , 'user' : user})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer' , 'applicant'])
