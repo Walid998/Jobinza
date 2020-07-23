@@ -3,7 +3,7 @@ from company.models import CreatePost, Match_Results , category
 from account.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from company.views import skillsToList , update_status
+from company.views import skillsToList , update_status, readone_notification
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm ,contactform
@@ -32,6 +32,7 @@ def home_applicant(request):
 #@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
+    readone_notification(request.user.id , job_id , 'Posting')
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
     job.views = job.views + 1
@@ -129,7 +130,7 @@ def ApplyForJob(request,jbid):
         return redirect(f'/applicant/details/{jbid}')
     else:
         return redirect(f'/applicant/details/{jbid}')
-        
+    
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
@@ -150,6 +151,7 @@ def about(request):
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
+    readone_notification(user_info.id , '' , "Welcome")
     try:
         p_info = Profile.objects.get(author = pk)
         return render(request,'applicant/profile.html', {'result': user_info , 'info':p_info } )

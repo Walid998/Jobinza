@@ -211,6 +211,8 @@ input::-webkit-input-placeholder {
 
 .dropdown-menu{
   width: 430px;
+  position: fixed;
+  margin-top: 10%;
 }
 .col-md-6{
   padding-top: 5px;
@@ -336,8 +338,76 @@ input::-webkit-input-placeholder {
                         </li>
                       </li>
 
+                      
+                      <li class="dropdown" style="margin-left: 10px;">
 
-                {% elif user.groups.all.0.name == 'employeer' %} 
+                        <!-- Notification Icon -->
+                        <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
+                          <div class="box">
+                          <div class="notifications">
+                            {% if count > 0 %}
+
+                            <i class="fa fa-bell"></i>
+                            <span class="num" id="num" >{{count}}</span>
+
+                            {% else%}  
+                            <i class="fa fa-bell"></i>
+                            {% endif %}
+                          </div>
+                          </div>
+                        </a>
+                           
+                       <!-- Notification Dropdown Menu --> 
+                        <ul class="dropdown-menu notify-drop">
+                          <div class="notify-drop-title">
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="height: 30px;">Notifications  {% if count > 0 %} (<b>{{count}} NEW </b>) {% else %}<p></p> {% endif %}</div>
+                          </div>
+                          <hr>
+
+                          <div class="drop-content" id="style-3" >
+                            {% for n in notifications %}
+                              {% if n.verb == "Welcome" %}
+                            <a href="/applicant/profile/{{user.username}}" style="width: 100%; height:auto;">
+                              <li class="icon" style="color: black; margin-left: 30px;">
+                                <span class="text" >{{n.description}}</span>
+                                {% if n.read == False %}
+                                <div style="float: right; color: white; margin-right: 20px; border-radius: 5px; font-size: 12px; background-color:crimson; width: 40px; height: 25px; padding-top: 3px; text-align: center;">New</div>
+                                {% endif %}
+                              </li> 
+                            </a>
+                            <hr>
+
+                            {% elif n.verb == "Posting" %}
+                            <a href="/applicant/details/{{n.post}}" style="width: 100%; height:auto;">
+                              <li class="icon" style="color: black; margin-left: 30px;">
+                                <span class="text" >{{n.description}}</span>
+                                {% if n.read == False %}
+                                <div style="float: right; color: white; margin-right: 20px; border-radius: 5px; font-size: 12px; background-color:crimson; width: 40px; height: 25px; padding-top: 3px; text-align: center;">New</div>
+                                {% endif %}
+                              </li> 
+                            </a>
+                            <hr>
+                              </li> 
+                            </a>
+                            {% endif %} 
+                            
+                            {% empty %}
+                              <p style="padding-left: 10px;"> There is No Notification to show</p>      
+                            {% endfor %}
+                          </div>
+
+                          {% if notifications and count > 0 %}
+                            <div class="notify-drop-footer text-center">
+                              <a href="/company/read_notification"><i class="fa fa-eye"></i> Mark all as read </a>
+                            </div>
+                          {% else %} <p></p>
+                          {% endif %}
+                        </ul>
+                    </li>
+
+
+
+                {% elif user.is_authenticated and user.groups.all.0.name == 'employeer' %} 
 
                       <li class="has-children">
 
@@ -420,25 +490,39 @@ input::-webkit-input-placeholder {
 
                             <div class="drop-content" id="style-3" >
                               {% for n in notifications %}
-                              <a href="/company/details/{{n.post}}" style="width: 100%; height:auto;">
+                              {% if n.verb == "Welcome" %}
+                              <a href="{% url 'company:edit_profile' %}" style="width: 100%; height:auto;">
                                 <li class="icon" style="color: black; margin-left: 30px;">
-                                  <span class="text" > {{n.verb}} {{n.description}}</span>
+                                  <span class="text" >{{n.description}}</span>
                                   {% if n.read == False %}
                                   <div style="float: right; color: white; margin-right: 20px; border-radius: 5px; font-size: 12px; background-color:crimson; width: 40px; height: 25px; padding-top: 3px; text-align: center;">New</div>
-                                                                   
-                                  {% else %}
-                                   <p></p>
                                   {% endif %}
                                 </li> 
                               </a>
                               <hr>
-                                                              
+
+                              {% elif n.verb == "Posting" %}
+                              <a href="/company/details/{{n.post}}" style="width: 100%; height:auto;">
+                                <li class="icon" style="color: black; margin-left: 30px;">
+                                  <span class="text" >{{n.description}}</span>
+                                  {% if n.read == False %}
+                                  <div style="float: right; color: white; margin-right: 20px; border-radius: 5px; font-size: 12px; background-color:crimson; width: 40px; height: 25px; padding-top: 3px; text-align: center;">New</div>
+                                  {% endif %}
+                                </li> 
+                               </a>
+                                </li> 
+                              <hr>
+                              {% endif %} 
+                              
+                              
+
                               {% empty %}
                                 <p style="padding-left: 10px;"> There is No Notification to show</p>
+                                
                               {% endfor %}
                             </div>
 
-                            {% if notifications  %}
+                            {% if notifications and count > 0  %}
                               <div class="notify-drop-footer text-center">
                                 <a href="/company/read_notification"><i class="fa fa-eye"></i> Mark all as read </a>
                               </div>
@@ -447,12 +531,13 @@ input::-webkit-input-placeholder {
                           </ul>
                       </li>
 
+                      {% endif %}                      
+
                        <!-- <script>
                         function update() {
                         $('.num').remove(); }
                        </script> -->
 
-                       {% endif %}                      
 
                         <!---------------------------- End of notification ---------------------------->
                         

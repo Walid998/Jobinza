@@ -237,6 +237,7 @@
                     <small style="color: rgb(124, 212, 9);" class="acnum"></small>
                   <br> Accepted</a>
                 </li>
+                
                 <li class="nav-itemx">
                   <a id="tap3" href="#rejected" role="tab" data-toggle="tab">
                     <i class="fa fa-times fa-lg"></i>
@@ -380,7 +381,7 @@
               {% endif %}
               {% endfor %}
             </div>
-          
+        
             <!-- _____ REJECTED APPLICANTS _____ -->
             <div class="tab-pane text-center gallery rejs" id="rejected">
                               <!--Rank Result-->
@@ -556,13 +557,17 @@
     else if ($("#tap2").hasClass("active")){
       selected = []
       $('#accepted input:checked').each(function() {
-      selected.push($(this).attr('name'));
+        if($("#applicantpanal").is(":visible")){
+          selected.push($(this).attr('name'));
+        }
       });
     }
     else if ($("#tap3").hasClass("active")){
       selected = []
       $('#rejected input:checked').each(function() {
-      selected.push($(this).attr('name'));
+        if($("#applicantpanal").is(":visible")){
+          selected.push($(this).attr('name'));
+        }
       });
     }
 

@@ -195,7 +195,7 @@ input[type="radio"].toggle-right + label {
                     <input type="text" class="form-control" name="last_name" style="height: 35px; margin-bottom: 15%;" placeholder="Last Name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" name="email" style="height: 35px; margin-bottom: 15%;" placeholder="Company Email *" value="" />
+                    <input type="email" onkeyup="ToLower(this)" class="form-control" name="email" style="height: 35px; margin-bottom: 15%;" placeholder="Company Email *" value="" />
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="password2" style="height: 35px; margin-bottom: 10%;" placeholder="Confirm Password *" value="" />
@@ -248,7 +248,7 @@ input[type="radio"].toggle-right + label {
                     <input type="text" class="form-control" name="last_name" style="height: 35px; margin-bottom: 15%;" placeholder="Last Name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" name="email" style="height: 35px; margin-bottom: 15%;" placeholder="Email *" value="" />
+                    <input type="email" class="form-control" onkeyup="ToLower(this)" name="email" style="height: 35px; margin-bottom: 15%;" placeholder="Email *" value="" />
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="password2" style="height: 35px; margin-bottom: 10%;" placeholder="Confirm Password *" value="" />
@@ -295,6 +295,12 @@ input[type="radio"].toggle-right + label {
           })
       }
     }
+
+    function ToLower(ctrl){  
+    var t = ctrl.value;
+    ctrl.value = t.toLowerCase();
+    }
+
 </script>
 
 
