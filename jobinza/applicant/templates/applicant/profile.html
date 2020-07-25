@@ -532,11 +532,11 @@ footer p a:hover {
                 <div class="description text-center">
                     <p>An artist of considerable range, Chet Faker — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. </p>
                 </div>
-           
+                {% if user.groups.all.0.name == 'applicant' %}
                 <div class="edit">
                     <a type="button" class="btn btn-light waves-effect" href="{% url 'applicant:edit_profile' %}"><i class="mdi mdi-account-settings-variant mr-1"></i> Edit Profile</a>
                 </div>
-
+                {% endif %}
 
 				<div class="row">
 					<div class="col-md-6 ml-auto mr-auto">
