@@ -15,6 +15,7 @@ from account.views import (
     account_setting,
     change_account_setting,
     upld_propic,
+    upld_propic_2,
     registration_for_both,
     log,
     #account_view,
@@ -49,6 +50,7 @@ urlpatterns = [
 	path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html'), 
         name='password_change_done'),
     path('upload_profile_pic/',upld_propic,name='upload_profile_pic'),
+    path('upload_profile_pic_2/',upld_propic_2,name='upload_profile_pic_2'),
     path('setting/', auth_views.PasswordChangeView.as_view(template_name='account/password_change.html'), 
         name='password_change'),
     

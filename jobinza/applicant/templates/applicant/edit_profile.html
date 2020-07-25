@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="site-section bg-light" style="margin-top: -50px;">
+    <div class="container">
+        <div class="row flex-lg-nowrap">
+            <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+                <div class="card p-3">
+                <div class="e-navlist e-navlist--active-bg">
+                    <ul class="nav">
+                    <li class="nav-item"><a class="nav-link px-2 active" href="/applicant/profile/{{user.username}}"><i class="fa fa-fw fa-bar-chart mr-1"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="{% url 'password_change' %}"><i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <!-- ========================================================== -->
+            
+            <div class="col">
+                <div class="row">
+                    <div class="col mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- ================ PROFILE CARD ======================== -->
+                                <div class="e-profile">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-auto mb-3">
+                                            <div class="mx-auto" style="width: 140px;">
+                                                        
+                                            <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px">
+                                                {% if info.image is None %}
+                                                <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+                                                {% else %}
+                                                <img src="{{info.image}}" style="width: 140px; height: 140px; border-radius: 15%;"> 
+                                                {% endif %}
+                                                
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                            <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.username}}</h4>
+                                            <p class="mb-0">{{user.email}}</p>
+                                            <div class="text-muted"><small>Last login {{user.last_login}}</small></div>
+                                            <div class="mt-2">
+                                                <!-- upload profile picture -->
+                                                <input type="file" name="upload_image" id="upload_image" hidden="">
+                                                <button class="btn btn-primary"
+                                                onclick="document.getElementById('upload_image').click(); return false"
+                                                 type="button">
+                                                    <i class="fa fa-fw fa-camera"></i>
+                                                    <span>Change Photo</span>
+                                                </button>
+                                            </div>
+                                            </div>
+                                            <div class="text-center text-sm-right">
+                                            <span class="badge badge-secondary">change profile</span>
+                                            <div class="text-muted"><small>Joined {{user.date_joined}}</small></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="tab-content pt-3">
+                                        <div class="tab-pane active">
+                                            <form action="{% url 'applicant:edit_profile' %}" method="POST" class="form" novalidate="">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>first name</label>
+                                                                <input class="form-control" type="text" name="first" placeholder="first name" value="{{result.first_name}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>last name</label>
+                                                                <input class="form-control" type="text" name="last" placeholder="last name" value="{{result.last_name}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Email</label>
+                                                                <input class="form-control" type="email" name="email" placeholder="email" value="{{result.email}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Phone Number</label>
+                                                                <input class="form-control" type="text" name = "phonenumber" placeholder="ex: 01011xxx45" value="{{info.phonenumber}}">
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="row">
+                                                        
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Address</label>
+                                                                <input class="form-control" type="text" name="address" placeholder="applicant address in details" value="{{info.address}}">
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Bio</label>
+                                                            <input class="form-control" type="text" name="job_title" placeholder="jobtitle" value="{{info.job_title}}">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                            
+                                                <div class="row">
+                                                    <div class="col d-flex justify-content-end">
+                                                    <button class="btn btn-primary" >Save Changes</button>
+                                                    </div>
+                                                </div>
+                        
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>         
+            </div>
+        </div>
+        <!-- ========================================================== -->
+        <!-- Button trigger modal -->
+        <script>  
+            $(document).ready(function(){
+                $image_crop = $('#image_demo').croppie({
+                    enableExif: true,
+                    viewport: {
+                    width:200,
+                    height:200,
+                    type:'square' //circle
+                    },
+                    boundary:{
+                    width:300,
+                    height:300
+                    }
+                });
+                
+                $('#upload_image').on('change', function(){
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function(){
+                        console.log('jQuery bind complete');
+                    });
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                    $('#uploadimageModal').modal('show');
+                });
+
+                $(document).on('submit','#myform',function(e){
+                    $image_crop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                    }).then(function(response){
+                    console.log("*******************");
+                    const prt1 = response.split(",",2);
+                    const data = prt1[1];
+                    $('#uploadimageModal').modal('hide');
+                    $('#encimg').val(data);
+                    })
+                });
+            });
+        </script>
+        
+
+  
+        <!-- ========================================================== -->
+    </div>
+</div>
+
+
+<!-- ==========================SCRIPT========================== -->
+<!-- Modal -->
+<div id="uploadimageModal" class="modal" role="dialog">
+    <div class="modal-dialog" style="margin-left: 36%;">
+        <div class="modal-content" style="clear:both;width:min-content;text-align: center;">
+            <small style="margin: 10px 0px -30px 0px">resize your photo</small>
+            <form id="myform" method="POST" action="{% url 'upload_profile_pic_2' %}">
+                <div class="modal-body">
+                    <div class="row">
+                    {% csrf_token %}
+                        <div class="col-md-8 text-center">
+                            <div id="image_demo" style="width:350px; margin-top:30px">
+                            
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="padding-top:30px;">
+                            <input type="hidden" id='encimg' name="propic" value="" />
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="modal-footer" style="margin-top: -20px ;">
+                    <input type="submit" class="btn btn-success crop_image" value="Crop & Upload Image">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

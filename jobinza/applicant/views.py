@@ -161,19 +161,27 @@ def profile_info(request,user_name):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])
-def editProfile (request):    
+def editProfile (request):
+    uname = request.user
+    auth = User.objects.get(username=uname)
+    pk = User.objects.get(username=uname).pk
+    pinfo = ''
+    try:
+        pinfo = Profile.objects.get(author = pk)
+    except:
+        print(" no profile")      
     if request.method == 'POST':
-        print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
-        uname = request.user
-        auth = User.objects.get(username=uname)
-        pk = User.objects.get(username=uname).pk
+        #print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
         try:
             pinfo = Profile.objects.get(author = pk)
             print("***********<<<<<<< pinfo has data >>>>>>>***********")
             form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
             if form.is_valid():
-                obj = form.save(commit=False)
-                obj.save()
+                pinfo.image =  form.cleaned_data.get('image')
+                pinfo.phonenumber = form.cleaned_data.get('phonenumber')
+                pinfo.address = form.cleaned_data.get('address')
+                pinfo.job_title = form.cleaned_data.get('job_title')
+                pinfo.save()
                 #messages.success(request,f'Job has been updated successfully !!')
                 return redirect(f'/applicant/profile/{request.user}')
         except:
@@ -182,13 +190,14 @@ def editProfile (request):
                 print("<<< pinfo has no data >>>")
                 inst = Profile()
                 inst.image = request.FILES.get('image')
-                print ('**************************',inst.image)
+                #print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
                 inst.job_title = form.cleaned_data.get('job_title')
                 inst.author = auth
                 inst.save()
                 return redirect(f'/applicant/profile/{request.user}')
+    return render(request,'applicant/edit_profile.html',{'result':auth , 'info' : pinfo ,})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])

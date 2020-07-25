@@ -32,6 +32,7 @@ def upld_propic(request):
     user = request.user
     usrnm = str(user)
     if request.method == 'POST':
+
         img = request.POST.get('propic')
         with open("media/profile-pic/company/"+usrnm+"_imageToSave.png", "wb") as fh:
             fh.write(base64.b64decode(img))
@@ -46,6 +47,27 @@ def upld_propic(request):
             obj.save()
         
         return redirect ('/company/edit_profile/')
+
+def upld_propic_2(request):
+    user = request.user
+    usrnm = str(user)
+    if request.method == 'POST':
+
+        img = request.POST.get('propic')
+        with open("media/profile-pic/applicant/"+usrnm+"_imageToSave.png", "wb") as fh:
+            fh.write(base64.b64decode(img))
+        try:
+            obj =Profile.objects.get(author = user.id)
+            obj.image = "/"+fh.name
+            obj.save()
+        except:
+            obj = Profile()
+            obj.image = "/"+fh.name
+            obj.author = user
+            obj.save()
+        
+        return redirect ('/applicant/edit_profile/')
+
 
 def change_account_setting(request):
     user = request.user
