@@ -506,4 +506,12 @@ def readone_notification(user_id , job_id , Noti_verb):
 			n.read = True
 			n.save()
 
-			
+def company_delete(request , id_usr):
+	id_usr = request.user.id
+	try:
+		usr = User.objects.get(id = id_usr)
+		if usr.delete():
+			messages.success(request,f'employeer \" {request.user.username} \" has been deleted !!')
+			return redirect('/company/profile/{{request.user.username}}')
+	except User.DoesNotExist:
+		return redirect('/company/profile/{{request.user.username}}')
