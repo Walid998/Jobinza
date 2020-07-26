@@ -61,6 +61,7 @@
           
         <div class="rounded border jobs-wrap">
           {% for post in posts %} 
+          {% if post.status == 'Publishing' %}
           <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
             <div class="company-logo blank-logo text-center text-md-left pl-3">
               <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
@@ -124,10 +125,10 @@
             </div>  
           </a>
      
-
+          {% endif %}
           {% empty %}
                 <li class="list-group-item ">no jobs added</li>
-  
+          
           {% endfor %}
         </div>
         <br>

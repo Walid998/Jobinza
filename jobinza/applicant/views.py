@@ -28,11 +28,10 @@ def home_applicant(request):
     return render(request,'applicant/home_applicant.html')
 
 
-#@login_required(login_url='login')
-#@allowed_users(allowed_roles=['applicant'])
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
-    #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
     job.views = job.views + 1
     job.save()
@@ -53,7 +52,6 @@ def job_details(request , job_id):
             hasResume = False
     except:
         hasResume = False
-    
     try:
         mtch = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
         if mtch.status == 'pending':
@@ -106,19 +104,15 @@ def ApplyForJob(request,jbid):
     except:
         isApplyed = False
     if request.method == 'POST' and isApplyed == False:
-        print("alppplied")
         prof = Profile.objects.get(author = user) # profile details
         pars_obj = Resume_Parsed.objects.get(usrname = user)
-        print("LLLLLLLLLLLL?>>>>>>>>> ",pars_obj)
         job = CreatePost.objects.get(id= jbid)
         match = Match_Results()
         match.resume = prof.resume
         match.aplcnt = user
-        print("onetwothree",user)
         match.app_email = user.email
         match.job_id = job.id
         match.company = job.author_id
-        print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",job.author_id)
         reslt =Comparison(skillsToList(job.skills), skillsToList(pars_obj.skills))
         match.skills_rslt = reslt['percent']
         match.matched_skills = reslt['fnd']

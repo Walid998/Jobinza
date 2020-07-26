@@ -409,7 +409,6 @@ def contentmessage(applicant,company,job_title,app_status):
 
 def selected_applicants(request,company,job_title,app_status):
 	if request.method == 'POST' and (request.POST.get('applicants_emails') != None):
-		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^before send email :: ')
 		emls = str(request.POST.get('applicants_emails'))
 		lst = skillsToList(emls)
 		content= ""
@@ -419,12 +418,9 @@ def selected_applicants(request,company,job_title,app_status):
 			applicant.status = app_status
 			applicant.save()
 			content = contentmessage(app_name.username ,company,job_title,app_status)
-			print("KKMMKKMMDDFFDDFFZZZZZZZZZZZZZZ<<<<<<<<<< :: ",content)
 			send_emails(content,app_email)
-		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^after send email ')
 		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 	else:
-		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^OOOOOOOLLL::::: No EMails ')
 		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 		
 ########################################################
