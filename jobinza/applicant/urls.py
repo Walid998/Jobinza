@@ -14,6 +14,7 @@ urlpatterns = [
 #	path('details/', views.job_details, name="job_details"),
 	path('details/<int:job_id>/', views.job_details, name='emp_detail'),
 	path('profile/<str:user_name>/', views.profile_info, name='profile'),
+	path('delete/<int:id_usr>',views.applicant_delete,name='delete'),
 	#path('',views.editProfile, name='edit-profile'),
 	path('edit_profile/',views.editProfile, name="edit_profile"),
 	path('uploadresume/<str:jbid>',views.uploadResume,name='uploadResume'),

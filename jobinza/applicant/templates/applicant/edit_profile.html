@@ -13,6 +13,7 @@
                     <ul class="nav">
                     <li class="nav-item"><a class="nav-link px-2 active" href="/applicant/profile/{{user.username}}"><i class="fa fa-fw fa-bar-chart mr-1"></i><span>Profile</span></a></li>
                     <li class="nav-item"><a class="nav-link px-2" href="{% url 'password_change' %}"><i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="/applicant/delete/{{request.user.id}}"  ><i class="fa fa-trash fa-cog mr-1"></i><span> Delete</span></a></li>
                     </ul>
                 </div>
                 </div>
@@ -210,4 +211,15 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $(document).on("click","#delete",function(){
+    $('#exampleModalLabel').css('color','red').text('Delete \"{{request.user.username}}\" applicant !!');
+    $('#contentmessage').text('Are you sure to Delete your account ?');
+    $('#action').attr('href','/applicant/delete/{{request.user.username}}');
+    });
+</script>
+
+
 {% endblock content %}

@@ -66,7 +66,7 @@ def job_details(request , job_id):
 
     similar_jobs = None
     try:
-        similar_jobs = CreatePost.objects.all().filter(category = job.category)
+        similar_jobs = CreatePost.objects.all().filter(category = job.category , status = "Publishing")
         for post in similar_jobs:
             u = User.objects.get(id = post.author_id)
             users.append(u)
@@ -582,3 +582,16 @@ def showResult(request):
         
     }
     return render(request,'applicant/recommendation_indeed.html',context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
+def applicant_delete(request,id_usr):
+    id_usr = request.user.id
+    try:
+        usr = User.objects.get(id=id_usr)
+        if usr.delete():
+            messages.success(request,f'applicant \" {request.user.username} \" has been deleted !!')
+            return redirect('/applicant/profile/{{request.user.username}}')
+    except User.User.DoesNotExist:
+        return redirect('/applicant/profile/{{request.user.username}}')

@@ -179,3 +179,5 @@ def guestPage(request):
     page = request.GET.get('page')
     jobs = paginator.get_page(page)
     return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result , 'catagories':catagories})
+
+
