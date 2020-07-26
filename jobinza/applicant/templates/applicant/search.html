@@ -80,7 +80,7 @@
                 </a>
 
 
-                {% elif user.groups.all.0.name == 'applicant' %}
+                {% else %}
                 <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                   <div class="company-logo blank-logo text-center text-md-left pl-3">
                 {% for profile in profiles %}

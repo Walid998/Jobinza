@@ -174,13 +174,18 @@
                 <hr> 
               {% for post in simi_jobs %}
               
-                
-                <div class="d-flex flex-row mb-3">
-                  {% if post.image %}
-                <img src="{{post.image}}" style="width: 80px;height: 80px;" alt="Image" class="img-fluid mx-auto">
+                {% if post.id == job.id %}
+                  <div></div>
                 {% else %}
-                <img src="../../../static/jobinza/images/company_logo_blank.png">
-                {%endif%}
+                <div class="d-flex flex-row mb-3">
+                  {% for profile in profiles %}
+                    {% if post.author == profile.author and profile.image %}
+                    <img src="{{profile.image}}" alt="Image" width="100" height="250"  class="img-fluid mx-auto">
+                    {% else %}
+                    <img src="{% static 'jobinza/images/person.png'%}" width="60" height="80" style="margin-left:2px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
+
+                    {% endif %}
+                  {% endfor %}
       
                   <div style="width: 200px;word-wrap: break-word; margin-top: 10px;">
                     <div class="pl-3">
@@ -219,8 +224,11 @@
                   </div>
                 </div>
                <hr>
+
+               {% endif %}
               {% endfor%}
           </div>
+
             {% endif %}
         </div>
         </div>

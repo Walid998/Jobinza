@@ -149,6 +149,11 @@ def list_job_view(request):
 	open = listpost.filter(author= request.user.id,status='Publishing')
 	z =len(open)
 	listpost = PaginatorX(request,listpost,5)
+	user = request.user
+	try :
+		profile = Profile.objects.get(author_id = user.id )
+	except:
+		profile=""
 	#closepost = PaginatorX(request,close,3)
 	#openpost = PaginatorX(request,open,1)
 	context = {
@@ -159,7 +164,8 @@ def list_job_view(request):
 		'ope' : z,
 		'categories':categories,
 		'open':open,
-		'close': close
+		'close': close,
+		'profile':profile
 	}
 	
 	return render(request,"company/list_job.html", context)
@@ -187,13 +193,20 @@ def category_posts(request , category_name):
 	page = request.GET.get('page')
 	posts = paginator.get_page(page)
 
+	user = request.user
+	try :
+		profile = Profile.objects.get(author_id = user.id )
+	except:
+		profile=""
+
 	context = {
 		'posts': posts,
 		'contact' : x,
 		'clo' : y,
 		'ope' : z,
 		'category_name' : category_name,
-		'categories' :categories
+		'categories' :categories,
+		'profile':profile
 	}
 	return render(request,"company/list_categoryPosts.html", context)
 

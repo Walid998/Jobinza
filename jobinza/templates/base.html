@@ -316,19 +316,15 @@ input::-webkit-input-placeholder {
                           <a href="{% url 'applicant:list_app' %}">Explore</a>
                         </li>
 
-                        <li class="has-children">
-                          <a href="#">Jobs</a>
-                          <ul class="dropdown arrow-top">
-                            <li><a href="/applicant/listapp">Browse For Job </a></li>
-                            <li><a href="/applicant/applied_jobs">Applied Jobs</a></li>
-                          </ul>
+                        <li>
+                          <a href="/applicant/applied_jobs" style="margin-right: 8px;">Applied Jobs</a>
                         </li>
 
                         <li class="has-children" >
-                          {% if usr_prof_pic is not None %}
-                            <img src="{{usr_prof_pic}}" style="width: 45px;height: 45px;border-radius: 50%;" />
+                          {% if usr_prof_pic %}
+                            <img src="{{usr_prof_pic}}" style="width: 45px;height: 45px;border-radius: 50%; margin-left: 2px;" />
                           {% else %}
-                            <img src="{% static 'jobinza/images/person.jpg'%}" style="width: 45px;height: 45px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
+                            <img src="{% static 'jobinza/images/person.png'%}" style="width: 45px;height: 45px; margin-left:2px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
                           {% endif %}
                           <ul class="dropdown arrow-top" >
                             <li><a href="/applicant/profile/{{user.username}}">Profile</a></li>
@@ -339,7 +335,7 @@ input::-webkit-input-placeholder {
                       </li>
 
                       
-                      <li class="dropdown" style="margin-left: 10px;">
+                      <li class="dropdown" style="margin-left: 15px;">
 
                         <!-- Notification Icon -->
                         <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
@@ -442,10 +438,10 @@ input::-webkit-input-placeholder {
                           
                           <li class="has-children" style="margin: 0px 20px 0px 0px;">
                             {% if user.groups.all.0.name == 'employeer' %}
-                              {% if usr_prof_pic is not None %}
+                              {% if usr_prof_pic %}
                                 <img src="{{usr_prof_pic}}" style="width: 45px;height: 45px;border-radius: 50%;" />
                               {% else %}
-                                <img src="{% static 'jobinza/images/person.jpg'%}" style="width: 45px;height: 45px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
+                                <img src="{% static 'jobinza/images/person.png'%}" style="width: 45px;height: 45px;border-radius: 50%;border: 2px solid rgb(206, 206, 206);padding: 2px ;" />
                               {% endif %}
                             {% elif user.is_superuser %}
                             <a href="" style="padding-right: 17px;">{{user.username }}</a>
@@ -463,7 +459,7 @@ input::-webkit-input-placeholder {
 
                         <!--------------------------- Notification--------------------------->
 
-                        <li class="dropdown" style="margin-left: 10px;">
+                        <li class="dropdown" style="margin-left:1px;">
 
                           <!-- Notification Icon -->
                           <a  class="dropdown-toggle" id="noti" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  onclick="update()" >
@@ -711,7 +707,7 @@ input::-webkit-input-placeholder {
               <div class="col-md-6">
                 <h3 class="footer-heading mb-4 text-white">Quick Menu</h3>
                   <ul class="list-unstyled">
-                    <li><a href="#">About</a></li>
+                    <li><a href="{% url 'about'%}">About</a></li>
                     <li><a href="#">Services</a></li>
                     <li><a href="#">Approach</a></li>
                     <li><a href="#">Sustainability</a></li>

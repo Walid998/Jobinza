@@ -32,6 +32,8 @@ def home_applicant(request):
 #@allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
+    profiles=[]
+    users = []
     readone_notification(request.user.id , job_id , 'Posting')
     #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
@@ -56,15 +58,23 @@ def job_details(request , job_id):
         hasResume = False
     
     try:
-        mtch = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
+        mtch = Match_Results.objects.get(aplcnt = user.id)
         if mtch.status == 'pending':
             isApplied = True
     except:
         isApplied = False   
 
-    r = None
+    similar_jobs = None
     try:
-        r = CreatePost.objects.all().filter(category = job.category)
+        similar_jobs = CreatePost.objects.all().filter(category = job.category)
+        for post in similar_jobs:
+            u = User.objects.get(id = post.author_id)
+            users.append(u)
+            print(user.id)
+        for u in users:
+            profile = Profile.objects.get(author_id = u.id)
+            profiles.append(profile)
+            print(profile.author_id)
     except:
         print("no jobs in this category") 
     context = {
@@ -74,7 +84,8 @@ def job_details(request , job_id):
         'company':com ,
         'profile':com_profile ,
         'isapplied':isApplied ,
-        'simi_jobs' : r
+        'simi_jobs' : similar_jobs,
+        'profiles':profiles
     }
     return render(request,'applicant/job_details.html', context)
 
@@ -141,7 +152,7 @@ def contact(request):
         post.message=request.POST.get('message')
         post.save()
     return render(request,'applicant/contact.html')
-@unauthenticated_user
+
 def about(request):
     return render(request, 'applicant/about.html')
 
@@ -202,9 +213,22 @@ def editProfile (request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])
 def list_applicant(request):
+    profiles=[]
+    users = []
     update_status(request)
     listusers = User.objects.all()
     listpost=CreatePost.objects.all().filter(status = "Publishing")
+    for post in listpost:
+        user = User.objects.get(id = post.author_id)
+        users.append(user)
+        print(user.id)
+    try:
+        for user in users:
+            profile = Profile.objects.get(author_id = user.id)
+            profiles.append(profile)
+            print(profile.author_id)
+    except:
+        profile=[]
     listpost = PaginatorX(request,listpost,5)
     info = ""
     data = ""
@@ -226,6 +250,7 @@ def list_applicant(request):
         'users': listusers,
         'data' : data,
         'info' : info,
+        'profiles':profiles
     }
     return render(request,'applicant/home.html', context )
 
@@ -278,7 +303,7 @@ def search(request):
                 if match:
                     return render(request,'applicant/search.html',{'sr':match , 'acc':acc , 'profile':profile})
 
-            elif user.groups.filter(name="applicant").exists():
+            else :
                 match = CreatePost.objects.filter(
                     Q(jobtitle__icontains=srch)|Q(city__icontains=srch) , status="Publishing"
                 )
@@ -304,13 +329,24 @@ def search(request):
 @allowed_users(allowed_roles=['applicant'])
 def applied_jobs(request):
     posts = []
+    profiles=[]
+    users=[]
     result = Match_Results.objects.all().filter(aplcnt = request.user.id)
     for r in result:
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
-    users = User.objects.all()
-    
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+    for p in posts:
+        user = User.objects.get(id = p.author_id)
+        users.append(user)
+        print(user.id)
+    try:
+        for user in users:
+            profile = Profile.objects.get(author_id = user.id)
+            profiles.append(profile)
+            print(profile.author_id)
+    except:
+        profile=[]
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users , 'profiles':profiles} ) 
 
 
 
