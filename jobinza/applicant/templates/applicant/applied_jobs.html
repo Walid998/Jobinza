@@ -96,7 +96,11 @@
            {% endif %}
             <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
               <div class="company-logo blank-logo text-center text-md-left pl-3">
-                <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+                {% for profile in profiles %}
+                {% if post.author == profile.author and profile.image %}
+                <img src="{{profile.image}}" alt="Image" class="img-fluid mx-auto">
+                {% endif %}
+                {% endfor %}
               </div>
               <div class="job-details h-100">
                 <div class="p-3 align-self-center">
@@ -163,8 +167,12 @@
             {% endif %}
             <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
               <div class="company-logo blank-logo text-center text-md-left pl-3">
-                <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
-              </div>
+                {% for profile in profiles %}
+                {% if post.author == profile.author and profile.image %}
+                <img src="{{profile.image}}" alt="Image" class="img-fluid mx-auto">
+                {% endif %}
+                {% endfor %}
+                </div>
               <div class="job-details h-100">
                 <div class="p-3 align-self-center">
   
@@ -222,7 +230,11 @@
           {% endif %}
       <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
         <div class="company-logo blank-logo text-center text-md-left pl-3">
-          <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
+          {% for profile in profiles %}
+          {% if post.author == profile.author and profile.image %}
+          <img src="{{profile.image}}" alt="Image" class="img-fluid mx-auto">
+          {% endif %}
+          {% endfor %}
         </div>
         <div class="job-details h-100">
           <div class="p-3 align-self-center">
@@ -286,8 +298,11 @@
         {% endif %}
     <a href="/applicant/details/{{post.id}}" id="jobhead" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
       <div class="company-logo blank-logo text-center text-md-left pl-3">
-        <img src="{% static 'jobinza/images/img_1.jpg' %}" alt="Image" class="img-fluid mx-auto">
-      </div>
+        {% for profile in profiles %}
+        {% if post.author == profile.author and profile.image %}
+        <img src="{{profile.image}}" alt="Image" class="img-fluid mx-auto">
+        {% endif %}
+        {% endfor %}      </div>
       <div class="job-details h-100">
         <div class="p-3 align-self-center">
 

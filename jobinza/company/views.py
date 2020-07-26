@@ -100,11 +100,23 @@ def create_post_view(request):
 			obj.author = author
 			obj.skills = obj.skills.lower()
 			obj.save()		
-			Notification.objects.create(receiver=request.user , verb= obj.jobtitle ,  description = "post is created" , post=obj.id )	
+			Notification.objects.create(receiver=obj.author , verb= "Posting" ,  description = obj.jobtitle + " Post is Closed " , post=obj.id )	
 			return redirect(f'/company/list')
 		
+	profile = ""
 	form = CreatePostForm()
-	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories})
+
+	try :
+		pro = Profile.objects.get(author_id=request.user.id)
+		if pro.address and pro.phonenumber and pro.description and pro.image and pro.location:
+			profile = "complete"
+		else :
+			profile = "uncomplete"
+	except :
+		print("no profile")
+		profile = "uncomplete"
+
+	return render(request, "company/create_post.html" ,{'form': form , 'categories':categories , 'profile' : profile , 'user' : user})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer' , 'applicant'])
@@ -115,7 +127,7 @@ def update_status(request):
 		if doc.status != 'closed':
 			if  doc.deadline < now or doc.deadline == now  :
 				doc.status = 'closed'
-				Notification.objects.create(receiver=doc.author , verb= doc.jobtitle ,  description = "Post is Closed " , post=doc.id )	
+				Notification.objects.create(receiver=doc.author , verb= "Posting" ,  description = doc.jobtitle + "Post is Closed " , post=doc.id )	
 			else :
 				doc.status = 'Publishing'
 			doc.save()
@@ -137,6 +149,11 @@ def list_job_view(request):
 	open = listpost.filter(author= request.user.id,status='Publishing')
 	z =len(open)
 	listpost = PaginatorX(request,listpost,5)
+	user = request.user
+	try :
+		profile = Profile.objects.get(author_id = user.id )
+	except:
+		profile=""
 	#closepost = PaginatorX(request,close,3)
 	#openpost = PaginatorX(request,open,1)
 	context = {
@@ -147,7 +164,8 @@ def list_job_view(request):
 		'ope' : z,
 		'categories':categories,
 		'open':open,
-		'close': close
+		'close': close,
+		'profile':profile
 	}
 	
 	return render(request,"company/list_job.html", context)
@@ -175,13 +193,20 @@ def category_posts(request , category_name):
 	page = request.GET.get('page')
 	posts = paginator.get_page(page)
 
+	user = request.user
+	try :
+		profile = Profile.objects.get(author_id = user.id )
+	except:
+		profile=""
+
 	context = {
 		'posts': posts,
 		'contact' : x,
 		'clo' : y,
 		'ope' : z,
 		'category_name' : category_name,
-		'categories' :categories
+		'categories' :categories,
+		'profile':profile
 	}
 	return render(request,"company/list_categoryPosts.html", context)
 
@@ -191,7 +216,7 @@ def category_posts(request , category_name):
 @allowed_users(allowed_roles=['employeer'])
 def job_details(request , job_id):
 	id_num = int(job_id)
-	readone_notification(id_num)
+	readone_notification(request.user.id , id_num , 'Posting')
 	job_list = CreatePost.objects.get(id=id_num)
 	
 	list_applicants = Match_Results.objects.all().filter(job_id=job_id).order_by('-skills_rslt')
@@ -285,18 +310,17 @@ def job_delete(request, job_id):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['employeer' , 'applicant'])
 def profile_info(request,user_name):
-    user_info = User.objects.get(username=user_name)
-    pk = User.objects.get(username=user_name).pk
-	
-    try:	
-        p_info = Profile.objects.get(author = pk)
-        return render(request,'company/profiles.html', {'result': user_info , 'info':p_info ,'schudle_info':Schdule.objects.filter(author=request.user.id)
+	user_info=User.objects.get(username=user_name)
+	pk = User.objects.get(username=user_name).pk
+	try:
+		p_info=Profile.objects.get(author=pk)
+		return render(request,'company/profiles.html', {'result': user_info , 'info':p_info ,'schudle_info':Schdule.objects.filter(author=request.user.id)
 		,'count_jobs':CreatePost.objects.filter(author_id = request.user.id).count(),
 		'pending' : Match_Results.objects.filter(status='pending',company=request.user.id).count(),
 		'accepted': Match_Results.objects.filter(status='Accepted',company=request.user.id).count(),
 		'user_company':Match_Results.objects.filter(company=request.user.id , status = 'Accepted'),})
-    except:
-        return render(request,'company/profiles.html', {'result': user_info , 'info':'' ,'schudle_info':Schdule.objects.filter(author=request.user.id)
+	except:
+		return render(request,'company/profiles.html', {'result': user_info , 'info':'' ,'schudle_info':Schdule.objects.filter(author=request.user.id)
 		,'count_jobs':CreatePost.objects.filter(author_id = request.user.id).count(),
 		'pending' : Match_Results.objects.filter(status='pending',company=request.user.id).count(),
 		'accepted': Match_Results.objects.filter(status='Accepted',company=request.user.id).count(),
@@ -308,6 +332,8 @@ def editProfile (request):
 	uname = request.user
 	auth = User.objects.get(username=uname)
 	pk = User.objects.get(username=uname).pk
+	readone_notification(auth , '' , "Welcome")
+
 	pinfo = ''
 	try:
 		pinfo = Profile.objects.get(author = pk)   
@@ -353,6 +379,7 @@ def send_email(request,user_name,job_id):
 	Send_Form = SendEmailForm
 	applicant = User.objects.get(username = user_name)
 	stat = Match_Results.objects.get(id = job_id)
+	job = CreatePost.objects.get(id = job_id)
 	if stat.status != 'Accepted':
 		stat.status='Accepted'
 		stat.save()
@@ -386,6 +413,8 @@ def send_email(request,user_name,job_id):
 					headers = { 'Reply To': emails }
 			)
 			email.send()
+			Notification.objects.create(receiver=applicant , verb= "Posting" ,  description = " You recieved an email about " + job.jobtitle + " job . Please check your mail" , post=job_id )	
+
 
 	return render(request,'company/send_email.html',{'applicant':applicant,"stat" : stat})
 
@@ -419,6 +448,9 @@ def selected_applicants(request,company,job_title,app_status):
 			applicant.save()
 			content = contentmessage(app_name.username ,company,job_title,app_status)
 			send_emails(content,app_email)
+			Notification.objects.create(receiver=applicant.aplcnt , verb= "Posting" ,  description = "You recieved an Email about "  + job_title + " job . Please Check Your mail " , post=applicant.job_id )	
+
+		print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^after send email ')
 		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 	else:
 		return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
@@ -452,7 +484,6 @@ def status_rejected(request , pk):
 ########################################################
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['employeer'])
 def readall_notification(request):
 	Notifications = Notification.objects.all().filter(receiver = request.user.id)
 	for n in Notifications :
@@ -462,9 +493,22 @@ def readall_notification(request):
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def readone_notification(job_id):
-	Noti = Notification.objects.all().filter(post = job_id)
+def readone_notification(user_id , job_id , Noti_verb):
+	if job_id != '':
+		Noti = Notification.objects.all().filter(receiver = user_id , post = job_id , verb=Noti_verb)
+	else :
+		Noti = Notification.objects.all().filter(receiver = user_id , verb=Noti_verb)
 	for n in Noti :
 		if n.read == False:
 			n.read = True
 			n.save()
+
+def company_delete(request , id_usr):
+	id_usr = request.user.id
+	try:
+		usr = User.objects.get(id = id_usr)
+		if usr.delete():
+			messages.success(request,f'employeer \" {request.user.username} \" has been deleted !!')
+			return redirect('/company/profile/{{request.user.username}}')
+	except User.DoesNotExist:
+		return redirect('/company/profile/{{request.user.username}}')

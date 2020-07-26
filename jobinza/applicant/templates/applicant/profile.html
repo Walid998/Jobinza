@@ -476,7 +476,7 @@ footer p a:hover {
         	           <div class="profile">
 	                        <div class="avatar">
                                 {% if info.image %}
-                                <img src="{{info.image.url}}" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
+                                <img src="{{info.image}}" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
                                 {% else %}
                                 <img src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
                                 {% endif %}
@@ -532,11 +532,11 @@ footer p a:hover {
                 <div class="description text-center">
                     <p>An artist of considerable range, Chet Faker — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. </p>
                 </div>
-           
+                {% if user.groups.all.0.name == 'applicant' %}
                 <div class="edit">
-                    <button type="button" class="edit-btn" data-toggle="modal" data-target="#modalAvatar">Edit Profile</button>
+                    <a type="button" class="btn btn-light waves-effect" href="{% url 'applicant:edit_profile' %}"><i class="mdi mdi-account-settings-variant mr-1"></i> Edit Profile</a>
                 </div>
-
+                {% endif %}
 
 				<div class="row">
 					<div class="col-md-6 ml-auto mr-auto">
@@ -621,66 +621,4 @@ footer p a:hover {
 
 
     <!------------------------------------------Model--------------------------------------------->
-    <div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <form action="{% url 'applicant:edit-profile' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <div class="popup-avatar">
-                        {% if info.image %}
-                        <img id="profilepic" src="{{info.image.url}}" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
-                        {% else %}
-                        <img id="profilepic" src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg" alt="Circle Image" class="img-raised rounded-circle img-thumbnail">
-                        {% endif %}
-                        <!-- <div class="unupdate">
-                            <p>@{{result.username}}</p>
-                            <p>{{result.first_name}} {{result.last_name}}</p>
-                            <p>{{result.email}}</p>
-                        </div> -->
-                        <input type="file" name="image" id="upload" onchange="uploadImage(this);" style="visibility: hidden; width: 1px; height: 1px;">
-                        <a href="" onclick="document.getElementById('upload').click(); return false"><i class="fa fa-camera" style="color: black;"></i></a>
-                        <script>
-                            function uploadImage(input){
-                                if(input.files && input.files[0]){
-                                    var reader = new FileReader();
-
-                                    reader.onload = function (e){
-                                        $('#profilepic').attr('src', e.target.result).width(170).height(170);
-                                    };
-
-                                    reader.readAsDataURL(input.files[0]);
-                                }
-                            }
-                        </script>
-                    </div>
-                    <div class="form-inputs">
-                        <input type="text"  name="first" placeholder="First Name.." class="input-form" value="{{result.first_name}}" readonly>
-                        <input type="text" name="last" placeholder="last Name.." class="input-form" value="{{result.last_name}}" readonly>
-                    </div>
-                    <div class="form-inputs">
-                        <input type="text" name="email" placeholder="Email.." class="input-form" value="{{result.email}}" readonly>
-                        <input type="text" name="address" placeholder="Address.." class="input-form" value="{{info.address}}">
-                    </div>
-                     <div class="form-inputs">
-                        <input type="text" name="phonenumber" placeholder="Phone number.." class="input-form" value="{{info.phonenumber}}">
-                        <!-- <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}"> -->
-                    </div>
-                    <div class="form-inputs">
-                        <input type="text" name="job_title" placeholder="job title" class="input-form" value="{{info.job_title}}">
-                        <!-- <input type="text" name="BD" placeholder="Birthday data.." class="input-form" value="{{info.bdate}}"> -->
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-</div>
-    {% endblock %}
+        {% endblock %}

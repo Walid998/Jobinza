@@ -53,6 +53,18 @@
 <script src="../../../static/jobinza/js/job_skills.js"></script>
 <div class="container" >
 	<div class="row">
+		{% if profile == "uncomplete" %}
+		<div class="alert alert-warning uploadRsm" role="alert" style="margin-top: 2%; margin-left: 25%;">
+		  <i class="fas fa-exclamation-triangle"></i>
+		  You have to complete your profile to create job. <a href="{% url 'company:edit_profile' %}">complete your profile?</a>
+		</div>
+		<script>
+            $(document).ready(function(){
+              $('#createBtn').prop('disabled', true);
+            });
+          </script>
+		{% endif %}
+
 <form class="create-form" id="crtform" method="post" enctype="multipart/form-data">{% csrf_token %}
 	<div class="card" >
     <div class="card-body">
@@ -155,7 +167,7 @@
 			<label for="id_image">Image</label>
 			<input  type="file" name="image" id="id_image" accept="image/*">
 		</div> -->
-		<button class="btn btn-success" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
+		<button class="btn btn-success" id="createBtn" style="font-size: 20px; width:100px ;margin:35px; margin-left:170px ;">Post</button>
 
 		</div><!--End of Card  Body -->
 	</div>   <!--End of first part of form (Card)-->

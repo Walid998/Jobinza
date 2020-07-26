@@ -14,13 +14,15 @@ urlpatterns = [
 #	path('details/', views.job_details, name="job_details"),
 	path('details/<int:job_id>/', views.job_details, name='emp_detail'),
 	path('profile/<str:user_name>/', views.profile_info, name='profile'),
-	path('',views.editProfile, name='edit-profile'),
+	path('delete/<int:id_usr>',views.applicant_delete,name='delete'),
+	#path('',views.editProfile, name='edit-profile'),
+	path('edit_profile/',views.editProfile, name="edit_profile"),
 	path('uploadresume/<str:jbid>',views.uploadResume,name='uploadResume'),
 	path('applyforjob/<str:jbid>',views.ApplyForJob,name='ApplyForJob'),
 	path('listapp/',views.list_applicant,name='list_app'),
 	path('applied_jobs/',views.applied_jobs,name='listapp'),
 	path('indeed/',views.showResult , name='indeed'),
 	path('home/',views.home_applicant,name='home_applicant'),
-	#path('about/',views.about,name='about')
+	path('about/',views.about,name='about')
 	#path('details/', views.job_details, name='emp_detail'),
 ]

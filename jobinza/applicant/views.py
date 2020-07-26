@@ -3,7 +3,7 @@ from company.models import CreatePost, Match_Results , category
 from account.models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from company.views import skillsToList , update_status
+from company.views import skillsToList , update_status, readone_notification
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from applicant.forms import uploadForm ,contactform
@@ -32,6 +32,10 @@ def home_applicant(request):
 @allowed_users(allowed_roles=['applicant'])
 def job_details(request , job_id):
     user = request.user
+    profiles=[]
+    users = []
+    readone_notification(request.user.id , job_id , 'Posting')
+    #print('>>>>>>>>>>>>>>>>>> >>  : ',user.email)
     job = CreatePost.objects.get(id=job_id)
     job.views = job.views + 1
     job.save()
@@ -53,15 +57,23 @@ def job_details(request , job_id):
     except:
         hasResume = False
     try:
-        mtch = Match_Results.objects.get(aplcnt = user.id,job_id=job_id)
+        mtch = Match_Results.objects.get(aplcnt = user.id)
         if mtch.status == 'pending':
             isApplied = True
     except:
         isApplied = False   
 
-    r = None
+    similar_jobs = None
     try:
-        r = CreatePost.objects.all().filter(category = job.category)
+        similar_jobs = CreatePost.objects.all().filter(category = job.category , status = "Publishing")
+        for post in similar_jobs:
+            u = User.objects.get(id = post.author_id)
+            users.append(u)
+            print(user.id)
+        for u in users:
+            profile = Profile.objects.get(author_id = u.id)
+            profiles.append(profile)
+            print(profile.author_id)
     except:
         print("no jobs in this category") 
     context = {
@@ -71,7 +83,8 @@ def job_details(request , job_id):
         'company':com ,
         'profile':com_profile ,
         'isapplied':isApplied ,
-        'simi_jobs' : r
+        'simi_jobs' : similar_jobs,
+        'profiles':profiles
     }
     return render(request,'applicant/job_details.html', context)
 
@@ -123,7 +136,7 @@ def ApplyForJob(request,jbid):
         return redirect(f'/applicant/details/{jbid}')
     else:
         return redirect(f'/applicant/details/{jbid}')
-        
+    
 @unauthenticated_user
 def contact(request):
     if request.method =='POST':
@@ -134,7 +147,7 @@ def contact(request):
         post.message=request.POST.get('message')
         post.save()
     return render(request,'applicant/contact.html')
-@unauthenticated_user
+
 def about(request):
     return render(request, 'applicant/about.html')
 
@@ -144,6 +157,7 @@ def about(request):
 def profile_info(request,user_name):
     user_info = User.objects.get(username=user_name)
     pk = User.objects.get(username=user_name).pk
+    readone_notification(user_info.id , '' , "Welcome")
     try:
         p_info = Profile.objects.get(author = pk)
         return render(request,'applicant/profile.html', {'result': user_info , 'info':p_info } )
@@ -153,19 +167,27 @@ def profile_info(request,user_name):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])
-def editProfile (request):    
+def editProfile (request):
+    uname = request.user
+    auth = User.objects.get(username=uname)
+    pk = User.objects.get(username=uname).pk
+    pinfo = ''
+    try:
+        pinfo = Profile.objects.get(author = pk)
+    except:
+        print(" no profile")      
     if request.method == 'POST':
-        print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
-        uname = request.user
-        auth = User.objects.get(username=uname)
-        pk = User.objects.get(username=uname).pk
+        #print('<><><><><><><>>>>>>>>>>>>>>>>>>>>>> ',request.FILES['image'])
         try:
             pinfo = Profile.objects.get(author = pk)
             print("***********<<<<<<< pinfo has data >>>>>>>***********")
             form = editprofileForm(request.POST, request.FILES ,instance = pinfo)
             if form.is_valid():
-                obj = form.save(commit=False)
-                obj.save()
+                pinfo.image =  form.cleaned_data.get('image')
+                pinfo.phonenumber = form.cleaned_data.get('phonenumber')
+                pinfo.address = form.cleaned_data.get('address')
+                pinfo.job_title = form.cleaned_data.get('job_title')
+                pinfo.save()
                 #messages.success(request,f'Job has been updated successfully !!')
                 return redirect(f'/applicant/profile/{request.user}')
         except:
@@ -174,20 +196,34 @@ def editProfile (request):
                 print("<<< pinfo has no data >>>")
                 inst = Profile()
                 inst.image = request.FILES.get('image')
-                print ('**************************',inst.image)
+                #print ('**************************',inst.image)
                 inst.phonenumber = form.cleaned_data.get('phonenumber')
                 inst.address = form.cleaned_data.get('address')
                 inst.job_title = form.cleaned_data.get('job_title')
                 inst.author = auth
                 inst.save()
                 return redirect(f'/applicant/profile/{request.user}')
+    return render(request,'applicant/edit_profile.html',{'result':auth , 'info' : pinfo ,})
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])
 def list_applicant(request):
+    profiles=[]
+    users = []
     update_status(request)
     listusers = User.objects.all()
-    listpost=CreatePost.objects.all()
+    listpost=CreatePost.objects.all().filter(status = "Publishing")
+    for post in listpost:
+        user = User.objects.get(id = post.author_id)
+        users.append(user)
+        print(user.id)
+    try:
+        for user in users:
+            profile = Profile.objects.get(author_id = user.id)
+            profiles.append(profile)
+            print(profile.author_id)
+    except:
+        profile=[]
     listpost = PaginatorX(request,listpost,5)
     info = ""
     data = ""
@@ -209,6 +245,7 @@ def list_applicant(request):
         'users': listusers,
         'data' : data,
         'info' : info,
+        'profiles':profiles
     }
     return render(request,'applicant/home.html', context )
 
@@ -245,32 +282,66 @@ def parser_r(resume,resume_name,user):
 
 ###################search################################
 def search(request):
+    user = request.user
+    acc = []
+    profile = []
     if request.method=='POST':
         srch = request.POST['srh']
         print('>>>>>>>>>>>>>>>>>>>>> ', srch)
         if srch:
-            match = CreatePost.objects.filter(
-                Q(jobtitle__icontains=srch)|Q(city__icontains=srch)
-            )
-            if match:
-                return render(request,'applicant/search.html',{'sr':match})
-            else:
-                messages.error(request,'no result found')
+            if user.groups.filter(name="employeer").exists():
+                match = CreatePost.objects.filter(
+                    Q(jobtitle__icontains=srch)|Q(city__icontains=srch) , author_id = request.user.id
+                )
+                acc = User.objects.get(id = request.user.id)
+                profile = Profile.objects.get(author_id=request.user.id)
+                if match:
+                    return render(request,'applicant/search.html',{'sr':match , 'acc':acc , 'profile':profile})
+
+            else :
+                match = CreatePost.objects.filter(
+                    Q(jobtitle__icontains=srch)|Q(city__icontains=srch) , status="Publishing"
+                )
+                for m in match :
+                    print(m.author_id)
+                    account = User.objects.get(id = m.author_id)
+                    acc.append(account)
+
+                for account in acc:
+                    pro = Profile.objects.get(author_id=account.id)
+                    profile.append(pro)
+
+                if match:
+                    return render(request,'applicant/search.html',{'sr':match , 'acc':acc , 'profiles':profile })
+
+
         else:
             return HttpResponseRedirect('/search/')
     return render(request,'applicant/search.html')
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])
 def applied_jobs(request):
     posts = []
+    profiles=[]
+    users=[]
     result = Match_Results.objects.all().filter(aplcnt = request.user.id)
     for r in result:
         post = CreatePost.objects.get(id = r.job_id)
         posts.append(post)
-    users = User.objects.all()
-    
-    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users} ) 
+    for p in posts:
+        user = User.objects.get(id = p.author_id)
+        users.append(user)
+        print(user.id)
+    try:
+        for user in users:
+            profile = Profile.objects.get(author_id = user.id)
+            profiles.append(profile)
+            print(profile.author_id)
+    except:
+        profile=[]
+    return render (request , 'applicant/applied_jobs.html' , {'result' : result , 'posts': posts , 'users' :users , 'profiles':profiles} ) 
 
 
 
@@ -506,3 +577,16 @@ def showResult(request):
         
     }
     return render(request,'applicant/recommendation_indeed.html',context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
+def applicant_delete(request,id_usr):
+    id_usr = request.user.id
+    try:
+        usr = User.objects.get(id=id_usr)
+        if usr.delete():
+            messages.success(request,f'applicant \" {request.user.username} \" has been deleted !!')
+            return redirect('/applicant/profile/{{request.user.username}}')
+    except User.User.DoesNotExist:
+        return redirect('/applicant/profile/{{request.user.username}}')

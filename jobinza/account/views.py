@@ -9,6 +9,7 @@ from company.models import CreatePost , category
 import random
 from django.contrib.auth.models import User
 from account.models import Profile
+from company.models import Notification 
 from django.core.paginator import Paginator
 import base64
 def account_setting(request , user_id):
@@ -31,6 +32,7 @@ def upld_propic(request):
     user = request.user
     usrnm = str(user)
     if request.method == 'POST':
+
         img = request.POST.get('propic')
         with open("media/profile-pic/company/"+usrnm+"_imageToSave.png", "wb") as fh:
             fh.write(base64.b64decode(img))
@@ -45,6 +47,27 @@ def upld_propic(request):
             obj.save()
         
         return redirect ('/company/edit_profile/')
+
+def upld_propic_2(request):
+    user = request.user
+    usrnm = str(user)
+    if request.method == 'POST':
+
+        img = request.POST.get('propic')
+        with open("media/profile-pic/applicant/"+usrnm+"_imageToSave.png", "wb") as fh:
+            fh.write(base64.b64decode(img))
+        try:
+            obj =Profile.objects.get(author = user.id)
+            obj.image = "/"+fh.name
+            obj.save()
+        except:
+            obj = Profile()
+            obj.image = "/"+fh.name
+            obj.author = user
+            obj.save()
+        
+        return redirect ('/applicant/edit_profile/')
+
 
 def change_account_setting(request):
     user = request.user
@@ -75,6 +98,8 @@ def registration_view(request):
             group = Group.objects.get(name='applicant')
             user = form.save()
             user.groups.add(group)
+            user_acc = User.objects.get(username = user.username )
+            Notification.objects.create(receiver=user_acc , verb= "Welcome" ,  description = "Welcom to Jobinza We are happy to have you in our website ! , Please Click to complete your Profile to get best jobs " )	                
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
@@ -94,6 +119,8 @@ def registration_view_hr(request):
             group = Group.objects.get(name='employeer')
             user = form.save()
             user.groups.add(group)
+            user_acc = User.objects.get(username = user.username )
+            Notification.objects.create(receiver=user_acc , verb= "Welcome" ,  description = "Welcom to Jobinza We are happy to have you in our website ! , Please Click to complete your Profile " )	                
             messages.success(
                 request, f'Congrats {username} account created successfully !!')
             return redirect('login')
@@ -127,9 +154,6 @@ def login_view(request):
         'title': 'Sign in',
     })
 
-def log(request):
-    return render(request, 'account/log.html')
-
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -155,3 +179,5 @@ def guestPage(request):
     page = request.GET.get('page')
     jobs = paginator.get_page(page)
     return render(request,'account/guest.html',{'jobs':jobs,'joblength':len(jobs),'users':users , 'profiles': result , 'catagories':catagories})
+
+
